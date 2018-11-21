@@ -2,7 +2,7 @@ package usuario;
 
 public abstract class Usuario {
 	
-	private String id;
+	private long id;
 	private String nome;
 	private String email;
 	private String celular;
@@ -10,7 +10,7 @@ public abstract class Usuario {
 	private String status;
 	
 	
-	public Usuario(String id, String nome, String email, String celular, String classe) {
+	public Usuario(long id, String nome, String email, String celular, String classe) {
 		
 		this.id = id;
 		this.nome = nome;
@@ -35,11 +35,11 @@ public abstract class Usuario {
 	private String formatIdCpf() {
 		
 		
-		String[] finalId = this.id.split("");
-		String cpf1 = this.id.substring(0, 3);
-		String cpf2 = this.id.substring(3, 6);
-		String cpf3 = this.id.substring(6, 9);
-		String cpf4 = this.id.substring(9, 11);
+		String[] finalId = Long.toString(this.id).split("");
+		String cpf1 = Long.toString(this.id).substring(0, 3);
+		String cpf2 = Long.toString(this.id).substring(3, 6);
+		String cpf3 = Long.toString(this.id).substring(6, 9);
+		String cpf4 = Long.toString(this.id).substring(9, 11);
 		
 		String finalCpf = cpf1 + "." + cpf2 + "." + cpf3 + "-" + cpf4;
 		return finalCpf;

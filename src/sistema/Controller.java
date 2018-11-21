@@ -8,9 +8,9 @@ import usuario.usuarioDoador;
 
 public class Controller {
 
-	private HashMap<String, Usuario> colecaoUsurarios = new HashMap<>();
+	private HashMap<Long, Usuario> colecaoUsurarios = new HashMap<>();
 
-	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
+	public Long adicionaDoador(Long id, String nome, String email, String celular, String classe) {
 
 		if (nome.trim().equals("") || nome == null) {
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
@@ -33,9 +33,6 @@ public class Controller {
 			throw new IllegalArgumentException("Entrada invalida: opcao de classe invalida.");
 
 		}
-		if (id.trim().equals("") || id == null) {
-			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
-		}
 
 		if (this.colecaoUsurarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario ja existente: " + id);
@@ -50,8 +47,8 @@ public class Controller {
 	
 	
 
-	public String pesquisaUsuarioPorId(String id) {
-		if (id.trim().equals("") || id == null) {
+	public String pesquisaUsuarioPorId(Long id) {
+		if (Long.toString(id).trim().equals("") || id == null) {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
