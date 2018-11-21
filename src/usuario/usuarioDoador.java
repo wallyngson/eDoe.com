@@ -10,10 +10,6 @@ public class usuarioDoador extends Usuario {
 		super.setStatus("doador");
 		
 		
-		if (Long.toString(id) == null || Long.toString(id).equals("")) {
-			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
-		}
-		
 		if ( nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 		}

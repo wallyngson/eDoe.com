@@ -19,7 +19,7 @@ public class Facade {
 	
 	Controller controle = new Controller();
 	
-	public long adicionaDoador(long id, String nome, String email, String celular, String classe) {
+	public long adicionaDoador(String id, String nome, String email, String celular, String classe) {
 		return controle.adicionaDoador(id, nome, email, celular, classe);
 	}
 	

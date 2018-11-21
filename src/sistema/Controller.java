@@ -12,15 +12,20 @@ public class Controller {
 
 	
 	
-	public long adicionaDoador(long id, String nome, String email, String celular, String classe) {
+	public long adicionaDoador(String id, String nome, String email, String celular, String classe) {
 		
-		if (this.colecaoUsurarios.containsKey(id)) {
-			throw new IllegalArgumentException("Usuario ja existente: " + id);
+		if (id == null || id.trim().equals("")) {
+			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
+		}
+		
+		if (this.colecaoUsurarios.containsKey(Long.parseLong(id))) {
+			throw new IllegalArgumentException("Usuario ja existente: " + id + ".");
 		}
 
-		usuarioDoador novoDoador = new usuarioDoador(id, nome, email, celular, classe);
-		this.colecaoUsurarios.put(id, novoDoador);
-		return id;
+		
+		usuarioDoador novoDoador = new usuarioDoador(Long.parseLong(id), nome, email, celular, classe);
+		this.colecaoUsurarios.put(Long.parseLong(id), novoDoador);
+		return Long.parseLong(id);
 
 	}
 	
@@ -29,12 +34,14 @@ public class Controller {
 
 	
 	public String pesquisaUsuarioPorId(long id) {
+		
+		
 		if (Long.toString(id) == null || Long.toString(id).trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
 		if (!this.colecaoUsurarios.containsKey(id)) {
-			throw new IllegalArgumentException("Usuario nao encontrado: " + id);
+			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 		}
 		String representacao = "";
 		if (this.colecaoUsurarios.containsKey(id)) {
@@ -68,7 +75,7 @@ public class Controller {
 		}
 
 		if (representacao.equals("")) {
-			throw new IllegalArgumentException("Usuario nao encontrado: " + nome);
+			throw new IllegalArgumentException("Usuario nao encontrado: " + nome + ".");
 		}
 
 		return representacao;

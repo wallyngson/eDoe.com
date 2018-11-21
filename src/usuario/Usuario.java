@@ -32,6 +32,16 @@ public abstract class Usuario {
 		return this.status;
 	}
 	
+	
+	private String tipoRetornoId() {
+		if(this.classe.equals("PESSOA_FISICA")) {
+			return formatIdCpf();
+		}
+		return formatCnpj();
+	}
+	
+	
+	
 	private String formatIdCpf() {
 		
 		
@@ -45,10 +55,23 @@ public abstract class Usuario {
 		return finalCpf;
 	}
 	
+	private String formatCnpj() {
+		
+		String[] finalId = Long.toString(this.id).split("");
+		String cnpj1 = Long.toString(this.id).substring(0, 2);
+		String cnpj2 = Long.toString(this.id).substring(2, 5);
+		String cnpj3 = Long.toString(this.id).substring(5, 8);
+		String cnpj4 = Long.toString(this.id).substring(9, 12);
+		String cnpj5 = Long.toString(this.id).substring(12, 14);
+		
+		String finalCnpj = cnpj1 + "." + cnpj2 + "." + cnpj3 + "/" + cnpj4 + "-" + cnpj5;
+		return finalCnpj;
+	}
+	
 	
 	@Override
 	public String toString() {
-		return this.nome + "/" + formatIdCpf() + ", " +  this.email + ", " + this.celular + ", " + "status: " + this.status;
+		return this.nome + "/" + tipoRetornoId() + ", " +  this.email + ", " + this.celular + ", " + "status: " + this.status;
 	}
 	
 	
