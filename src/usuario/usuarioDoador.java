@@ -4,7 +4,7 @@ public class usuarioDoador extends Usuario {
 
 	private String status;
 	
-	public usuarioDoador(Long id, String nome, String email, String celular, String classe) {
+	public usuarioDoador(long id, String nome, String email, String celular, String classe) {
 		 
 		super(id, nome, email, celular, classe);
 		super.setStatus("doador");

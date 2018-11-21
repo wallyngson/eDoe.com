@@ -12,7 +12,7 @@ public class Controller {
 
 	
 	
-	public Long adicionaDoador(Long id, String nome, String email, String celular, String classe) {
+	public long adicionaDoador(long id, String nome, String email, String celular, String classe) {
 		
 		if (this.colecaoUsurarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario ja existente: " + id);
