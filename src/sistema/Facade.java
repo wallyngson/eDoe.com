@@ -31,5 +31,9 @@ public class Facade {
 	public String pesquisaUsuarioPorId(Long id) {
 		return controle.pesquisaUsuarioPorId(id);
 	}
+	
+	public boolean removeUsuario(Long id) {
+		return controle.removeUsuario(id);
+	}
 
 }

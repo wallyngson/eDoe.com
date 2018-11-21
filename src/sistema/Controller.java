@@ -92,5 +92,14 @@ public class Controller {
 
 		return representacao;
 	}
+	
+	public boolean removeUsuario(Long id) {
+		if(!this.colecaoUsurarios.containsKey(id)) {
+			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
+		}
+		
+		this.colecaoUsurarios.remove(id);
+		return true;
+	}
 
 }
