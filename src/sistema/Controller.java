@@ -28,8 +28,8 @@ public class Controller {
 	
 
 	
-	public String pesquisaUsuarioPorId(Long id) {
-		if (Long.toString(id).trim().equals("") || id == null) {
+	public String pesquisaUsuarioPorId(long id) {
+		if (Long.toString(id) == null || Long.toString(id).trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
@@ -47,9 +47,9 @@ public class Controller {
 	
 	
 
-	public String pesquisarUsuarioPorNome(String nome) {
+	public String pesquisaUsuarioPorNome(String nome) {
 
-		if (nome.trim().equals("") || nome == null) {
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 		}
 
@@ -74,7 +74,7 @@ public class Controller {
 		return representacao;
 	}
 	
-	public boolean removeUsuario(Long id) {
+	public boolean removeUsuario(long id) {
 		if(!this.colecaoUsurarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 		}

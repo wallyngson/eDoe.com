@@ -24,7 +24,7 @@ public class Facade {
 	}
 	
 	public String pesquisaUsuarioPorNome(String nome) {
-		return controle.pesquisarUsuarioPorNome(nome);
+		return controle.pesquisaUsuarioPorNome(nome);
 	}
 	
 	

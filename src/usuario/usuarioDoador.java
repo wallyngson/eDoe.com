@@ -14,16 +14,16 @@ public class usuarioDoador extends Usuario {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 		
-		if (nome.trim().equals("") || nome == null) {
+		if ( nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 		}
-		if (email.trim().equals("") || email == null) {
+		if (email == null ||email.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: email nao pode ser vazio ou nulo.");
 		}
-		if (celular.trim().equals("") || celular == null) {
+		if (celular == null || celular.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: celular nao pode ser vazio ou nulo.");
 		}
-		if (classe.trim().equals("") || classe == null) {
+		if (classe == null || classe.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: classe nao pode ser vazia ou nula.");
 		}
 		if (!(classe.toUpperCase().equals("PESSOA_FISICA") || classe.toUpperCase().equals("IGREJA")
