@@ -1,9 +1,28 @@
 package usuario;
 
+/**
+ * classe que define um usuario doador. usuario que so pode doar itens.
+ * 
+ * @author victorpfb
+ *
+ */
 public class usuarioDoador extends Usuario {
 
-	private String status;
-
+	/**
+	 * Construtor da classe usuarioDoador.
+	 * 
+	 * @param id
+	 *            String que representa a numeracao do documento do usuario
+	 * @param nome
+	 *            String que representa o nome do usuario
+	 * @param email
+	 *            String que representa o email do usuario
+	 * @param celular
+	 *            String que representa o celular do usuario
+	 * @param classe
+	 *            String que representa a classe do usuario (Ex: PESSOA_FISICA,
+	 *            ORGAO_PUBLIC_MUNICIPAL, etc)
+	 */
 	public usuarioDoador(String id, String nome, String email, String celular, String classe) {
 
 		super(id, nome, email, celular, classe);
@@ -33,10 +52,10 @@ public class usuarioDoador extends Usuario {
 
 	}
 
-	public String getStatus() {
-		return this.status;
-	}
-
+	/**
+	 * toString do usuarioDoador, que eh o mesmo da classe abstrata superior
+	 * Usuario.
+	 */
 	@Override
 	public String toString() {
 		return super.toString();

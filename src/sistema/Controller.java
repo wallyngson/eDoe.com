@@ -20,7 +20,7 @@ import usuario.usuarioReceptor;
  */
 public class Controller {
 
-	private HashMap<String, Usuario> colecaoUsurarios = new HashMap<>();
+	private HashMap<String, Usuario> colecaoUsuarios = new HashMap<>();
 
 	/**
 	 * Metodo para a leitura dos arquivos .csv, que carregam uma serie de usuarios
@@ -73,12 +73,12 @@ public class Controller {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
-		if (this.colecaoUsurarios.containsKey(id)) {
+		if (this.colecaoUsuarios.containsKey(id)) {
 			atualizaUsuario(id, nome, email, celular);
 		}
 
 		usuarioReceptor novoReceptor = new usuarioReceptor(id, nome, email, celular, classe);
-		this.colecaoUsurarios.put(id, novoReceptor);
+		this.colecaoUsuarios.put(id, novoReceptor);
 		return id;
 
 	}
@@ -108,12 +108,12 @@ public class Controller {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
-		if (this.colecaoUsurarios.containsKey(id)) {
+		if (this.colecaoUsuarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario ja existente: " + id + ".");
 		}
 
 		usuarioDoador novoDoador = new usuarioDoador(id, nome, email, celular, classe);
-		this.colecaoUsurarios.put(id, novoDoador);
+		this.colecaoUsuarios.put(id, novoDoador);
 		return id;
 
 	}
@@ -135,12 +135,12 @@ public class Controller {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
-		if (!this.colecaoUsurarios.containsKey(id)) {
+		if (!this.colecaoUsuarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 		}
 		String representacao = "";
-		if (this.colecaoUsurarios.containsKey(id)) {
-			representacao = this.colecaoUsurarios.get(id).toString();
+		if (this.colecaoUsuarios.containsKey(id)) {
+			representacao = this.colecaoUsuarios.get(id).toString();
 		}
 
 		return representacao;
@@ -167,7 +167,7 @@ public class Controller {
 		}
 
 		ArrayList<Usuario> listaAuxiliarDeUsuarios = new ArrayList<>();
-		listaAuxiliarDeUsuarios.addAll(this.colecaoUsurarios.values());
+		listaAuxiliarDeUsuarios.addAll(this.colecaoUsuarios.values());
 		String representacao = "";
 		boolean justOneUser = true;
 		Collections.sort(listaAuxiliarDeUsuarios, Collections.reverseOrder());
@@ -211,34 +211,43 @@ public class Controller {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
-		if (!this.colecaoUsurarios.containsKey(id)) {
+		if (!this.colecaoUsuarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 		}
 		if (!(nome == null) && !(nome.trim().equals(""))) {
-			this.colecaoUsurarios.get(id).setNome(nome);
+			this.colecaoUsuarios.get(id).setNome(nome);
 		}
 		if (!(email == null) && !(email.trim().equals(""))) {
-			this.colecaoUsurarios.get(id).setEmail(email);
+			this.colecaoUsuarios.get(id).setEmail(email);
 		}
 		if (!(celular == null) && !(celular.trim().equals(""))) {
-			this.colecaoUsurarios.get(id).setCelular(celular);
+			this.colecaoUsuarios.get(id).setCelular(celular);
 		}
 
-		return this.colecaoUsurarios.get(id).toString();
+		return this.colecaoUsuarios.get(id).toString();
 
 	}
 
+	/**
+	 * Atraves da String id passada procura-se o usuario nas chaves do mapa de
+	 * usuarios, caso exista, ele eh removido do mapa caso nao exista, uma erro eh
+	 * lancado e caso a String id seja nula ou vazia um erro tambem eh lancado
+	 * 
+	 * @param id
+	 *            String que representa a numeracao do documento do usuario
+	 * @return retorna um booleano, true caso o usuario seja removido com sucesso.
+	 */
 	public boolean removeUsuario(String id) {
 
 		if (id == null || id.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
-		if (!this.colecaoUsurarios.containsKey(id)) {
+		if (!this.colecaoUsuarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 		}
 
-		this.colecaoUsurarios.remove(id);
+		this.colecaoUsuarios.remove(id);
 		return true;
 	}
 
