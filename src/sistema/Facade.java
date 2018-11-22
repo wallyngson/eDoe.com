@@ -19,7 +19,7 @@ public class Facade {
 	
 	Controller controle = new Controller();
 	
-	public long adicionaDoador(String id, String nome, String email, String celular, String classe) {
+	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
 		return controle.adicionaDoador(id, nome, email, celular, classe);
 	}
 	
@@ -28,11 +28,15 @@ public class Facade {
 	}
 	
 	
-	public String pesquisaUsuarioPorId(long id) {
+	public String pesquisaUsuarioPorId(String id) {
 		return controle.pesquisaUsuarioPorId(id);
 	}
 	
-	public boolean removeUsuario(long id) {
+	public String atualizaUsuario(String id, String nome, String email, String celular) {
+		return controle.atualizaUsuario(id, nome, email, celular);
+	}
+	
+	public boolean removeUsuario(String id) {
 		return controle.removeUsuario(id);
 	}
 

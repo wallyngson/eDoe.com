@@ -8,35 +8,27 @@ import usuario.usuarioDoador;
 
 public class Controller {
 
-	private HashMap<Long, Usuario> colecaoUsurarios = new HashMap<>();
+	private HashMap<String, Usuario> colecaoUsurarios = new HashMap<>();
 
-	
-	
-	public long adicionaDoador(String id, String nome, String email, String celular, String classe) {
-		
+	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
+
 		if (id == null || id.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
-		
-		if (this.colecaoUsurarios.containsKey(Long.parseLong(id))) {
+
+		if (this.colecaoUsurarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario ja existente: " + id + ".");
 		}
 
-		
-		usuarioDoador novoDoador = new usuarioDoador(Long.parseLong(id), nome, email, celular, classe);
-		this.colecaoUsurarios.put(Long.parseLong(id), novoDoador);
-		return Long.parseLong(id);
+		usuarioDoador novoDoador = new usuarioDoador(id, nome, email, celular, classe);
+		this.colecaoUsurarios.put(id, novoDoador);
+		return id;
 
 	}
-	
-	
-	
 
-	
-	public String pesquisaUsuarioPorId(long id) {
-		
-		
-		if (Long.toString(id) == null || Long.toString(id).trim().equals("")) {
+	public String pesquisaUsuarioPorId(String id) {
+
+		if (id == null || id.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 		}
 
@@ -47,12 +39,9 @@ public class Controller {
 		if (this.colecaoUsurarios.containsKey(id)) {
 			representacao = this.colecaoUsurarios.get(id).toString();
 		}
-		
+
 		return representacao;
 	}
-	
-	
-	
 
 	public String pesquisaUsuarioPorNome(String nome) {
 
@@ -68,10 +57,10 @@ public class Controller {
 			if (user.getNome().equals(nome) && justOneUser == true) {
 				justOneUser = false;
 				representacao = user.toString();
-			}else if(user.getNome().equals(nome)) {
+			} else if (user.getNome().equals(nome)) {
 				representacao += " | " + user.toString();
 			}
-			
+
 		}
 
 		if (representacao.equals("")) {
@@ -80,12 +69,39 @@ public class Controller {
 
 		return representacao;
 	}
-	
-	public boolean removeUsuario(long id) {
-		if(!this.colecaoUsurarios.containsKey(id)) {
+
+	public String atualizaUsuario(String id, String nome, String email, String celular) {
+
+		if (!this.colecaoUsurarios.containsKey(id)) {
 			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 		}
-		
+		if (id == null || id.trim().equals("")) {
+			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
+		}
+		if (!(nome == null) && !(nome.trim().equals(""))) {
+			this.colecaoUsurarios.get(id).setNome(nome);
+		}
+		if (!(email == null) && !(email.trim().equals(""))) {
+			this.colecaoUsurarios.get(id).setEmail(email);
+		}
+		if (!(celular == null) && !(celular.trim().equals(""))) {
+			this.colecaoUsurarios.get(id).setCelular(celular);
+		}
+
+		return this.colecaoUsurarios.get(id).toString();
+
+	}
+
+	public boolean removeUsuario(String id) {
+
+		if (id == null || id.trim().equals("")) {
+			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
+		}
+
+		if (!this.colecaoUsurarios.containsKey(id)) {
+			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
+		}
+
 		this.colecaoUsurarios.remove(id);
 		return true;
 	}
