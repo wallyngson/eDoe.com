@@ -3,17 +3,16 @@ package usuario;
 public class usuarioDoador extends Usuario {
 
 	private String status;
-	
+
 	public usuarioDoador(String id, String nome, String email, String celular, String classe) {
-		 
+
 		super(id, nome, email, celular, classe);
 		super.setStatus("doador");
-		
-		
-		if ( nome == null || nome.trim().equals("")) {
+
+		if (nome == null || nome.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 		}
-		if (email == null ||email.trim().equals("")) {
+		if (email == null || email.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: email nao pode ser vazio ou nulo.");
 		}
 		if (celular == null || celular.trim().equals("")) {
@@ -32,20 +31,15 @@ public class usuarioDoador extends Usuario {
 
 		}
 
+	}
 
-		
-		
-	}
-	
 	public String getStatus() {
-		return this.status; 
+		return this.status;
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString();
 	}
-	
-	
 
 }

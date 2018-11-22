@@ -3,6 +3,7 @@ package sistema;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -14,22 +15,22 @@ public class Controller {
 
 	private HashMap<String, Usuario> colecaoUsurarios = new HashMap<>();
 
-	
 	public void lerReceptores(String arquivo) throws IOException {
 		Scanner sc = new Scanner(new File(arquivo));
 		String linha = null;
-		while(sc.hasNextLine()) {
+		while (sc.hasNextLine()) {
 			linha = sc.nextLine();
-			if(linha.equals("id,nome,E-mail,celular,classe"))
+			if (linha.equals("id,nome,E-mail,celular,classe"))
 				continue;
 			String[] dadosDoReceptor = linha.split(",");
-			if(dadosDoReceptor.length != 5)
+			if (dadosDoReceptor.length != 5)
 				throw new IOException("Campos invalidos");
-			adicionaReceptor(dadosDoReceptor[0], dadosDoReceptor[1], dadosDoReceptor[2], dadosDoReceptor[3], dadosDoReceptor[4]);
+			adicionaReceptor(dadosDoReceptor[0], dadosDoReceptor[1], dadosDoReceptor[2], dadosDoReceptor[3],
+					dadosDoReceptor[4]);
 		}
 		sc.close();
 	}
-	
+
 	private String adicionaReceptor(String id, String nome, String email, String celular, String classe) {
 
 		if (id == null || id.trim().equals("")) {
@@ -45,9 +46,7 @@ public class Controller {
 		return id;
 
 	}
-	
-	
-	
+
 	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
 
 		if (id == null || id.trim().equals("")) {
@@ -91,6 +90,7 @@ public class Controller {
 		listaAuxiliarDeUsuarios.addAll(this.colecaoUsurarios.values());
 		String representacao = "";
 		boolean justOneUser = true;
+		Collections.sort(listaAuxiliarDeUsuarios, Collections.reverseOrder());
 		for (Usuario user : listaAuxiliarDeUsuarios) {
 			if (user.getNome().equals(nome) && justOneUser == true) {
 				justOneUser = false;
@@ -110,11 +110,12 @@ public class Controller {
 
 	public String atualizaUsuario(String id, String nome, String email, String celular) {
 
-		if (!this.colecaoUsurarios.containsKey(id)) {
-			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
-		}
 		if (id == null || id.trim().equals("")) {
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
+		}
+
+		if (!this.colecaoUsurarios.containsKey(id)) {
+			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 		}
 		if (!(nome == null) && !(nome.trim().equals(""))) {
 			this.colecaoUsurarios.get(id).setNome(nome);
