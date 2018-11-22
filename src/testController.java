@@ -55,42 +55,79 @@ class testController {
 	}
 
 	@Test
-	void pesquisaUsuariosPorId() {
+	void testPesquisaUsuariosPorId() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
 		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
 				controle.pesquisaUsuarioPorId("12345678910"));
 	}
 
 	@Test
-	void pesquisaUsuarioPorIdNuloOuVazio() {
+	void testPesquisaUsuarioPorIdNuloOuVazio() {
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("  "));
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId(null));
 	}
-	
+
 	@Test
-	void pesquisaUsuarioPorIdUsuarioNaoExiste() {
+	void testPesquisaUsuarioPorIdUsuarioNaoExiste() {
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("12312378910"));
 	}
-	
+
 	@Test
-	void pesquisaUsuariosPorNome() {
+	void testPesquisaUsuariosPorNome() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
 		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
 				controle.pesquisaUsuarioPorNome("Victor Braga"));
 	}
-	
+
 	@Test
-	void pesquisaUsuarioPorNomeNuloOuVazio() {
+	void testPesquisaUsuarioPorNomeNuloOuVazio() {
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorNome("  "));
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorNome(null));
 	}
-	
+
 	@Test
-	void pesquisaUsuarioPorNomeUsuarioNaoExiste() {
+	void testPesquisaUsuarioPorNomeUsuarioNaoExiste() {
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("Paulo Coelho"));
 	}
-	
-	
-	
+
+	@Test
+	void testAtualizaUsuario() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
+				controle.pesquisaUsuarioPorId("12345678910"));
+		assertEquals("Victor Paz/123.456.789-10, victor@ccc.ufcg.com, 9999-1231, status: doador",
+				controle.atualizaUsuario("12345678910", "Victor Paz", "victor@ccc.ufcg.com", "9999-1231"));
+	}
+
+	@Test
+	void testAtualizaUsuarioIdNuloOuVazio() {
+		assertThrows(IllegalArgumentException.class,
+				() -> controle.atualizaUsuario(" ", "victor braga", "victor@ccc.com", "9999-1231"));
+		assertThrows(IllegalArgumentException.class,
+				() -> controle.atualizaUsuario(null, "victor braga", "victor@ccc.com", "9999-1231"));
+	}
+
+	@Test
+	void testRemoveUsuario() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
+				controle.pesquisaUsuarioPorId("12345678910"));
+		assertTrue(controle.removeUsuario("12345678910"));
+		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("12345678910"));
+
+	}
+
+	@Test
+	void testRemoveUsuarioUsuarioNaoEncontrado() {
+		assertThrows(IllegalArgumentException.class, () -> controle.removeUsuario("12345678910"));
+
+	}
+
+	@Test
+	void testRemoveUsuarioIdNuloOuVazio() {
+		assertThrows(IllegalArgumentException.class, () -> controle.removeUsuario("   "));
+		assertThrows(IllegalArgumentException.class, () -> controle.removeUsuario(null));
+
+	}
 
 }
