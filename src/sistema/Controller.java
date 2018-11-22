@@ -1,15 +1,53 @@
 package sistema;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import usuario.Usuario;
 import usuario.usuarioDoador;
+import usuario.usuarioReceptor;
 
 public class Controller {
 
 	private HashMap<String, Usuario> colecaoUsurarios = new HashMap<>();
 
+	
+	public void lerReceptores(String arquivo) throws IOException {
+		Scanner sc = new Scanner(new File(arquivo));
+		String linha = null;
+		while(sc.hasNextLine()) {
+			linha = sc.nextLine();
+			if(linha.equals("id,nome,E-mail,celular,classe"))
+				continue;
+			String[] dadosDoReceptor = linha.split(",");
+			if(dadosDoReceptor.length != 5)
+				throw new IOException("Campos invalidos");
+			adicionaReceptor(dadosDoReceptor[0], dadosDoReceptor[1], dadosDoReceptor[2], dadosDoReceptor[3], dadosDoReceptor[4]);
+		}
+		sc.close();
+	}
+	
+	private String adicionaReceptor(String id, String nome, String email, String celular, String classe) {
+
+		if (id == null || id.trim().equals("")) {
+			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
+		}
+
+		if (this.colecaoUsurarios.containsKey(id)) {
+			atualizaUsuario(id, nome, email, celular);
+		}
+
+		usuarioReceptor novoReceptor = new usuarioReceptor(id, nome, email, celular, classe);
+		this.colecaoUsurarios.put(id, novoReceptor);
+		return id;
+
+	}
+	
+	
+	
 	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
 
 		if (id == null || id.trim().equals("")) {

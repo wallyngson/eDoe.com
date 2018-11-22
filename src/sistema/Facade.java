@@ -2,6 +2,7 @@ package sistema;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import easyaccept.EasyAccept;
@@ -12,12 +13,16 @@ public class Facade {
 		args = new String[] { "sistema.Facade", "acceptance_test/use_case_1.txt"};
 		EasyAccept.main(args);
 		
-		
-		
 	}
 	
 	
+	
+	
 	Controller controle = new Controller();
+	
+	public void lerReceptores(String arquivo) throws IOException {
+		controle.lerReceptores(arquivo);
+	}
 	
 	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
 		return controle.adicionaDoador(id, nome, email, celular, classe);
