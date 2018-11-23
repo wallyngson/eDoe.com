@@ -18,7 +18,7 @@ class testController {
 	void testAdicionaUsuarioDoador() {
 		assertEquals("12345678910",
 				controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA"));
-		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
 				controle.pesquisaUsuarioPorId("12345678910"));
 	}
 
@@ -57,7 +57,7 @@ class testController {
 	@Test
 	void testPesquisaUsuariosPorId() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
 				controle.pesquisaUsuarioPorId("12345678910"));
 	}
 
@@ -75,7 +75,7 @@ class testController {
 	@Test
 	void testPesquisaUsuariosPorNome() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
 				controle.pesquisaUsuarioPorNome("Victor Braga"));
 	}
 
@@ -93,9 +93,9 @@ class testController {
 	@Test
 	void testAtualizaUsuario() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
 				controle.pesquisaUsuarioPorId("12345678910"));
-		assertEquals("Victor Paz/123.456.789-10, victor@ccc.ufcg.com, 9999-1231, status: doador",
+		assertEquals("Victor Paz/12345678910, victor@ccc.ufcg.com, 9999-1231, status: doador",
 				controle.atualizaUsuario("12345678910", "Victor Paz", "victor@ccc.ufcg.com", "9999-1231"));
 	}
 
@@ -110,7 +110,7 @@ class testController {
 	@Test
 	void testRemoveUsuario() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-		assertEquals("Victor Braga/123.456.789-10, victor@ccc.com, 9999-1231, status: doador",
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
 				controle.pesquisaUsuarioPorId("12345678910"));
 		assertTrue(controle.removeUsuario("12345678910"));
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("12345678910"));
