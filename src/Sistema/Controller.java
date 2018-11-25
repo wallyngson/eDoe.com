@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
+import Itens.Descritor;
 import Usuarios.Usuario;
 import Usuarios.Doador;
 import Usuarios.Receptor;
@@ -20,11 +23,13 @@ import Usuarios.Receptor;
  */
 public class Controller {
 
-	private HashMap<String, Usuario> usuarios;
+	private Map<String, Usuario> usuarios;
+	private List<Descritor> descritores;
 	private Scanner sc;
 
 	public Controller() {
 		this.usuarios = new HashMap<>();
+		this.descritores = new ArrayList<>();
 	}
 
 	/**
@@ -257,4 +262,43 @@ public class Controller {
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 	}
 
+	
+	// ITENS
+	
+	
+	/**
+	 * Adiciona descritores ao array de descritores de itens.
+	 * 
+	 * @param descritor
+	 */
+	public void adicionaDescritor(String descritor) {
+		this.validaDescritor(descritor);
+		
+		this.descritores.add(new Descritor(descritor));
+	}
+	
+	/**
+	 * Percorre todo o array de Descritores e verifica se existe algum descritor com o mesmo nome.
+	 * 
+	 * @param descritor
+	 */
+	private void validaDescritor(String descritor) {
+		for (int i = 0; i < descritores.size(); i++) {
+			String d1 = this.descritores.get(i).nomeDescritor();
+			
+			if (this.formataString(d1).equals(formataString(this.formataString(descritor))))
+				throw new IllegalArgumentException("Descritor de Item ja existente: " + d1 + ".");
+		}
+	}
+	
+	/**
+	 * Tira todos os espacos e deixa tudo minusculo.
+	 * 
+	 * @param string
+	 * @return
+	 */
+	private String formataString(String string) {
+		return string.replace(" ", "").toLowerCase();
+	}
+	
 }

@@ -13,43 +13,46 @@ import easyaccept.EasyAccept;
 public class Facade {
 
 	public static void main(String[] args) {
-		args = new String[] { "sistema.Facade", "acceptance_test/use_case_1.txt"};
+		args = new String[] { "sistema.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt" };
 		EasyAccept.main(args);
 	}
-	
+
 	Controller controller = new Controller();
-	
+
 	// CASE1
-	
+
 	public void lerReceptores(String arquivo) throws IOException {
 		this.controller.lerReceptores(arquivo);
 	}
-	
+
 	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
 		return this.controller.adicionaDoador(id, nome, email, celular, classe);
 	}
-	
+
 	public String pesquisaUsuarioPorNome(String nome) {
 		return this.controller.pesquisaUsuarioPorNome(nome);
 	}
-	
+
 	public String pesquisaUsuarioPorId(String id) {
 		return this.controller.pesquisaUsuarioPorId(id);
 	}
-	
+
 	public String atualizaUsuario(String id, String nome, String email, String celular) {
 		return this.controller.atualizaUsuario(id, nome, email, celular);
 	}
-	
+
 	public boolean removeUsuario(String id) {
 		return this.controller.removeUsuario(id);
 	}
-	
-	// CASE2
-	
-	/**
-	 * Casos em Desenvolvimento, apenas para conferencia de todos.
-	 */
 
+	// CASE2
+
+	public void adicionaDescritor(String descritor) {
+		this.controller.adicionaDescritor(descritor);
+	}
 	
+//	public void adicionaItemParaDoacao(String idDoador, String descricaoItem, String qtd, String tag) {
+//		this.controller.adicionaItemParaDoacao
+//	}
+
 }
