@@ -1,5 +1,7 @@
 package Usuarios;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,11 +39,29 @@ public class Doador extends Usuario {
 	 */
 	@Override
 	public Integer adicionaItemDoacao(String descritor, int qtd, String tags) {
-		Integer idItem = this.itens.size() + 1;
-		this.itens.put(idItem, new Item(descritor, qtd, tags));
+		Integer idItem = this.item2(descritor, tags);
+		if (this.item2(descritor, tags) != -1) {
+			this.itens.get(idItem).setQtdItens(qtd);
+		}
+			
+		idItem = this.itens.size() + 1;
+		this.itens.put(idItem, new Item(descritor, qtd, tags, idItem));
 		
 		return idItem;
 		
+	}
+	
+	private int item2(String descritor, String tags) {
+		Collection<Item> itensLista = itens.values();
+		String[] tagsDiv = tags.split(",");
+		String nome = descritor + " - " + Arrays.toString(tagsDiv); 
+		
+		for (Item item : itensLista) {
+			if (nome.equals(item.descricaoCompleta()))
+				return item.getIdItem();
+		}
+		
+		return -1;	
 	}
 	
 	/**
@@ -62,7 +82,7 @@ public class Doador extends Usuario {
 	private void validaItem(Integer idItem) {
 		if (idItem < 0)
 			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
-		if (this.itens.get(idItem) != null)
+		if (this.itens.get(idItem) == null)
 			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
 	}
 

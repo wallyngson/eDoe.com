@@ -274,8 +274,12 @@ public class Controller {
 	 * @param descritor
 	 */
 	public void adicionaDescritor(String descritor) {
+		
+		if (descritor == null || descritor.trim().isEmpty())
+			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
+		
 		String descritorFormatado = this.formataString(descritor);
-		this.descritorCadastrado(descritorFormatado);
+		this.descritorCadastrado(descritor);
 
 		this.descritores.put(descritorFormatado, new Descritor(descritorFormatado));
 	}
@@ -286,8 +290,8 @@ public class Controller {
 	 * @param descritor
 	 */
 	private void descritorCadastrado(String descritor) {
-		if (this.descritores.containsKey(descritor))
-			throw new IllegalArgumentException("Descritor de Item ja existente: " + descritor + ".");
+		if (this.descritores.containsKey(this.formataString(descritor)))
+			throw new IllegalArgumentException("Descritor de Item ja existente: " + descritor.toLowerCase() + ".");
 	}
 
 	
@@ -305,7 +309,7 @@ public class Controller {
 	 * @return
 	 */
 	public Integer adicionaItemParaDoacao(String id, String descritor, int qtd, String tags) {
-		this.validaUsuario(id);
+		this.idInvalido(id);
 		this.usuarioInexistente(id);
 		this.validaDescritor(descritor);
 
@@ -319,6 +323,10 @@ public class Controller {
 	 * @param descritor
 	 */
 	private void validaDescritor(String descritor) {
+		
+		if (descritor == null || descritor.trim().isEmpty())
+			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
+		
 		String descritorFormatado = this.formataString(descritor);
 
 		if (!this.descritores.containsKey(descritorFormatado))

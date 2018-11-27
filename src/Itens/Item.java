@@ -1,16 +1,21 @@
 package Itens;
 
+import java.util.Arrays;
+
 public class Item {
 
-	private String nome, tags;
+	private String nome;
+	private String[] tags;
 	private int qtdItem;
+	private Integer idItem;
 
-	public Item(String nome, int qtd, String tags) {
+	public Item(String nome, int qtd, String tags, Integer idItem) {
 		this.parametrosInvalidos(tags, qtd);
 
 		this.nome = nome;
-		this.tags = tags;
+		this.tags = tags.split(",");
 		this.qtdItem = qtd;
+		this.idItem = idItem;
 	}
 
 	/**
@@ -22,21 +27,29 @@ public class Item {
 	private void parametrosInvalidos(String tags, int qtd) {
 		if (qtd <= 0)
 			throw new IllegalArgumentException("Entrada invalida: quantidade deve ser maior que zero.");
-		if (tags == null || tags.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: tags nao podem ser vazias ou nulas");
+//		if (tags == null || tags.trim().isEmpty())
+//			throw new IllegalArgumentException("Entrada invalida: tags nao podem ser vazias ou nulas");
 	}
 	
 	public void setQtdItens(int qtd) {
 		this.qtdItem = qtd;
 	}
 	
-	public void setTags(String tags) {
-		this.tags = tags;
+	public int getIdItem() {
+		return this.idItem;
 	}
 	
+	public void setTags(String tags) {
+		this.tags = tags.split(",");
+	}
+	
+	public String descricaoCompleta() {
+		return this.nome + " - " + Arrays.toString(tags);
+	}
+
 	@Override
 	public String toString() {
-		return nome + ", tags: [" + tags + "], quantidade: " + qtdItem;
+		return this.idItem + " - " + this.nome + ", tags: " + Arrays.toString(tags) + ", quantidade: " + this.qtdItem;
 	}
 
 }
