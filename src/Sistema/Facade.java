@@ -50,9 +50,21 @@ public class Facade {
 	public void adicionaDescritor(String descritor) {
 		this.controller.adicionaDescritor(descritor);
 	}
+
+	public Integer adicionaItemParaDoacao(String idDoador, String descritor, int qtd, String tags) {
+		return this.controller.adicionaItemParaDoacao(idDoador, descritor, qtd, tags);
+	}
 	
-//	public void adicionaItemParaDoacao(String idDoador, String descricaoItem, String qtd, String tag) {
-//		this.controller.adicionaItemParaDoacao
-//	}
+	public String exibeItem(Integer idItem, String id) {
+		return this.controller.exibeItem(idItem, id);
+	}
+	
+	public void removeItemParaDoacao(Integer idItem, String id) {
+		this.controller.removeItemParaDoacao(idItem, id);
+	}
+	
+	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
+		return this.controller.atualizaItemParaDoacao(idItem, id, qtd, tags);
+	}
 
 }

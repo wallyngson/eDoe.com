@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -24,16 +23,21 @@ import Usuarios.Receptor;
 public class Controller {
 
 	private Map<String, Usuario> usuarios;
-	private List<Descritor> descritores;
+	private Map<String, Descritor> descritores;
 	private Scanner sc;
 
 	public Controller() {
 		this.usuarios = new HashMap<>();
-		this.descritores = new ArrayList<>();
+		this.descritores = new HashMap<>();
 	}
 
+	
+	// USUARIO RECEPTOR
+	
+	
 	/**
 	 * Recebe o arquivo CSV e o le.
+	 * 
 	 * @param arquivo
 	 * @throws IOException
 	 */
@@ -41,11 +45,11 @@ public class Controller {
 		this.sc = new Scanner(new File(arquivo));
 		this.sc.hasNextLine();
 		String linha = null;
-		
+
 		this.lerReceptor(sc, linha);
-		
+
 	}
-	
+
 	/**
 	 * Percorre todas as linhas do CSV e adiciona os receptores aos usuarios.
 	 * 
@@ -53,17 +57,16 @@ public class Controller {
 	 * @param linha
 	 */
 	private void lerReceptor(Scanner sc, String linha) {
-		while(sc.hasNext()) {
+		while (sc.hasNext()) {
 			linha = sc.nextLine();
 			if (linha.equals("id,nome,E-mail,celular,classe") || linha.equals("id,nome,e-mail,celular,classe"))
 				continue;
-			
+
 			String[] dados = linha.split(",");
 			this.adicionaReceptor(dados[0], dados[1], dados[2], dados[3], dados[4]);
 		}
 	}
-	
-	
+
 	/**
 	 * Metodo que adiciona um usuario recepetor. Neste caso todos os cadastros para
 	 * esse tipo de usuario estao sendo feitos metodo lerReceptores().
@@ -83,13 +86,16 @@ public class Controller {
 		if (this.usuarios.containsKey(id)) {
 			this.atualizaUsuario(id, nome, email, celular);
 		}
-		
+
 		Usuario receptor = new Receptor(id, nome, email, celular, classe);
 		this.usuarios.put(id, receptor);
 		return id;
 
 	}
 
+	
+	// USUARIO DOADOR
+	
 	
 	/**
 	 * Metodo que adiciona um usuario doador. estes so podem realizar enviar itens.
@@ -133,7 +139,7 @@ public class Controller {
 
 		return representacao;
 	}
-	
+
 	/**
 	 * Verifica se o usuario existe no sistema.
 	 * 
@@ -153,7 +159,7 @@ public class Controller {
 		if (!this.usuarios.containsKey(id))
 			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 	}
-	
+
 	/**
 	 * Metodo que procura o usuario atraves da String nome, os valores do mapa de
 	 * usuarios sao copiados para um arrayList para podermos iterar, assim
@@ -162,7 +168,7 @@ public class Controller {
 	 * nome, ele separa os toString deles com " | " e ordena de forma decrescente no
 	 * que diz respeito ao id.
 	 * 
-	 * @param nome 
+	 * @param nome
 	 * 
 	 * @return retorna o toString do usuario, e so deve retornar um usuario, ja que
 	 *         nao pode existir dois usuarios com o mesmo id.
@@ -170,7 +176,7 @@ public class Controller {
 
 	public String pesquisaUsuarioPorNome(String nome) {
 		this.nomeInvalido(nome);
-		
+
 		ArrayList<Usuario> listaAuxiliarDeUsuarios = new ArrayList<>();
 		listaAuxiliarDeUsuarios.addAll(this.usuarios.values());
 		String representacao = "";
@@ -199,10 +205,10 @@ public class Controller {
 	 * email e/ ou celular. que atualizara o atributo correspondente ao usuario com
 	 * id passado no meotodo
 	 * 
-	 * @param id      
-	 * @param nome    
-	 * @param email   
-	 * @param celular 
+	 * @param id
+	 * @param nome
+	 * @param email
+	 * @param celular
 	 * 
 	 * @return retornar o toString do usuario que esta sendo atualizado com as
 	 *         atualizacoes ja implementadas
@@ -210,19 +216,15 @@ public class Controller {
 	public String atualizaUsuario(String id, String nome, String email, String celular) {
 		this.idInvalido(id);
 		this.usuarioInexistente(id);
-		
-		if (!(nome == null) && !(nome.trim().equals(""))) {
+
+		if (!(nome == null) && !(nome.trim().isEmpty()))
 			this.usuarios.get(id).setNome(nome);
-		}
-		if (!(email == null) && !(email.trim().equals(""))) {
+		if (!(email == null) && !(email.trim().isEmpty()))
 			this.usuarios.get(id).setEmail(email);
-		}
-		if (!(celular == null) && !(celular.trim().equals(""))) {
+		if (!(celular == null) && !(celular.trim().isEmpty()))
 			this.usuarios.get(id).setCelular(celular);
-		}
 
 		return this.usuarios.get(id).toString();
-
 	}
 
 	/**
@@ -230,7 +232,7 @@ public class Controller {
 	 * usuarios, caso exista, ele eh removido do mapa caso nao exista, uma erro eh
 	 * lancado e caso a String id seja nula ou vazia um erro tambem eh lancado
 	 * 
-	 * @param id 
+	 * @param id
 	 * 
 	 * @return true se a remocao acontecer com sucesso.
 	 */
@@ -251,7 +253,7 @@ public class Controller {
 		if (id == null || id.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 	}
-	
+
 	/**
 	 * Verifica se o nome eh invalido.
 	 * 
@@ -263,34 +265,92 @@ public class Controller {
 	}
 
 	
-	// ITENS
-	
+	// DESCRITORES
+
 	
 	/**
-	 * Adiciona descritores ao array de descritores de itens.
+	 * Adiciona descritor ao sistema.
 	 * 
 	 * @param descritor
 	 */
 	public void adicionaDescritor(String descritor) {
-		this.validaDescritor(descritor);
-		
-		this.descritores.add(new Descritor(descritor));
+		String descritorFormatado = this.formataString(descritor);
+		this.descritorCadastrado(descritorFormatado);
+
+		this.descritores.put(descritorFormatado, new Descritor(descritorFormatado));
 	}
+
+	/**
+	 * Verifica se o descritor ja esta cadastrado.
+	 * 
+	 * @param descritor
+	 */
+	private void descritorCadastrado(String descritor) {
+		if (this.descritores.containsKey(descritor))
+			throw new IllegalArgumentException("Descritor de Item ja existente: " + descritor + ".");
+	}
+
+	
+	// ITEM DOACAO
+	
 	
 	/**
-	 * Percorre todo o array de Descritores e verifica se existe algum descritor com o mesmo nome.
+	 * Verifica se o item a ser cadastro existe nos descritores e apos cadastrar
+	 * esse item a um doador.
+	 *
+	 * @param id
+	 * @param descricaoItem
+	 * @param qtd
+	 * @param tag
+	 * @return
+	 */
+	public Integer adicionaItemParaDoacao(String id, String descritor, int qtd, String tags) {
+		this.validaUsuario(id);
+		this.usuarioInexistente(id);
+		this.validaDescritor(descritor);
+
+		return this.usuarios.get(id).adicionaItemDoacao(descritor, qtd, tags);
+	}
+
+	/**
+	 * Verifica se o descritor existe, se nao existir adiciona o descritor ao mapa
+	 * de descritores.
 	 * 
 	 * @param descritor
 	 */
 	private void validaDescritor(String descritor) {
-		for (int i = 0; i < descritores.size(); i++) {
-			String d1 = this.descritores.get(i).nomeDescritor();
-			
-			if (this.formataString(d1).equals(formataString(this.formataString(descritor))))
-				throw new IllegalArgumentException("Descritor de Item ja existente: " + d1 + ".");
-		}
+		String descritorFormatado = this.formataString(descritor);
+
+		if (!this.descritores.containsKey(descritorFormatado))
+			this.descritores.put(descritorFormatado, new Descritor(descritorFormatado));
 	}
-	
+
+	/**
+	 * Exibe um item de um determinado doador.
+	 * 
+	 * @param descritor
+	 * @param id
+	 * @return
+	 */
+	public String exibeItem(Integer idItem, String id) {
+		this.usuarioInexistente(id);
+
+		return this.usuarios.get(id).exibeItem(idItem);
+	}
+
+
+	/**
+	 * Remove um item de um determinado doador.
+	 * 
+	 * @param descritor
+	 * @param id
+	 */
+	public void removeItemParaDoacao(Integer idItem, String id) {
+		this.usuarioInexistente(id);
+		
+		this.usuarios.get(id).removeItem(idItem);
+	}
+
 	/**
 	 * Tira todos os espacos e deixa tudo minusculo.
 	 * 
@@ -300,5 +360,14 @@ public class Controller {
 	private String formataString(String string) {
 		return string.replace(" ", "").toLowerCase();
 	}
+
+
+	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
+		this.idInvalido(id);
+		this.usuarioInexistente(id);
 	
+		return this.usuarios.get(id).atualizaItem(idItem, qtd, tags);
+		
+	}
+
 }

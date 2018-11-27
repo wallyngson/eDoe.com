@@ -6,12 +6,12 @@ public class Descritor {
 	private String descritor, tags;
 	
 	public Descritor(String descritor) {
-		this.nomeInvalido(descritor);
+		this.parametroInvalido(descritor);
 		
 		this.descritor = descritor;
 	}
 	
-	private void nomeInvalido(String descritor) {
+	private void parametroInvalido(String descritor) {
 		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
 	}

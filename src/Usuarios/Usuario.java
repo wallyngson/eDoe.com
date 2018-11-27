@@ -109,6 +109,18 @@ public abstract class Usuario implements Comparable<Usuario> {
 		return this.classe;
 	}
 
+	/**
+	 * Esse metodo deve ser sobscrito nos doadores, pois ira cadastrar todos os
+	 * itens de cada doador.
+	 * 
+	 * @param descritor
+	 * @param qtd
+	 * @param tags
+	 */
+	public Integer adicionaItemDoacao(String descritor, int qtd, String tags) {
+		return null;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Usuario) {
@@ -132,6 +144,38 @@ public abstract class Usuario implements Comparable<Usuario> {
 	public int compareTo(Usuario outroUsuario) {
 		return this.id.compareTo(outroUsuario.getId());
 
+	}
+
+	/**
+	 * Esse metodo deve ser sobscrevido pelo metodo de doador que exibe um item
+	 * cadastrado.
+	 * 
+	 * @param descritor
+	 * @return
+	 */
+	public String exibeItem(Integer idItem) {
+		return null;
+	}
+
+	/**
+	 * Metodo que remove itens de um doador, deve ser subscrito por um metodo em
+	 * doador.
+	 * 
+	 * @param descritor
+	 */
+	public void removeItem(Integer idItem) {
+	}
+
+	/**
+	 * Metodo que deve retornar o item atualizado, sobscrito pelo metodo do doador.
+	 * 
+	 * @param idItem
+	 * @param qtd
+	 * @param tags
+	 * @return
+	 */
+	public String atualizaItem(Integer idItem, int qtd, String tags) {
+		return null;
 	}
 
 }
