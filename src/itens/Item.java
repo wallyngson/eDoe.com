@@ -27,8 +27,6 @@ public class Item {
 	private void parametrosInvalidos(String tags, int qtd) {
 		if (qtd <= 0)
 			throw new IllegalArgumentException("Entrada invalida: quantidade deve ser maior que zero.");
-//		if (tags == null || tags.trim().isEmpty())
-//			throw new IllegalArgumentException("Entrada invalida: tags nao podem ser vazias ou nulas");
 	}
 	
 	public void setQtdItens(int qtd) {

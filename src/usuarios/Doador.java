@@ -137,7 +137,6 @@ public class Doador extends Usuario {
 			this.itens.get(idItem).setTags(tags);
 		if (tags == null || tags.trim().isEmpty())
 			this.itens.get(idItem).setQtdItens(qtd);
-		
 	}
 	
 	
