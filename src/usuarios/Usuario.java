@@ -1,4 +1,4 @@
-package Usuarios;
+package usuarios;
 
 /**
  * Classe abstrata que representa um Usuario do sistema de doacoes, podendo ser
@@ -12,12 +12,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 	private String[] classes = { "PESSOA_FISICA", "IGREJA", "ORGAO_PUBLICO_MUNICIPAL", "ORGAO_PUBLICO_ESTADUAL",
 			"ORGAO_PUBLICO_FEDERAL", "ONG", "ASSOCIACAO", "SOCIEDADE" };
 
-	private String id;
-	private String nome;
-	private String email;
-	private String celular;
-	private String classe;
-	private String status;
+	private String id, nome, email, celular, classe, status;
 
 	/**
 	 * Construtor da classe Usuario.
@@ -121,6 +116,37 @@ public abstract class Usuario implements Comparable<Usuario> {
 		return null;
 	}
 
+	/**
+	 * Esse metodo deve ser sobscrevido pelo metodo de doador que exibe um item
+	 * cadastrado.
+	 * 
+	 * @param descritor
+	 * @return
+	 */
+	public String exibeItem(Integer idItem) {
+		return null;
+	}
+	
+	/**
+	 * Metodo que remove itens de um doador, deve ser subscrito por um metodo em
+	 * doador.
+	 * 
+	 * @param descritor
+	 */
+	public void removeItem(Integer idItem) {}
+	
+	/**
+	 * Metodo que deve retornar o item atualizado, sobscrito pelo metodo do doador.
+	 * 
+	 * @param idItem
+	 * @param qtd
+	 * @param tags
+	 * @return
+	 */
+	public String atualizaItem(Integer idItem, int qtd, String tags) {
+		return null;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Usuario) {
@@ -144,38 +170,6 @@ public abstract class Usuario implements Comparable<Usuario> {
 	public int compareTo(Usuario outroUsuario) {
 		return this.id.compareTo(outroUsuario.getId());
 
-	}
-
-	/**
-	 * Esse metodo deve ser sobscrevido pelo metodo de doador que exibe um item
-	 * cadastrado.
-	 * 
-	 * @param descritor
-	 * @return
-	 */
-	public String exibeItem(Integer idItem) {
-		return null;
-	}
-
-	/**
-	 * Metodo que remove itens de um doador, deve ser subscrito por um metodo em
-	 * doador.
-	 * 
-	 * @param descritor
-	 */
-	public void removeItem(Integer idItem) {
-	}
-
-	/**
-	 * Metodo que deve retornar o item atualizado, sobscrito pelo metodo do doador.
-	 * 
-	 * @param idItem
-	 * @param qtd
-	 * @param tags
-	 * @return
-	 */
-	public String atualizaItem(Integer idItem, int qtd, String tags) {
-		return null;
 	}
 
 }

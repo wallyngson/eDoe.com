@@ -1,4 +1,4 @@
-package Sistema;
+package sistema;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import Itens.Descritor;
-import Usuarios.Usuario;
-import Usuarios.Doador;
-import Usuarios.Receptor;
+import itens.Descritor;
+import usuarios.Doador;
+import usuarios.Receptor;
+import usuarios.Usuario;
 
 /**
  * Classe que reprensenta um sistema de doacao, onde existem doadores e
@@ -354,9 +354,27 @@ public class Controller {
 	 * @param id
 	 */
 	public void removeItemParaDoacao(Integer idItem, String id) {
+		this.idInvalido(id);
 		this.usuarioInexistente(id);
 		
 		this.usuarios.get(id).removeItem(idItem);
+	}
+
+	/**
+	 * Atualiza a quantidade de itens e as suas tags de um determinado item.
+	 * 
+	 * @param idItem
+	 * @param id
+	 * @param qtd
+	 * @param tags
+	 * @return
+	 */
+	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
+		this.idInvalido(id);
+		this.usuarioInexistente(id);
+		
+		return this.usuarios.get(id).atualizaItem(idItem, qtd, tags);
+		
 	}
 
 	/**
@@ -367,15 +385,7 @@ public class Controller {
 	 */
 	private String formataString(String string) {
 		return string.replace(" ", "").toLowerCase();
-	}
-
-
-	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
-		this.idInvalido(id);
-		this.usuarioInexistente(id);
 	
-		return this.usuarios.get(id).atualizaItem(idItem, qtd, tags);
-		
 	}
 
 }

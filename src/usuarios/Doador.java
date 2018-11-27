@@ -1,11 +1,11 @@
-package Usuarios;
+package usuarios;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import Itens.Item;
+import itens.Item;
 
 /**
  * Classe que representa um doador.
@@ -51,6 +51,13 @@ public class Doador extends Usuario {
 		
 	}
 	
+	/**
+	 * METODO GAMBI: Atualizar!
+	 * 
+	 * @param descritor
+	 * @param tags
+	 * @return
+	 */
 	private int item2(String descritor, String tags) {
 		Collection<Item> itensLista = itens.values();
 		String[] tagsDiv = tags.split(",");
@@ -94,10 +101,11 @@ public class Doador extends Usuario {
 	@Override
 	public void removeItem(Integer idItem) {
 		this.semItensCadastrados();
+		this.validaItem(idItem);
 		
 		this.itens.remove(idItem);
 	}
-
+	
 	/**
 	 * Verifica se nao existe nenhum item cadastrado no doador.
 	 */
@@ -125,8 +133,6 @@ public class Doador extends Usuario {
 	 * @param tags
 	 */
 	private void atualiza(Integer idItem, int qtd, String tags) {
-		if (qtd <= 0 && (tags == null || tags.trim().isEmpty()))
-			throw new IllegalArgumentException("Nao foi possivel atualizar o item, valores invalidos");
 		if (qtd <= 0)
 			this.itens.get(idItem).setTags(tags);
 		if (tags == null || tags.trim().isEmpty())
