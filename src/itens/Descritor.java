@@ -1,9 +1,9 @@
 package itens;
 
-public class Descritor {
+public class Descritor implements Comparable<Descritor> {
 	
-	private int qtdItens;
-	private String descritor, tags;
+	private int qtdItens = 0;
+	private String descritor;
 	
 	public Descritor(String descritor) {
 		this.parametroInvalido(descritor);
@@ -20,23 +20,18 @@ public class Descritor {
 		this.qtdItens = qtd;
 	}
 
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
-	
 	public String nomeDescritor() {
 		return this.descritor;
 	}
 
-	public int getQtdItens() {
-		return qtdItens;
+	@Override
+	public String toString() {
+		return this.qtdItens + " - " + this.descritor;
 	}
 
-	public String getTags() {
-		return tags;
+	@Override
+	public int compareTo(Descritor other) {
+		return this.descritor.compareTo(other.nomeDescritor());
 	}
-	
-	
-	
-	
+
 }

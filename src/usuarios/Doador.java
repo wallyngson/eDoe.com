@@ -1,8 +1,9 @@
 package usuarios;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import itens.Item;
@@ -38,38 +39,34 @@ public class Doador extends Usuario {
 	 * Sobscreve o metodo que esta em usuario, adicionando um item ao doador.
 	 */
 	@Override
-	public Integer adicionaItemDoacao(String descritor, int qtd, String tags) {
-		Integer idItem = this.item2(descritor, tags);
-		if (this.item2(descritor, tags) != -1) {
-			this.itens.get(idItem).setQtdItens(qtd);
-		}
-			
-		idItem = this.itens.size() + 1;
-		this.itens.put(idItem, new Item(descritor, qtd, tags, idItem));
-		
-		return idItem;
+	public void adicionaItemDoacao(String descritor, int qtd, String tags, Integer idUnico) {
+		this.itens.put(idUnico, new Item(descritor, qtd, tags, idUnico));
 		
 	}
 	
 	/**
-	 * METODO GAMBI: Atualizar!
-	 * 
-	 * @param descritor
-	 * @param tags
-	 * @return
+	 * Verifica se existe algum item com o mesmo nome e tags cadastrado no doador.
 	 */
-	private int item2(String descritor, String tags) {
-		Collection<Item> itensLista = itens.values();
-		String[] tagsDiv = tags.split(",");
-		String nome = descritor + " - " + Arrays.toString(tagsDiv); 
+	@Override
+	public Integer validaItem(String descricao, String tag) {
+		List<Item> listaDeItens = new ArrayList<>();
+		listaDeItens.addAll(this.itens.values());
 		
-		for (Item item : itensLista) {
-			if (nome.equals(item.descricaoCompleta()))
+		String completo = this.montaItem(descricao, tag);
+		
+		for (Item item : listaDeItens) {
+			if (completo.equals(item.descricaoCompleta()))
 				return item.getIdItem();
 		}
 		
-		return -1;	
+		return null;
 	}
+	
+	private String montaItem(String descricao, String tag) {
+		String[] tags = tag.split(",");
+		return descricao + " - " + Arrays.toString(tags);
+	}
+	
 	
 	/**
 	 * Exibe um item cadastrado no doador.
@@ -133,11 +130,15 @@ public class Doador extends Usuario {
 	 * @param tags
 	 */
 	private void atualiza(Integer idItem, int qtd, String tags) {
-		if (qtd <= 0)
+		if (qtd == 0)
 			this.itens.get(idItem).setTags(tags);
 		if (tags == null || tags.trim().isEmpty())
 			this.itens.get(idItem).setQtdItens(qtd);
 	}
 	
+	@Override
+	public String nomeItem(Integer id) {
+		return this.itens.get(id).getNome();
+	}
 	
 }

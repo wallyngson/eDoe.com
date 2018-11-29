@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -25,16 +26,17 @@ public class Controller {
 	private Map<String, Usuario> usuarios;
 	private Map<String, Descritor> descritores;
 	private Scanner sc;
+	private Integer idItem = 1;
 
 	public Controller() {
 		this.usuarios = new HashMap<>();
 		this.descritores = new HashMap<>();
 	}
-
+	
 	
 	// USUARIO RECEPTOR
 	
-	
+
 	/**
 	 * Recebe o arquivo CSV e o le.
 	 * 
@@ -92,10 +94,10 @@ public class Controller {
 		return id;
 
 	}
-
+	
 	
 	// USUARIO DOADOR
-	
+
 	
 	/**
 	 * Metodo que adiciona um usuario doador. estes so podem realizar enviar itens.
@@ -266,7 +268,7 @@ public class Controller {
 
 	
 	// DESCRITORES
-
+	
 	
 	/**
 	 * Adiciona descritor ao sistema.
@@ -274,14 +276,14 @@ public class Controller {
 	 * @param descritor
 	 */
 	public void adicionaDescritor(String descritor) {
-		
+
 		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
-		
+
 		String descritorFormatado = this.formataString(descritor);
 		this.descritorCadastrado(descritor);
 
-		this.descritores.put(descritorFormatado, new Descritor(descritorFormatado));
+		this.descritores.put(descritorFormatado, new Descritor(descritor.toLowerCase()));
 	}
 
 	/**
@@ -296,7 +298,7 @@ public class Controller {
 
 	
 	// ITEM DOACAO
-	
+
 	
 	/**
 	 * Verifica se o item a ser cadastro existe nos descritores e apos cadastrar
@@ -312,8 +314,44 @@ public class Controller {
 		this.idInvalido(id);
 		this.usuarioInexistente(id);
 		this.validaDescritor(descritor);
+		
+		if (this.usuarios.get(id).validaItem(descritor, tags) != null)
+			return this.itemJaCadastrado(id, descritor, qtd, tags);
 
-		return this.usuarios.get(id).adicionaItemDoacao(descritor, qtd, tags);
+		Integer idUnico = idItem;
+		this.usuarios.get(id).adicionaItemDoacao(descritor, qtd, tags, idUnico);
+		this.adicionaQtdDescritor(descritor, qtd);
+		this.idItem += 1;
+
+		return idUnico;
+	}
+	
+	/**
+	 * Se o item ja tiver sido cadastrado, cadastra o item acima do que já existe.
+	 * 
+	 * @param id
+	 * @param descritor
+	 * @param qtd
+	 * @param tags
+	 * @return
+	 */
+	private Integer itemJaCadastrado(String id, String descritor, int qtd, String tags) {
+		Integer idUnico = this.usuarios.get(id).validaItem(descritor, tags);
+		this.usuarios.get(id).adicionaItemDoacao(descritor, qtd, tags, idUnico);
+		this.adicionaQtdDescritor(descritor, qtd);
+		
+		return idUnico;
+	}
+
+	/**
+	 * Adiciona a quantidade de itens no sistema ao seu descritor.
+	 * 
+	 * @param descritor
+	 * @param qtd
+	 */
+	private void adicionaQtdDescritor(String descritor, int qtd) {
+		String descritorFormatado = this.formataString(descritor);
+		this.descritores.get(descritorFormatado).setQtdItens(qtd);
 	}
 
 	/**
@@ -323,14 +361,13 @@ public class Controller {
 	 * @param descritor
 	 */
 	private void validaDescritor(String descritor) {
-		
 		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
-		
+
 		String descritorFormatado = this.formataString(descritor);
 
 		if (!this.descritores.containsKey(descritorFormatado))
-			this.descritores.put(descritorFormatado, new Descritor(descritorFormatado));
+			this.descritores.put(descritorFormatado, new Descritor(descritor.toLowerCase()));
 	}
 
 	/**
@@ -346,7 +383,6 @@ public class Controller {
 		return this.usuarios.get(id).exibeItem(idItem);
 	}
 
-
 	/**
 	 * Remove um item de um determinado doador.
 	 * 
@@ -356,12 +392,13 @@ public class Controller {
 	public void removeItemParaDoacao(Integer idItem, String id) {
 		this.idInvalido(id);
 		this.usuarioInexistente(id);
-		
+
 		this.usuarios.get(id).removeItem(idItem);
 	}
 
 	/**
-	 * Atualiza a quantidade de itens e as suas tags de um determinado item.
+	 * Atualiza a quantidade de itens e as suas tags de um determinado item, e
+	 * atualiza o quantidade de itens gerais no seu descritor.
 	 * 
 	 * @param idItem
 	 * @param id
@@ -372,9 +409,33 @@ public class Controller {
 	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
 		this.idInvalido(id);
 		this.usuarioInexistente(id);
-		
-		return this.usuarios.get(id).atualizaItem(idItem, qtd, tags);
-		
+
+		String itemAtualizado = this.usuarios.get(id).atualizaItem(idItem, qtd, tags);
+		String descritor = this.usuarios.get(id).nomeItem(idItem);
+
+		if (qtd > 0)
+			this.adicionaQtdDescritor(descritor, qtd);
+
+		return itemAtualizado;
+
+	}
+
+	/**
+	 * Imprimi os descritores com os seus respectivos nomes e quantidades.
+	 * 
+	 * @return
+	 */
+	public String listaDescritorDeItensParaDoacao() {
+		List<Descritor> listaDescritores = new ArrayList<>();
+		listaDescritores.addAll(this.descritores.values());
+
+		Collections.sort(listaDescritores);
+		String lista = "";
+		for (Descritor descritor : listaDescritores) {
+			lista += descritor.toString() + " | ";
+		}
+
+		return lista.substring(0, lista.length() - 3);
 	}
 
 	/**
@@ -385,7 +446,6 @@ public class Controller {
 	 */
 	private String formataString(String string) {
 		return string.replace(" ", "").toLowerCase();
-	
 	}
 
 }

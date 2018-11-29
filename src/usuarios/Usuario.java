@@ -1,5 +1,7 @@
 package usuarios;
 
+import java.util.Arrays;
+
 /**
  * Classe abstrata que representa um Usuario do sistema de doacoes, podendo ser
  * Receptor ou Doador.
@@ -71,6 +73,14 @@ public abstract class Usuario implements Comparable<Usuario> {
 
 		throw new IllegalArgumentException("Entrada invalida: opcao de classe invalida.");
 	}
+	
+	public Integer validaItem(String descricao, String tag) {
+		return null;
+	}
+	
+	public String nomeItem(Integer id) {
+		return null;
+	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -100,9 +110,6 @@ public abstract class Usuario implements Comparable<Usuario> {
 		return this.id;
 	}
 
-	public String getClasse() {
-		return this.classe;
-	}
 
 	/**
 	 * Esse metodo deve ser sobscrito nos doadores, pois ira cadastrar todos os
@@ -112,9 +119,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 	 * @param qtd
 	 * @param tags
 	 */
-	public Integer adicionaItemDoacao(String descritor, int qtd, String tags) {
-		return null;
-	}
+	public void adicionaItemDoacao(String descritor, int qtd, String tags, Integer id) {}
 
 	/**
 	 * Esse metodo deve ser sobscrevido pelo metodo de doador que exibe um item
@@ -148,12 +153,17 @@ public abstract class Usuario implements Comparable<Usuario> {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Usuario) {
-			Usuario outroUsuario = (Usuario) obj;
-			return this.id.equals(outroUsuario.getId());
-		}
-		return false;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((celular == null) ? 0 : celular.hashCode());
+		result = prime * result + ((classe == null) ? 0 : classe.hashCode());
+		result = prime * result + Arrays.hashCode(classes);
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
 	}
 
 	@Override
@@ -171,5 +181,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 		return this.id.compareTo(outroUsuario.getId());
 
 	}
+	
+	
 
 }

@@ -13,7 +13,8 @@ import easyaccept.EasyAccept;
 public class Facade {
 
 	public static void main(String[] args) {
-		args = new String[] { "sistema.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt" };
+		args = new String[] { "sistema.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
+				"acceptance_test/use_case_3.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -54,19 +55,23 @@ public class Facade {
 	public Integer adicionaItemParaDoacao(String idDoador, String descritor, int qtd, String tags) {
 		return this.controller.adicionaItemParaDoacao(idDoador, descritor, qtd, tags);
 	}
-	
+
 	public String exibeItem(Integer idItem, String id) {
 		return this.controller.exibeItem(idItem, id);
 	}
-	
+
 	public void removeItemParaDoacao(Integer idItem, String id) {
 		this.controller.removeItemParaDoacao(idItem, id);
 	}
-	
+
 	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
 		return this.controller.atualizaItemParaDoacao(idItem, id, qtd, tags);
 	}
 
 	// CASE3
-	
+
+	public String listaDescritorDeItensParaDoacao() {
+		return this.controller.listaDescritorDeItensParaDoacao();
+	}
+
 }
