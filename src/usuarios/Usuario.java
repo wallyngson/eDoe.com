@@ -1,6 +1,7 @@
 package usuarios;
 
 import java.util.Arrays;
+import java.util.List;
 
 import itens.Item;
 
@@ -139,6 +140,10 @@ public abstract class Usuario implements Comparable<Usuario> {
 	public void removeItem(Integer idItem) {}
 	
 	public void validaItem(Integer idItem) {}
+	
+	public List<Item> retornaItens() {
+		return null;
+	}
 	
 	@Override
 	public int hashCode() {

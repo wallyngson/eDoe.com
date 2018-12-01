@@ -1,6 +1,8 @@
 package usuarios;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import itens.Item;
@@ -37,7 +39,6 @@ public class Doador extends Usuario {
 	 */
 	@Override
 	public void adicionaItemDoacao(Integer idItem, Item item) {
-		this.itens.remove(idItem);
 		this.itens.put(idItem, item);
 	}
 	
@@ -82,6 +83,14 @@ public class Doador extends Usuario {
 	private void semItensCadastrados() {
 		if (this.itens.size() == 0)
 			throw new IllegalArgumentException("O Usuario nao possui itens cadastrados.");
+	}
+	
+	@Override
+	public List<Item> retornaItens() {
+		List<Item> itensDoUsuario = new ArrayList<>();
+		itensDoUsuario.addAll(this.itens.values());
+		
+		return itensDoUsuario;
 	}
 	
 	@Override

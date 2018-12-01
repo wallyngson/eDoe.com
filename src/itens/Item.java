@@ -37,11 +37,13 @@ public class Item implements Comparable<Item>{
 		return this.nome + " - " + Arrays.toString(tags);
 	}
 	
-	public void atualizaItem(int qtd, String tags) {
+	public String atualizaItem(int qtd, String tags) {
 		if (qtd == 0)
 			this.tags = tags.split(",");
 		if (tags == null || tags.trim().isEmpty() || qtd > 0)
 			this.qtdItem = qtd;
+		
+		return this.toString();
 	}
 
 	
@@ -55,8 +57,13 @@ public class Item implements Comparable<Item>{
 	}
 
 	@Override
-	public int compareTo(Item arg0) {
-		// TODO Auto-generated method stub
+	public int compareTo(Item other) {
+		if (this.qtdItem < other.qtdItem)
+			return -1;
+		
+		if (this.qtdItem > other.qtdItem)
+			return 1;
+		
 		return 0;
 	}
 

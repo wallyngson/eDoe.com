@@ -73,5 +73,9 @@ public class Facade {
 	public String listaDescritorDeItensParaDoacao() {
 		return this.controller.listaDescritorDeItensParaDoacao();
 	}
+	
+//	public String listaItensParaDoacao() {
+//		return this.controller.listaItensParaDoacao();
+//	}
 
 }

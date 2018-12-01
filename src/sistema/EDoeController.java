@@ -319,12 +319,11 @@ public class EDoeController {
 		this.usuarioInexistente(id);
 		this.validaDescritor(descritor);
 		
-		if (this.itemCadastrado(descritor, tags) == null) 
-			return adicionaItem(idItem, id, descritor, qtd, tags);
+		if (this.itemCadastrado(descritor, tags) != null)
+			return this.adicionaItem(this.itemCadastrado(descritor, tags), id, descritor, qtd, tags);
 		
-		return this.adicionaItem(this.itemCadastrado(descritor, tags), id, descritor, qtd, tags);
+		return adicionaItem(idItem, id, descritor, qtd, tags);
 	}
-
 
 	/**
 	 * Adiciona um item ao Mapa de itens.
@@ -336,13 +335,13 @@ public class EDoeController {
 	 * @param tags
 	 * @return
 	 */
-	private Integer adicionaItem(Integer idItem, String id, String descritor, int qtd, String tags) {
-		this.itens.put(idItem, new Item(descritor, qtd, tags, idItem));
-		this.usuarios.get(id).adicionaItemDoacao(idItem, this.itens.get(idItem));
+	private Integer adicionaItem(Integer idUnico, String id, String descritor, int qtd, String tags) {
+		this.itens.put(idUnico, new Item(descritor, qtd, tags, idUnico));
+		this.usuarios.get(id).adicionaItemDoacao(idUnico, this.itens.get(idUnico));
 		this.adicionaQtdDescritor(descritor, qtd);
 		this.idItem += 1;
 			
-		return idItem;
+		return idUnico;
 	}
 	
 	/**
@@ -357,13 +356,12 @@ public class EDoeController {
 		listaItens.addAll(this.itens.values());
 		
 		for (Item item : listaItens) {
-			if (this.formataItem(descritor, tag).equals(item.descricaoCompleta()))
+			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)))
 				return item.getIdItem();
 		}
 		
 		return null;
 	}
-	
 	
 	/**
 	 * Formata a String recebida para comparacao com o item cadastrado.
@@ -375,7 +373,7 @@ public class EDoeController {
 	private String formataItem(String descritor, String tag) {
 		String[] tags = tag.split(",");
 		
-		return descritor + " " + Arrays.toString(tags);
+		return descritor + " - " + Arrays.toString(tags);
 	}
 	
 	/**
@@ -447,28 +445,14 @@ public class EDoeController {
 		this.usuarioInexistente(id);
 		this.usuarios.get(id).validaItem(idItem);
 
-		this.itens.get(idItem).atualizaItem(qtd, tags);
-		
+		String item = this.itens.get(idItem).atualizaItem(qtd, tags);
 		String descritor = this.itens.get(idItem).getNome();
 		
 		if (qtd > 0)
 			this.adicionaQtdDescritor(descritor, qtd);
 
-		return this.itens.get(idItem).toString();
-
+		return item;
 	}
-	
-//	/**
-//	 * Verifica se o item nao esta cadastrado no sistema.
-//	 * 
-//	 * @param idItem
-//	 */
-//	private void validaItem(Integer idItem) {
-//		if (idItem < 0)
-//			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
-//		if (this.itens.get(idItem) == null)
-//			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
-//	}
 
 	/**
 	 * Imprimi os descritores com os seus respectivos nomes e quantidades.
