@@ -15,6 +15,7 @@ import itens.Descritor;
 import usuarios.Doador;
 import usuarios.Receptor;
 import usuarios.Usuario;
+import util.Validador;
 
 /**
  * Classe que reprensenta um sistema de doacao, onde existem doadores e
@@ -30,7 +31,9 @@ public class EDoeController {
 	private Map<Integer, Item> itens;
 	private Scanner sc;
 	private Integer idItem = 1;
-
+	
+	private Validador validador = new Validador();
+	
 	public EDoeController() {
 		this.usuarios = new HashMap<>();
 		this.descritores = new HashMap<>();
@@ -87,7 +90,7 @@ public class EDoeController {
 	 */
 
 	private String adicionaReceptor(String id, String nome, String email, String celular, String classe) {
-		this.idInvalido(id);
+		this.validador.idInvalido(id);
 
 		if (this.usuarios.containsKey(id)) {
 			this.atualizaUsuario(id, nome, email, celular);
@@ -115,8 +118,8 @@ public class EDoeController {
 	 * @return Id do doador;
 	 */
 	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
-		this.idInvalido(id);
-		this.validaUsuario(id);
+		this.validador.idInvalido(id);
+		this.validador.validaUsuario(id, usuarios);
 
 		Usuario doador = new Doador(id, nome, email, celular, classe);
 		this.usuarios.put(id, doador);
@@ -135,8 +138,8 @@ public class EDoeController {
 	 */
 
 	public String pesquisaUsuarioPorId(String id) {
-		this.idInvalido(id);
-		this.usuarioInexistente(id);
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
 
 		String representacao = "";
 		if (this.usuarios.containsKey(id)) {
@@ -144,26 +147,6 @@ public class EDoeController {
 		}
 
 		return representacao;
-	}
-
-	/**
-	 * Verifica se o usuario existe no sistema.
-	 * 
-	 * @param id
-	 */
-	private void validaUsuario(String id) {
-		if (this.usuarios.containsKey(id))
-			throw new IllegalArgumentException("Usuario ja existente: " + id + ".");
-	}
-
-	/**
-	 * Verifica se o usuario nao existe no sistema.
-	 * 
-	 * @param id
-	 */
-	private void usuarioInexistente(String id) {
-		if (!this.usuarios.containsKey(id))
-			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 	}
 
 	/**
@@ -181,7 +164,7 @@ public class EDoeController {
 	 */
 
 	public String pesquisaUsuarioPorNome(String nome) {
-		this.nomeInvalido(nome);
+		this.validador.nomeInvalido(nome);
 
 		ArrayList<Usuario> listaAuxiliarDeUsuarios = new ArrayList<>();
 		listaAuxiliarDeUsuarios.addAll(this.usuarios.values());
@@ -220,8 +203,8 @@ public class EDoeController {
 	 *         atualizacoes ja implementadas
 	 */
 	public String atualizaUsuario(String id, String nome, String email, String celular) {
-		this.idInvalido(id);
-		this.usuarioInexistente(id);
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
 
 		if (!(nome == null) && !(nome.trim().isEmpty()))
 			this.usuarios.get(id).setNome(nome);
@@ -243,31 +226,11 @@ public class EDoeController {
 	 * @return true se a remocao acontecer com sucesso.
 	 */
 	public boolean removeUsuario(String id) {
-		this.idInvalido(id);
-		this.usuarioInexistente(id);
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
 
 		this.usuarios.remove(id);
 		return true;
-	}
-
-	/**
-	 * Verifica se o Id passador por parametro eh invalido.
-	 * 
-	 * @param id
-	 */
-	private void idInvalido(String id) {
-		if (id == null || id.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
-	}
-
-	/**
-	 * Verifica se o nome eh invalido.
-	 * 
-	 * @param nome
-	 */
-	private void nomeInvalido(String nome) {
-		if (nome == null || nome.trim().equals(""))
-			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 	}
 
 	
@@ -280,25 +243,13 @@ public class EDoeController {
 	 * @param descritor
 	 */
 	public void adicionaDescritor(String descritor) {
-
-		if (descritor == null || descritor.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
+		this.validador.descritorInvaido(descritor);
+		this.validador.descritorCadastrado(descritor, descritores);
 
 		String descritorFormatado = this.formataString(descritor);
-		this.descritorCadastrado(descritor);
-
 		this.descritores.put(descritorFormatado, new Descritor(descritor.toLowerCase()));
 	}
 
-	/**
-	 * Verifica se o descritor ja esta cadastrado.
-	 * 
-	 * @param descritor
-	 */
-	private void descritorCadastrado(String descritor) {
-		if (this.descritores.containsKey(this.formataString(descritor)))
-			throw new IllegalArgumentException("Descritor de Item ja existente: " + descritor.toLowerCase() + ".");
-	}
 
 	
 	// ITEM DOACAO
@@ -315,8 +266,9 @@ public class EDoeController {
 	 * @return
 	 */
 	public Integer adicionaItemParaDoacao(String id, String descritor, int qtd, String tags) {
-		this.idInvalido(id);
-		this.usuarioInexistente(id);
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
+		this.validador.descritorInvaido(descritor);
 		this.validaDescritor(descritor);
 		
 		if (this.itemCadastrado(descritor, tags) != null)
@@ -394,9 +346,6 @@ public class EDoeController {
 	 * @param descritor
 	 */
 	private void validaDescritor(String descritor) {
-		if (descritor == null || descritor.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
-
 		String descritorFormatado = this.formataString(descritor);
 
 		if (!this.descritores.containsKey(descritorFormatado))
@@ -411,7 +360,7 @@ public class EDoeController {
 	 * @return
 	 */
 	public String exibeItem(Integer idItem, String id) {
-		this.usuarioInexistente(id);
+		this.validador.usuarioInexistente(id, usuarios);
 
 		return this.usuarios.get(id).exibeItem(idItem);
 	}
@@ -423,8 +372,8 @@ public class EDoeController {
 	 * @param id
 	 */
 	public void removeItemParaDoacao(Integer idItem, String id) {
-		this.idInvalido(id);
-		this.usuarioInexistente(id);
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
 
 		this.itens.get(idItem);
 		this.usuarios.get(id).removeItem(idItem);
@@ -441,8 +390,8 @@ public class EDoeController {
 	 * @return
 	 */
 	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
-		this.idInvalido(id);
-		this.usuarioInexistente(id);
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
 		this.usuarios.get(id).validaItem(idItem);
 
 		String item = this.itens.get(idItem).atualizaItem(qtd, tags);

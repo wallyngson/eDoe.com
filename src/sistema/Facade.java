@@ -2,6 +2,7 @@ package sistema;
 
 import java.io.IOException;
 import easyaccept.EasyAccept;
+import sistema.EDoeController;
 
 /**
  * Classe de fachada que apenas recebe os metotos e chama os do controller.
@@ -74,8 +75,4 @@ public class Facade {
 		return this.controller.listaDescritorDeItensParaDoacao();
 	}
 	
-//	public String listaItensParaDoacao() {
-//		return this.controller.listaItensParaDoacao();
-//	}
-
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import itens.Item;
+import util.Validador;
 
 /**
  * Classe que representa um doador.
@@ -16,6 +17,7 @@ import itens.Item;
 public class Doador extends Usuario {
 	
 	private Map<Integer, Item> itens;
+	private Validador validador = new Validador();
 
 	/**
 	 * Construtor do Doador.
@@ -47,22 +49,16 @@ public class Doador extends Usuario {
 	 */
 	@Override
 	public String exibeItem(Integer idItem) {
-		this.validaItem(idItem);
+		this.validador.validaItem(idItem, itens);
 		
 		return this.itens.get(idItem).toString();
 	}
 	
-	/**
-	 * Verifica se o item nao esta cadastrado no doador.
-	 * 
-	 * @param idItem
-	 */
+	@Override
 	public void validaItem(Integer idItem) {
-		if (idItem < 0)
-			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
-		if (this.itens.get(idItem) == null)
-			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
+		this.validador.validaItem(idItem, itens);
 	}
+	
 
 	/**
 	 * Remove um item passado por parametro do usuario doador.
@@ -71,18 +67,10 @@ public class Doador extends Usuario {
 	 */
 	@Override
 	public void removeItem(Integer idItem) {
-		this.semItensCadastrados();
-		this.validaItem(idItem);
+		this.validador.semItensCadastrados(itens);
+		this.validador.validaItem(idItem, itens);
 		
 		this.itens.remove(idItem);
-	}
-	
-	/**
-	 * Verifica se nao existe nenhum item cadastrado no doador.
-	 */
-	private void semItensCadastrados() {
-		if (this.itens.size() == 0)
-			throw new IllegalArgumentException("O Usuario nao possui itens cadastrados.");
 	}
 	
 	@Override

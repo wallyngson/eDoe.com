@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import itens.Item;
+import util.Validador;
 
 /**
  * Classe abstrata que representa um Usuario do sistema de doacoes, podendo ser
@@ -18,6 +19,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 			"ORGAO_PUBLICO_FEDERAL", "ONG", "ASSOCIACAO", "SOCIEDADE" };
 
 	private String id, nome, email, celular, classe, status;
+	private Validador validador = new Validador();
 
 	/**
 	 * Construtor da classe Usuario.
@@ -30,7 +32,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 	 * 
 	 */
 	public Usuario(String id, String nome, String email, String celular, String classe) {
-		this.parametrosInvalidos(id, nome, email, celular, classe);
+		this.validador.parametrosUsuarioInvalidos(id, nome, email, celular, classe, classes);
 
 		this.id = id;
 		this.nome = nome;
@@ -40,43 +42,6 @@ public abstract class Usuario implements Comparable<Usuario> {
 		this.status = getStatus();
 	}
 
-	/**
-	 * Metodo que verifica se todos os parametros sao validos.
-	 * 
-	 * @param id
-	 * @param nome
-	 * @param email
-	 * @param celular
-	 * @param classe
-	 */
-	private void parametrosInvalidos(String id, String nome, String email, String celular, String classe) {
-		if (nome == null || nome.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
-		if (email == null || email.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: email nao pode ser vazio ou nulo.");
-		if (celular == null || celular.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: celular nao pode ser vazio ou nulo.");
-		this.validaClasse(classe);
-	}
-
-	/**
-	 * Valida se a classe do usuario eh valida.
-	 * 
-	 * @param classe
-	 * @return
-	 */
-	private Boolean validaClasse(String classe) {
-		if (classe == null || classe.trim().isEmpty())
-			throw new IllegalArgumentException("Entrada invalida: classe nao pode ser vazia ou nula.");
-
-		for (int i = 0; i < classes.length; i++) {
-			if (classe.equals(classes[i]))
-				return true;
-		}
-
-		throw new IllegalArgumentException("Entrada invalida: opcao de classe invalida.");
-	}
-	
 	public String nomeItem(Integer id) {
 		return null;
 	}
@@ -162,7 +127,6 @@ public abstract class Usuario implements Comparable<Usuario> {
 	@Override
 	public String toString() {
 		return this.nome + "/" + this.id + ", " + this.email + ", " + this.celular + ", " + "status: " + this.status;
-
 	}
 
 	/**
@@ -172,9 +136,6 @@ public abstract class Usuario implements Comparable<Usuario> {
 	@Override
 	public int compareTo(Usuario outroUsuario) {
 		return this.id.compareTo(outroUsuario.getId());
-
 	}
-	
-	
 
 }

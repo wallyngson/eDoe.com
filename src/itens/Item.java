@@ -1,6 +1,7 @@
 package itens;
 
 import java.util.Arrays;
+import util.Validador;
 
 public class Item implements Comparable<Item>{
 
@@ -8,9 +9,11 @@ public class Item implements Comparable<Item>{
 	private String[] tags;
 	private Integer idItem;
 	private int qtdItem;
+	
+	private Validador validador = new Validador();
 
 	public Item(String nome, int qtd, String tags, Integer idItem) {
-		this.parametrosInvalidos(tags, qtd);
+		this.validador.quatidadeInvalida(qtd);
 
 		this.nome = nome;
 		this.tags = tags.split(",");
@@ -18,17 +21,6 @@ public class Item implements Comparable<Item>{
 		this.idItem = idItem;
 	}
 
-	/**
-	 * Verifica se algum dos parametros passados sao nulos ou invalidos.
-	 * 
-	 * @param tags
-	 * @param qtd
-	 */
-	private void parametrosInvalidos(String tags, int qtd) {
-		if (qtd <= 0)
-			throw new IllegalArgumentException("Entrada invalida: quantidade deve ser maior que zero.");
-	}
-	
 	public int getIdItem() {
 		return this.idItem;
 	}
@@ -37,6 +29,13 @@ public class Item implements Comparable<Item>{
 		return this.nome + " - " + Arrays.toString(tags);
 	}
 	
+	/**
+	 * Metodo responsavel por atualizar os valores do item a ser mudado,
+	 * 
+	 * @param qtd
+	 * @param tags
+	 * @return
+	 */
 	public String atualizaItem(int qtd, String tags) {
 		if (qtd == 0)
 			this.tags = tags.split(",");
