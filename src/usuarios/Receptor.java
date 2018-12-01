@@ -1,5 +1,6 @@
 package usuarios;
 
+
 /**
  * Classe que representa um Receptor de Doacoes.
  * 

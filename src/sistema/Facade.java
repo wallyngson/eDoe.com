@@ -18,7 +18,7 @@ public class Facade {
 		EasyAccept.main(args);
 	}
 
-	Controller controller = new Controller();
+	EDoeController controller = new EDoeController();
 
 	// CASE1
 

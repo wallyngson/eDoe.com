@@ -3,12 +3,14 @@ package sistema;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import itens.Item;
 import itens.Descritor;
 import usuarios.Doador;
 import usuarios.Receptor;
@@ -21,16 +23,18 @@ import usuarios.Usuario;
  * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
-public class Controller {
+public class EDoeController {
 
 	private Map<String, Usuario> usuarios;
 	private Map<String, Descritor> descritores;
+	private Map<Integer, Item> itens;
 	private Scanner sc;
 	private Integer idItem = 1;
 
-	public Controller() {
+	public EDoeController() {
 		this.usuarios = new HashMap<>();
 		this.descritores = new HashMap<>();
+		this.itens = new HashMap<>();
 	}
 	
 	
@@ -315,34 +319,65 @@ public class Controller {
 		this.usuarioInexistente(id);
 		this.validaDescritor(descritor);
 		
-		if (this.usuarios.get(id).validaItem(descritor, tags) != null)
-			return this.itemJaCadastrado(id, descritor, qtd, tags);
-
-		Integer idUnico = idItem;
-		this.usuarios.get(id).adicionaItemDoacao(descritor, qtd, tags, idUnico);
-		this.adicionaQtdDescritor(descritor, qtd);
-		this.idItem += 1;
-
-		return idUnico;
+		if (this.itemCadastrado(descritor, tags) == null) 
+			return adicionaItem(idItem, id, descritor, qtd, tags);
+		
+		return this.adicionaItem(this.itemCadastrado(descritor, tags), id, descritor, qtd, tags);
 	}
-	
+
+
 	/**
-	 * Se o item ja tiver sido cadastrado, cadastra o item acima do que já existe.
+	 * Adiciona um item ao Mapa de itens.
 	 * 
+	 * @param idItem
 	 * @param id
 	 * @param descritor
 	 * @param qtd
 	 * @param tags
 	 * @return
 	 */
-	private Integer itemJaCadastrado(String id, String descritor, int qtd, String tags) {
-		Integer idUnico = this.usuarios.get(id).validaItem(descritor, tags);
-		this.usuarios.get(id).adicionaItemDoacao(descritor, qtd, tags, idUnico);
+	private Integer adicionaItem(Integer idItem, String id, String descritor, int qtd, String tags) {
+		this.itens.put(idItem, new Item(descritor, qtd, tags, idItem));
+		this.usuarios.get(id).adicionaItemDoacao(idItem, this.itens.get(idItem));
 		this.adicionaQtdDescritor(descritor, qtd);
-		
-		return idUnico;
+		this.idItem += 1;
+			
+		return idItem;
 	}
-
+	
+	/**
+	 * Verifica se o item ja esta cadastrado se ja estiver retorna seu id.
+	 * 
+	 * @param descritor
+	 * @param tag
+	 * @return
+	 */
+	private Integer itemCadastrado(String descritor, String tag) {
+		List<Item> listaItens = new ArrayList<>();
+		listaItens.addAll(this.itens.values());
+		
+		for (Item item : listaItens) {
+			if (this.formataItem(descritor, tag).equals(item.descricaoCompleta()))
+				return item.getIdItem();
+		}
+		
+		return null;
+	}
+	
+	
+	/**
+	 * Formata a String recebida para comparacao com o item cadastrado.
+	 * 
+	 * @param descritor
+	 * @param tag
+	 * @return
+	 */
+	private String formataItem(String descritor, String tag) {
+		String[] tags = tag.split(",");
+		
+		return descritor + " " + Arrays.toString(tags);
+	}
+	
 	/**
 	 * Adiciona a quantidade de itens no sistema ao seu descritor.
 	 * 
@@ -393,6 +428,7 @@ public class Controller {
 		this.idInvalido(id);
 		this.usuarioInexistente(id);
 
+		this.itens.get(idItem);
 		this.usuarios.get(id).removeItem(idItem);
 	}
 
@@ -409,16 +445,30 @@ public class Controller {
 	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
 		this.idInvalido(id);
 		this.usuarioInexistente(id);
+		this.usuarios.get(id).validaItem(idItem);
 
-		String itemAtualizado = this.usuarios.get(id).atualizaItem(idItem, qtd, tags);
-		String descritor = this.usuarios.get(id).nomeItem(idItem);
-
+		this.itens.get(idItem).atualizaItem(qtd, tags);
+		
+		String descritor = this.itens.get(idItem).getNome();
+		
 		if (qtd > 0)
 			this.adicionaQtdDescritor(descritor, qtd);
 
-		return itemAtualizado;
+		return this.itens.get(idItem).toString();
 
 	}
+	
+//	/**
+//	 * Verifica se o item nao esta cadastrado no sistema.
+//	 * 
+//	 * @param idItem
+//	 */
+//	private void validaItem(Integer idItem) {
+//		if (idItem < 0)
+//			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
+//		if (this.itens.get(idItem) == null)
+//			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
+//	}
 
 	/**
 	 * Imprimi os descritores com os seus respectivos nomes e quantidades.

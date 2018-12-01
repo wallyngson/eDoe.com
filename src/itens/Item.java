@@ -6,8 +6,8 @@ public class Item implements Comparable<Item>{
 
 	private String nome;
 	private String[] tags;
-	private int qtdItem;
 	private Integer idItem;
+	private int qtdItem;
 
 	public Item(String nome, int qtd, String tags, Integer idItem) {
 		this.parametrosInvalidos(tags, qtd);
@@ -29,21 +29,21 @@ public class Item implements Comparable<Item>{
 			throw new IllegalArgumentException("Entrada invalida: quantidade deve ser maior que zero.");
 	}
 	
-	public void setQtdItens(int qtd) {
-		this.qtdItem = qtd;
-	}
-	
 	public int getIdItem() {
 		return this.idItem;
-	}
-	
-	public void setTags(String tags) {
-		this.tags = tags.split(",");
 	}
 	
 	public String descricaoCompleta() {
 		return this.nome + " - " + Arrays.toString(tags);
 	}
+	
+	public void atualizaItem(int qtd, String tags) {
+		if (qtd == 0)
+			this.tags = tags.split(",");
+		if (tags == null || tags.trim().isEmpty() || qtd > 0)
+			this.qtdItem = qtd;
+	}
+
 	
 	public String getNome() {
 		return this.nome;

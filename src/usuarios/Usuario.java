@@ -2,6 +2,8 @@ package usuarios;
 
 import java.util.Arrays;
 
+import itens.Item;
+
 /**
  * Classe abstrata que representa um Usuario do sistema de doacoes, podendo ser
  * Receptor ou Doador.
@@ -74,10 +76,6 @@ public abstract class Usuario implements Comparable<Usuario> {
 		throw new IllegalArgumentException("Entrada invalida: opcao de classe invalida.");
 	}
 	
-	public Integer validaItem(String descricao, String tag) {
-		return null;
-	}
-	
 	public String nomeItem(Integer id) {
 		return null;
 	}
@@ -119,7 +117,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 	 * @param qtd
 	 * @param tags
 	 */
-	public void adicionaItemDoacao(String descritor, int qtd, String tags, Integer id) {}
+	public void adicionaItemDoacao(Integer idItem, Item item) {}
 
 	/**
 	 * Esse metodo deve ser sobscrevido pelo metodo de doador que exibe um item
@@ -140,17 +138,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 	 */
 	public void removeItem(Integer idItem) {}
 	
-	/**
-	 * Metodo que deve retornar o item atualizado, sobscrito pelo metodo do doador.
-	 * 
-	 * @param idItem
-	 * @param qtd
-	 * @param tags
-	 * @return
-	 */
-	public String atualizaItem(Integer idItem, int qtd, String tags) {
-		return null;
-	}
+	public void validaItem(Integer idItem) {}
 	
 	@Override
 	public int hashCode() {

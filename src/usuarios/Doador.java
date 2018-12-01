@@ -1,9 +1,6 @@
 package usuarios;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import itens.Item;
@@ -36,37 +33,13 @@ public class Doador extends Usuario {
 	}
 
 	/**
-	 * Sobscreve o metodo que esta em usuario, adicionando um item ao doador.
+	 * Sobscreve o metodo que esta em usuario, adicionando um item passado por parametro ao doador.
 	 */
 	@Override
-	public void adicionaItemDoacao(String descritor, int qtd, String tags, Integer idUnico) {
-		this.itens.put(idUnico, new Item(descritor, qtd, tags, idUnico));
-		
+	public void adicionaItemDoacao(Integer idItem, Item item) {
+		this.itens.remove(idItem);
+		this.itens.put(idItem, item);
 	}
-	
-	/**
-	 * Verifica se existe algum item com o mesmo nome e tags cadastrado no doador.
-	 */
-	@Override
-	public Integer validaItem(String descricao, String tag) {
-		List<Item> listaDeItens = new ArrayList<>();
-		listaDeItens.addAll(this.itens.values());
-		
-		String completo = this.montaItem(descricao, tag);
-		
-		for (Item item : listaDeItens) {
-			if (completo.equals(item.descricaoCompleta()))
-				return item.getIdItem();
-		}
-		
-		return null;
-	}
-	
-	private String montaItem(String descricao, String tag) {
-		String[] tags = tag.split(",");
-		return descricao + " - " + Arrays.toString(tags);
-	}
-	
 	
 	/**
 	 * Exibe um item cadastrado no doador.
@@ -83,7 +56,7 @@ public class Doador extends Usuario {
 	 * 
 	 * @param idItem
 	 */
-	private void validaItem(Integer idItem) {
+	public void validaItem(Integer idItem) {
 		if (idItem < 0)
 			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
 		if (this.itens.get(idItem) == null)
@@ -109,31 +82,6 @@ public class Doador extends Usuario {
 	private void semItensCadastrados() {
 		if (this.itens.size() == 0)
 			throw new IllegalArgumentException("O Usuario nao possui itens cadastrados.");
-	}
-	
-	/**
-	 * Atualiza os valores de um item de um doador.
-	 */
-	@Override
-	public String atualizaItem(Integer idItem, int qtd, String tags) {
-		this.validaItem(idItem);
-		this.atualiza(idItem, qtd, tags);
-		
-		return this.itens.get(idItem).toString();
-	}
-
-	/**
-	 * Verifica qual valor do item deve alterar e o altera.
-	 * 
-	 * @param idItem
-	 * @param qtd
-	 * @param tags
-	 */
-	private void atualiza(Integer idItem, int qtd, String tags) {
-		if (qtd == 0)
-			this.itens.get(idItem).setTags(tags);
-		if (tags == null || tags.trim().isEmpty())
-			this.itens.get(idItem).setQtdItens(qtd);
 	}
 	
 	@Override
