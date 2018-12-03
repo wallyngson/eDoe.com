@@ -37,10 +37,10 @@ public class Item implements Comparable<Item>{
 	 * @return
 	 */
 	public String atualizaItem(int qtd, String tags) {
-		if (qtd == 0)
+		if (tags != null && !tags.trim().isEmpty())
 			this.tags = tags.split(",");
-		if (tags == null || tags.trim().isEmpty() || qtd > 0)
-			this.qtdItem = qtd;
+		if (qtd > 0)
+			this.setQtdItem(qtd);
 		
 		return this.toString();
 	}
@@ -48,6 +48,14 @@ public class Item implements Comparable<Item>{
 	
 	public String getNome() {
 		return this.nome;
+	}
+
+	public int getQtdItem() {
+		return qtdItem;
+	}
+
+	public void setQtdItem(int qtdItem) {
+		this.qtdItem = qtdItem;
 	}
 
 	@Override
@@ -58,12 +66,16 @@ public class Item implements Comparable<Item>{
 	@Override
 	public int compareTo(Item other) {
 		if (this.qtdItem < other.qtdItem)
-			return -1;
-		
-		if (this.qtdItem > other.qtdItem)
 			return 1;
 		
-		return 0;
+		if (this.qtdItem > other.qtdItem)
+			return -1;
+		
+		return compareToNome(other);
+	}
+	
+	public int compareToNome(Item i) {
+		return this.getNome().compareTo(i.getNome());
 	}
 
 }

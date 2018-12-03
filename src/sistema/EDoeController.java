@@ -15,6 +15,7 @@ import itens.Descritor;
 import usuarios.Doador;
 import usuarios.Receptor;
 import usuarios.Usuario;
+import util.ComparadorNome;
 import util.Validador;
 
 /**
@@ -427,6 +428,46 @@ public class EDoeController {
 	 * @param string
 	 * @return
 	 */
+	
+	public String listaItensParaDoacao() { 
+		List<Item> listaQtd = new ArrayList<>(); 
+		listaQtd.addAll(this.itens.values());
+		Collections.sort(listaQtd); 
+		String listaFinal = "";
+		/**List<Item> ListaQtd = new ArrayList<>(); 
+		int pos = 0;
+		for(int x = 1;x<listaQtd.size();x++) {
+			if(listaQtd.get(x).getQtdItem() != listaQtd.get(x-1).getQtdItem()) {
+				List<Item> ListaQtd2 = listaQtd.subList(pos,x-1);
+				ListaQtd2.sort(new ComparadorNome());
+				for(Item item : ListaQtd2) {
+					ListaQtd.add(item);
+				}
+				pos = x-1;
+			}
+		}**/
+		for (Item item: listaQtd) { 
+			listaFinal += item.toString() + " | "; 
+			} 
+		return listaFinal.substring(0, listaFinal.length() - 3);
+		
+	}
+	
+	public String pesquisaItemParaDoacaoPorDescricao(String desc){ 
+		this.validador.validaPesquisa(desc); 
+		List<Item> listaQtd = new ArrayList<>(); 
+		listaQtd.addAll(this.itens.values());
+		listaQtd.sort(new ComparadorNome());
+		String listaFinal = "";
+		for (Item item: listaQtd) {
+			if(item.getNome().trim().toLowerCase().contains(desc.toLowerCase().trim())) {
+				listaFinal += item.toString() + " | "; 
+			}
+		} 
+		return listaFinal.substring(0, listaFinal.length() - 3);
+		
+		}
+	
 	private String formataString(String string) {
 		return string.replace(" ", "").toLowerCase();
 	}

@@ -153,5 +153,10 @@ public class Validador {
 		return false;
 		
 	}
+	
+	public void validaPesquisa(String descritor) { 
+		if(descritor == null || descritor.trim().isEmpty()) 
+			throw new IllegalArgumentException("Entrada invalida: texto da pesquisa nao pode ser vazio ou nulo.");
+	}
 
 }

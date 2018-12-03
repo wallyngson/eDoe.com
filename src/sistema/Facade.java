@@ -75,4 +75,13 @@ public class Facade {
 		return this.controller.listaDescritorDeItensParaDoacao();
 	}
 	
+	public String listaItensParaDoacao() { 
+		return this.controller.listaItensParaDoacao();
+	}
+	
+	public String pesquisaItemParaDoacaoPorDescricao(String desc) {
+		return this.controller.pesquisaItemParaDoacaoPorDescricao(desc);
+	}
+
+	
 }
