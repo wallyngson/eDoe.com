@@ -154,6 +154,10 @@ public class Validador {
 		
 	}
 	
+	/**
+	 * Verifica se a string pesquisa está nula ou vazia,  lançando exceção em caso afirmativo.
+	 * @param descritor
+	 */
 	public void validaPesquisa(String descritor) { 
 		if(descritor == null || descritor.trim().isEmpty()) 
 			throw new IllegalArgumentException("Entrada invalida: texto da pesquisa nao pode ser vazio ou nulo.");

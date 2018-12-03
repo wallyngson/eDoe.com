@@ -423,29 +423,16 @@ public class EDoeController {
 	}
 
 	/**
-	 * Tira todos os espacos e deixa tudo minusculo.
+	 * Método que lista os itens de forma ordenada a partir de sua quantidade, e quando ocorrer empate, a partir do seu nome.
 	 * 
-	 * @param string
 	 * @return
 	 */
-	
 	public String listaItensParaDoacao() { 
 		List<Item> listaQtd = new ArrayList<>(); 
 		listaQtd.addAll(this.itens.values());
 		Collections.sort(listaQtd); 
 		String listaFinal = "";
-		/**List<Item> ListaQtd = new ArrayList<>(); 
-		int pos = 0;
-		for(int x = 1;x<listaQtd.size();x++) {
-			if(listaQtd.get(x).getQtdItem() != listaQtd.get(x-1).getQtdItem()) {
-				List<Item> ListaQtd2 = listaQtd.subList(pos,x-1);
-				ListaQtd2.sort(new ComparadorNome());
-				for(Item item : ListaQtd2) {
-					ListaQtd.add(item);
-				}
-				pos = x-1;
-			}
-		}**/
+		
 		for (Item item: listaQtd) { 
 			listaFinal += item.toString() + " | "; 
 			} 
@@ -453,6 +440,12 @@ public class EDoeController {
 		
 	}
 	
+	/**
+	 * Método que exibe uma lista de itens a partir de uma string de pesquisa, ordenada pelo seu nome.
+	 * 
+	 * @param desc
+	 * @return
+	 */
 	public String pesquisaItemParaDoacaoPorDescricao(String desc){ 
 		this.validador.validaPesquisa(desc); 
 		List<Item> listaQtd = new ArrayList<>(); 
@@ -467,6 +460,13 @@ public class EDoeController {
 		return listaFinal.substring(0, listaFinal.length() - 3);
 		
 		}
+	
+	/**
+	 * Tira todos os espacos e deixa tudo minusculo.
+	 * 
+	 * @param string
+	 * @return
+	 */
 	
 	private String formataString(String string) {
 		return string.replace(" ", "").toLowerCase();
