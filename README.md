@@ -1,5 +1,3 @@
-![Alt Text] (https://ibb.co/Fx23VMH)
-
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/ng9mCvP/logo.png" alt="logo" border="0" /></a>
 
 # Projeto da Disciplina de LP2 | eDoe.com
