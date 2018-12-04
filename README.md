@@ -15,4 +15,4 @@
 
 **Testes de Unidade:** JUnit 5 (https://junit.org/junit5/);
 
-**Testes de aceitação:** EasyAccept (http://easyaccept.sourceforge.net/);
+**Testes de Aceitação:** EasyAccept (http://easyaccept.sourceforge.net/);
