@@ -15,7 +15,7 @@ public class Facade {
 
 	public static void main(String[] args) {
 		args = new String[] { "sistema.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
-				"acceptance_test/use_case_3.txt", "acceptance_test/use_case_4.txt" };
+				"acceptance_test/use_case_3.txt", "acceptance_test/use_case_4.txt", "acceptance_test/use_case_5.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -62,7 +62,7 @@ public class Facade {
 	}
 
 	public void removeItemParaDoacao(Integer idItem, String id) {
-		this.controller.removeItemParaDoacao(idItem, id);
+		this.controller.removeItem(idItem, id);
 	}
 
 	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
@@ -74,16 +74,17 @@ public class Facade {
 	public String listaDescritorDeItensParaDoacao() {
 		return this.controller.listaDescritorDeItensParaDoacao();
 	}
-	
+		
 	public String listaItensParaDoacao() { 
 		return this.controller.listaItensParaDoacao();
 	}
-	
+		
 	public String pesquisaItemParaDoacaoPorDescricao(String desc) {
 		return this.controller.pesquisaItemParaDoacaoPorDescricao(desc);
 	}
+		
 	// CASE4
-	
+		
 	public Integer adicionaItemNecessario(String idReceptor, String descritor, int qtd, String tags) {
 		return this.controller.adicionaItemNecessario(idReceptor, descritor, qtd, tags);
 	}
@@ -91,10 +92,15 @@ public class Facade {
 		return this.controller.listaItensNecessarios();
 	}
 	public String atualizaItemNecessario(String IdReceptor, Integer idItem, int qtd, String tags) {
-		return this.controller.atualizaItem(IdReceptor, idItem, qtd, tags);
+		return this.controller.atualizaItem(idItem, IdReceptor, qtd, tags);
 	}
 	public void removeItemNecessario(String id, Integer idItem) {
-		this.controller.removeItemNecessario(id, idItem);
+		this.controller.removeItem(idItem, id);
 	}
-
+		
+	//CASE 5
+		
+	public String match(String idReceptor, Integer idItem) {
+		return this.controller.match(idReceptor, idItem);
+	}
 }

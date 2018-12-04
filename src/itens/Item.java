@@ -11,6 +11,7 @@ public interface Item extends Comparable<Item>{
 	public String getNome();
 
 	public int getQtdItem();
+	public String[] getTags();
 
 	public void setQtdItem(int qtdItem);
 

@@ -6,6 +6,11 @@ import itens.Descritor;
 import itens.Item;
 import usuarios.Usuario;
 
+/**
+ * Classe validadora de estados e parametros
+ * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ *
+ */
 public class Validador {
 	
 	

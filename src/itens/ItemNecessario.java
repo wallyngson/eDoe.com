@@ -4,6 +4,11 @@ import java.util.Arrays;
 
 import util.Validador;
 
+/**
+ * Classe que representa um item necessario, apto a fazer parte da lista de itens necessarios aos receptores
+ * @author  Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ *
+ */
 public class ItemNecessario implements Item {
 	private String nome;
 	private String[] tags;
@@ -12,7 +17,15 @@ public class ItemNecessario implements Item {
 	private String representacaoUsuario;
 	
 	private Validador validador = new Validador();
-
+	
+	/**
+	 * Construtor da classe ItemNecessario
+	 * @param nome
+	 * @param qtd
+	 * @param tags
+	 * @param idItem
+	 * @param representacaoUsuario
+	 */
 	public ItemNecessario(String nome, int qtd, String tags, Integer idItem, String representacaoUsuario) {
 		this.validador.quatidadeInvalida(qtd);
 
@@ -22,14 +35,31 @@ public class ItemNecessario implements Item {
 		this.idItem = idItem;
 		this.representacaoUsuario = representacaoUsuario;
 	}
+	
+	/**
+	 * Metodo que retorna a representacao do usuario que possui esse item
+	 */
 	public String getUsuarioVinculado() {
 		return representacaoUsuario;
 	}
-
+	
+	/**
+	 * Retorna o id do item atual
+	 */
 	public int getIdItem() {
 		return this.idItem;
 	}
 	
+	/**
+	 * Metodo que retorna um array de Strings com as tags
+	 */
+	public String[] getTags() {
+		return this.tags;
+	}
+	
+	/**
+	 * Retorna a descricao completa do item
+	 */
 	public String descricaoCompleta() {
 		return this.nome + " - " + Arrays.toString(tags);
 	}
@@ -50,15 +80,23 @@ public class ItemNecessario implements Item {
 		return this.toString();
 	}
 
-	
+	/**
+	 * Metodo que retorna  o nome do item
+	 */
 	public String getNome() {
 		return this.nome;
 	}
-
+	
+	/**
+	 * Metodo que retorna a quantidade do item
+	 */
 	public int getQtdItem() {
 		return qtdItem;
 	}
-
+	
+	/**
+	 * Metodo que insere a quantidade desse item
+	 */
 	public void setQtdItem(int qtdItem) {
 		this.qtdItem = qtdItem;
 	}

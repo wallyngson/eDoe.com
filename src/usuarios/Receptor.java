@@ -38,14 +38,14 @@ public class Receptor extends Usuario {
 	}
 	
 	/**
-	 * Sobscreve o metodo que esta em usuario, adicionando um item passado por parametro ao doador.
+	 * Sobscreve o metodo que esta em usuario, adicionando um item passado por parametro ao receptor.
 	 */
 	@Override
 	public void adicionaItem(Integer idItem, Item item) {
 		this.itens.put(idItem, item);
 	}
 	/**
-	 * Exibe um item cadastrado no doador.
+	 * Exibe um item cadastrado no receptor.
 	 */
 	@Override
 	public String exibeItem(Integer idItem) {
@@ -53,7 +53,9 @@ public class Receptor extends Usuario {
 		
 		return this.itens.get(idItem).toString();
 	}
-	
+	/**
+	 * Valida um item do receptor
+	 */
 	@Override
 	public void validaItem(Integer idItem) {
 		this.validador.validaItem(idItem, itens);
@@ -73,6 +75,9 @@ public class Receptor extends Usuario {
 		this.itens.remove(idItem);
 	}
 	
+	/**
+	 * Retorna os itens do receptor
+	 */
 	@Override
 	public List<Item> retornaItens() {
 		List<Item> itensDoUsuario = new ArrayList<>();
@@ -81,6 +86,9 @@ public class Receptor extends Usuario {
 		return itensDoUsuario;
 	}
 	
+	/**
+	 * Retorna o nome de algum item vinculado
+	 */
 	@Override
 	public String nomeItem(Integer id) {
 		return this.itens.get(id).getNome();
