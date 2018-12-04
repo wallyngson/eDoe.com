@@ -1,6 +1,7 @@
+![Alt Text] (https://github.com/wallyngson/eDoe.com/blob/master/logo.png)
+
 # Projeto da Disciplina de LP2 | eDoe.com
 **Disciplina: Laboratório de Programação 2 (UFCG, 2018.2)**
-[github]: https://github.com/wallyngson/eDoe.com/blob/master/logo.png "eDoe-logo"
 
         Alunos: Dacio Silva Bezerra
                 Felipe Emanuel de Farias Nunes
