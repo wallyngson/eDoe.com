@@ -1,4 +1,4 @@
-![Alt Text] (https://github.com/wallyngson/eDoe.com/blob/master/logo.png)
+![Alt Text] (https://github.com/wallyngson/eDoe.com/logo.png)
 
 # Projeto da Disciplina de LP2 | eDoe.com
 **Disciplina: Laboratório de Programação 2 (UFCG, 2018.2)**
