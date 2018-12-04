@@ -1,6 +1,6 @@
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/ng9mCvP/logo.png" alt="logo" border="0" /></a>
 
-# Projeto da Disciplina de LP2 | eDoe.com
+# Projeto da Disciplina de LP2 | eDoe.com <a href="https://imgbb.com/"><img src="https://i.ibb.co/ng9mCvP/logo.png" alt="logo" border="0" /></a>
 **Disciplina: Laboratório de Programação 2 (UFCG, 2018.2)**
 
         Alunos: Dacio Silva Bezerra
