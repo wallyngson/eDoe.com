@@ -62,7 +62,7 @@ expectError "Item nao encontrado: "${idItem4}"." exibeItem id=${idItem4} idDoado
 expect ${idItem3}" - cobertor, tags: [lencol, conforto], quantidade: 15" atualizaItemParaDoacao id=${idItem3} idDoador=${id8} quantidade=15 tags=
 expect ${idItem5}" - jaqueta de couro, tags: [outfit, couro de cobra], quantidade: 5" atualizaItemParaDoacao id=${idItem5} idDoador=${id7} quantidade=0 tags="outfit,couro de cobra" 
 expect ${idItem8}" - cadeira de alimentacao, tags: [35kg, infantil], quantidade: 5" atualizaItemParaDoacao id=${idItem8} idDoador=${id4} quantidade=0 tags="35kg,infantil"
-expect ${idItem10}" - computador, tags: [all-in-one], quantidade: 2" atualizaItemParaDoacao id=${idItem10} idDoador=${id9} quantidade=0 tags=all-in-one
+expect ${idItem10}" - computador, tags: [all-in-one], quantidade: 2" atualizaItemParaDoacao id=${idItem10} idDoador=${id9} quantidade=0 tags= 
 
 expectError "Entrada invalida: id do item nao pode ser negativo." atualizaItemParaDoacao id=-1 idDoador=${id8} quantidade=15 tags= 
 expectError "Entrada invalida: id do usuario nao pode ser vazio ou nulo." atualizaItemParaDoacao id=${idItem3} idDoador= quantidade=15 tags=

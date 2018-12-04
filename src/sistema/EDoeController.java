@@ -11,10 +11,13 @@ import java.util.Map;
 import java.util.Scanner;
 
 import itens.Item;
+import itens.ItemDoavel;
+import itens.ItemNecessario;
 import itens.Descritor;
 import usuarios.Doador;
 import usuarios.Receptor;
 import usuarios.Usuario;
+import util.ComparadorId;
 import util.ComparadorNome;
 import util.Validador;
 
@@ -244,7 +247,7 @@ public class EDoeController {
 	 * @param descritor
 	 */
 	public void adicionaDescritor(String descritor) {
-		this.validador.descritorInvaido(descritor);
+		this.validador.descritorInvalido(descritor);
 		this.validador.descritorCadastrado(descritor, descritores);
 
 		String descritorFormatado = this.formataString(descritor);
@@ -269,13 +272,24 @@ public class EDoeController {
 	public Integer adicionaItemParaDoacao(String id, String descritor, int qtd, String tags) {
 		this.validador.idInvalido(id);
 		this.validador.usuarioInexistente(id, usuarios);
-		this.validador.descritorInvaido(descritor);
+		this.validador.descritorInvalido(descritor);
 		this.validaDescritor(descritor);
 		
-		if (this.itemCadastrado(descritor, tags) != null)
-			return this.adicionaItem(this.itemCadastrado(descritor, tags), id, descritor, qtd, tags);
+		if (this.itemDoavelCadastrado(descritor, tags) != null)
+			return this.adicionaItem(this.itemDoavelCadastrado(descritor, tags), id, descritor, qtd, tags, "doacao");
 		
-		return adicionaItem(idItem, id, descritor, qtd, tags);
+		return adicionaItem(idItem, id, descritor, qtd, tags, "doacao");
+	}
+	public Integer adicionaItemNecessario(String id, String descritor, int qtd, String tags) {
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
+		this.validador.descritorInvalido(descritor);
+		this.validaDescritor(descritor);
+		
+		if (this.itemNecessarioCadastrado(descritor, tags) != null)
+			return this.adicionaItem(this.itemNecessarioCadastrado(descritor, tags), id, descritor, qtd, tags, "necessario");
+		
+		return adicionaItem(idItem, id, descritor, qtd, tags, "necessario");
 	}
 
 	/**
@@ -288,9 +302,15 @@ public class EDoeController {
 	 * @param tags
 	 * @return
 	 */
-	private Integer adicionaItem(Integer idUnico, String id, String descritor, int qtd, String tags) {
-		this.itens.put(idUnico, new Item(descritor, qtd, tags, idUnico));
-		this.usuarios.get(id).adicionaItemDoacao(idUnico, this.itens.get(idUnico));
+	private Integer adicionaItem(Integer idUnico, String id, String descritor, int qtd, String tags, String tipo) {
+		String representacaoUsuario = this.usuarios.get(id).getNome() + "/" + this.usuarios.get(id).getId();
+		if(tipo.equals("doacao")) {
+			this.itens.put(idUnico, (Item) new ItemDoavel(descritor, qtd, tags, idUnico, representacaoUsuario));
+			this.usuarios.get(id).adicionaItem(idUnico, this.itens.get(idUnico));
+		}else {
+			this.itens.put(idUnico, (Item) new ItemNecessario(descritor, qtd, tags, idUnico,representacaoUsuario));
+			this.usuarios.get(id).adicionaItem(idUnico, this.itens.get(idUnico));
+		}
 		this.adicionaQtdDescritor(descritor, qtd);
 		this.idItem += 1;
 			
@@ -304,12 +324,23 @@ public class EDoeController {
 	 * @param tag
 	 * @return
 	 */
-	private Integer itemCadastrado(String descritor, String tag) {
+	private Integer itemDoavelCadastrado(String descritor, String tag) {
 		List<Item> listaItens = new ArrayList<>();
 		listaItens.addAll(this.itens.values());
 		
 		for (Item item : listaItens) {
-			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)))
+			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)) && (item instanceof ItemDoavel))
+				return item.getIdItem();
+		}
+		
+		return null;
+	}
+	private Integer itemNecessarioCadastrado(String descritor, String tag) {
+		List<Item> listaItens = new ArrayList<>();
+		listaItens.addAll(this.itens.values());
+		
+		for (Item item : listaItens) {
+			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)) && (item instanceof ItemNecessario))
 				return item.getIdItem();
 		}
 		
@@ -378,6 +409,18 @@ public class EDoeController {
 
 		this.itens.get(idItem);
 		this.usuarios.get(id).removeItem(idItem);
+		adicionaQtdDescritor(itens.get(idItem).getNome(), 0);
+		this.itens.remove(idItem);
+		
+	}
+	public void removeItemNecessario(String id, Integer idItem) {
+		this.validador.idInvalido(id);
+		this.validador.usuarioInexistente(id, usuarios);
+
+		this.itens.get(idItem);
+		this.usuarios.get(id).removeItem(idItem);
+		adicionaQtdDescritor(itens.get(idItem).getNome(), 0);
+		this.itens.remove(idItem);
 	}
 
 	/**
@@ -390,13 +433,26 @@ public class EDoeController {
 	 * @param tags
 	 * @return
 	 */
-	public String atualizaItemParaDoacao(Integer idItem, String id, int qtd, String tags) {
+	public String atualizaItem(Integer idItem, String id, int qtd, String tags) {
 		this.validador.idInvalido(id);
 		this.validador.usuarioInexistente(id, usuarios);
 		this.usuarios.get(id).validaItem(idItem);
 
 		String item = this.itens.get(idItem).atualizaItem(qtd, tags);
 		String descritor = this.itens.get(idItem).getNome();
+		
+		if (qtd > 0)
+			this.adicionaQtdDescritor(descritor, qtd);
+
+		return item;
+	}
+	public String atualizaItem(String idItem, Integer id, int qtd, String tags) {
+		this.validador.idInvalido(idItem);
+		this.validador.usuarioInexistente(idItem, usuarios);
+		this.usuarios.get(idItem).validaItem(id);
+
+		String item = this.itens.get(id).atualizaItem(qtd, tags);
+		String descritor = this.itens.get(id).getNome();
 		
 		if (qtd > 0)
 			this.adicionaQtdDescritor(descritor, qtd);
@@ -427,21 +483,43 @@ public class EDoeController {
 	 * 
 	 * @return
 	 */
+	
 	public String listaItensParaDoacao() { 
-		List<Item> listaQtd = new ArrayList<>(); 
-		listaQtd.addAll(this.itens.values());
+		List<Item> listaQtd = new ArrayList<>();
+		
+		for(Item i : itens.values()) {
+			if(i instanceof ItemDoavel) {
+				listaQtd.add(i);
+			}
+		}
 		Collections.sort(listaQtd); 
 		String listaFinal = "";
 		
 		for (Item item: listaQtd) { 
-			listaFinal += item.toString() + " | "; 
+			listaFinal += item.toString() + ", doador: " + item.getUsuarioVinculado() +  " | "; 
 			} 
 		return listaFinal.substring(0, listaFinal.length() - 3);
 		
 	}
 	
+	public String listaItensNecessarios() { 
+		List<Item> listaQtd = new ArrayList<>();
+		for(Item i : itens.values()) {
+			if(i instanceof ItemNecessario) {
+				listaQtd.add(i);
+			}
+		}
+		Collections.sort(listaQtd, new ComparadorId()); 
+		String listaFinal = "";
+		
+		for (Item item: listaQtd) { 
+			listaFinal += item.toString() + ", Receptor: " + item.getUsuarioVinculado() +  " | "; 
+			} 
+		return listaFinal.substring(0, listaFinal.length() - 3);
+		
+	}
 	/**
-	 * Método que exibe uma lista de itens a partir de uma string de pesquisa, ordenada pelo seu nome.
+	 * Metodo que exibe uma lista de itens a partir de uma string de pesquisa, ordenada pelo seu nome.
 	 * 
 	 * @param desc
 	 * @return

@@ -83,7 +83,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 	 * @param qtd
 	 * @param tags
 	 */
-	public void adicionaItemDoacao(Integer idItem, Item item) {}
+	public void adicionaItem(Integer idItem, Item item) {}
 
 	/**
 	 * Esse metodo deve ser sobscrevido pelo metodo de doador que exibe um item

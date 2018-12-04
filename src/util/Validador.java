@@ -55,7 +55,7 @@ public class Validador {
 	}
 
 
-	public void descritorInvaido(String descritor) {
+	public void descritorInvalido(String descritor) {
 		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
 	}

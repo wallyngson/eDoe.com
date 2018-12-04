@@ -40,7 +40,7 @@ public class Doador extends Usuario {
 	 * Sobscreve o metodo que esta em usuario, adicionando um item passado por parametro ao doador.
 	 */
 	@Override
-	public void adicionaItemDoacao(Integer idItem, Item item) {
+	public void adicionaItem(Integer idItem, Item item) {
 		this.itens.put(idItem, item);
 	}
 	
