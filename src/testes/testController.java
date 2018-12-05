@@ -131,5 +131,12 @@ class testController {
 		assertThrows(IllegalArgumentException.class, () -> controle.removeUsuario(null));
 
 	}
+	
+	@Test 
+	void testAdicionaDescritor() {
+		assertTrue(controle.getDescritores().isEmpty());
+		controle.adicionaDescritor("cadeira de rodas");
+		assertFalse(controle.getDescritores().isEmpty());
+	}
 
 }

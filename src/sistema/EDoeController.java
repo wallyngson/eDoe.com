@@ -35,18 +35,25 @@ public class EDoeController {
 	private Map<Integer, Item> itens;
 	private Scanner sc;
 	private Integer idItem = 1;
-	
+
 	private Validador validador = new Validador();
-	
+
+	/**
+	 * 
+	 * @return getter que retorna o mapa que contem os descritores apenas para uso
+	 *         na classe de testes de unidade
+	 */
+	public Map<String, Descritor> getDescritores() {
+		return this.descritores;
+	}
+
 	public EDoeController() {
 		this.usuarios = new HashMap<>();
 		this.descritores = new HashMap<>();
 		this.itens = new HashMap<>();
 	}
-	
-	
+
 	// USUARIO RECEPTOR
-	
 
 	/**
 	 * Recebe o arquivo CSV e o le.
@@ -105,11 +112,9 @@ public class EDoeController {
 		return id;
 
 	}
-	
-	
+
 	// USUARIO DOADOR
 
-	
 	/**
 	 * Metodo que adiciona um usuario doador. estes so podem realizar enviar itens.
 	 * 
@@ -136,7 +141,8 @@ public class EDoeController {
 	 * usuarios. caso o mapa contrenha a chave, o metodo retorna o toString do
 	 * usuario correspondente.
 	 * 
-	 * @param id String que reprensenta o numero de documento do usuario
+	 * @param id
+	 *            String que reprensenta o numero de documento do usuario
 	 * @return retorna o toString do usuario, e so deve retornar um usuario, ja que
 	 *         nao pode existir dois usuarios com o mesmo id.
 	 */
@@ -237,10 +243,8 @@ public class EDoeController {
 		return true;
 	}
 
-	
 	// DESCRITORES
-	
-	
+
 	/**
 	 * Adiciona descritor ao sistema.
 	 * 
@@ -254,11 +258,8 @@ public class EDoeController {
 		this.descritores.put(descritorFormatado, new Descritor(descritor.toLowerCase()));
 	}
 
-
-	
 	// ITEM DOACAO
 
-	
 	/**
 	 * Verifica se o item a ser cadastro existe nos descritores e apos cadastrar
 	 * esse item a um doador.
@@ -274,14 +275,17 @@ public class EDoeController {
 		this.validador.usuarioInexistente(id, usuarios);
 		this.validador.descritorInvalido(descritor);
 		this.validaDescritor(descritor);
-		
+
 		if (this.itemDoavelCadastrado(descritor, tags) != null)
 			return this.adicionaItem(this.itemDoavelCadastrado(descritor, tags), id, descritor, qtd, tags, "doacao");
-		
+
 		return adicionaItem(idItem, id, descritor, qtd, tags, "doacao");
 	}
+
 	/**
-	 * Verifica se o item a ser cadastrado existe nos descritores e apos isso cadastra esse item a um receptor.
+	 * Verifica se o item a ser cadastrado existe nos descritores e apos isso
+	 * cadastra esse item a um receptor.
+	 * 
 	 * @param id
 	 * @param descritor
 	 * @param qtd
@@ -293,10 +297,11 @@ public class EDoeController {
 		this.validador.usuarioInexistente(id, usuarios);
 		this.validador.descritorInvalido(descritor);
 		this.validaDescritor(descritor);
-		
+
 		if (this.itemNecessarioCadastrado(descritor, tags) != null)
-			return this.adicionaItem(this.itemNecessarioCadastrado(descritor, tags), id, descritor, qtd, tags, "necessario");
-		
+			return this.adicionaItem(this.itemNecessarioCadastrado(descritor, tags), id, descritor, qtd, tags,
+					"necessario");
+
 		return adicionaItem(idItem, id, descritor, qtd, tags, "necessario");
 	}
 
@@ -312,19 +317,19 @@ public class EDoeController {
 	 */
 	private Integer adicionaItem(Integer idUnico, String id, String descritor, int qtd, String tags, String tipo) {
 		String representacaoUsuario = this.usuarios.get(id).getId();
-		if(tipo.equals("doacao")) {
+		if (tipo.equals("doacao")) {
 			this.itens.put(idUnico, (Item) new ItemDoavel(descritor, qtd, tags, idUnico, representacaoUsuario));
 			this.usuarios.get(id).adicionaItem(idUnico, this.itens.get(idUnico));
-		}else {
-			this.itens.put(idUnico, (Item) new ItemNecessario(descritor, qtd, tags, idUnico,representacaoUsuario));
+		} else {
+			this.itens.put(idUnico, (Item) new ItemNecessario(descritor, qtd, tags, idUnico, representacaoUsuario));
 			this.usuarios.get(id).adicionaItem(idUnico, this.itens.get(idUnico));
 		}
 		this.adicionaQtdDescritor(descritor, qtd);
 		this.idItem += 1;
-			
+
 		return idUnico;
 	}
-	
+
 	/**
 	 * Verifica se o item ja esta cadastrado se ja estiver retorna seu id.
 	 * 
@@ -335,32 +340,34 @@ public class EDoeController {
 	private Integer itemDoavelCadastrado(String descritor, String tag) {
 		List<Item> listaItens = new ArrayList<>();
 		listaItens.addAll(this.itens.values());
-		
+
 		for (Item item : listaItens) {
 			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)) && (item instanceof ItemDoavel))
 				return item.getIdItem();
 		}
-		
+
 		return null;
 	}
+
 	/**
 	 * Verifica se o item ja esta cadastrado, se ja estiver, retorna seu id
+	 * 
 	 * @param descritor
 	 * @param tag
-	 * @return retorna o id se o item existir, se não, retorna null
+	 * @return retorna o id se o item existir, se nï¿½o, retorna null
 	 */
 	private Integer itemNecessarioCadastrado(String descritor, String tag) {
 		List<Item> listaItens = new ArrayList<>();
 		listaItens.addAll(this.itens.values());
-		
+
 		for (Item item : listaItens) {
 			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)) && (item instanceof ItemNecessario))
 				return item.getIdItem();
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Formata a String recebida para comparacao com o item cadastrado.
 	 * 
@@ -370,10 +377,10 @@ public class EDoeController {
 	 */
 	private String formataItem(String descritor, String tag) {
 		String[] tags = tag.split(",");
-		
+
 		return descritor + " - " + Arrays.toString(tags);
 	}
-	
+
 	/**
 	 * Adiciona a quantidade de itens no sistema ao seu descritor.
 	 * 
@@ -425,8 +432,9 @@ public class EDoeController {
 		this.usuarios.get(id).removeItem(idItem);
 		adicionaQtdDescritor(itens.get(idItem).getNome(), 0);
 		this.itens.remove(idItem);
-		
+
 	}
+
 	/**
 	 * Atualiza a quantidade de itens e as suas tags de um determinado item, e
 	 * atualiza o quantidade de itens gerais no seu descritor.
@@ -444,13 +452,13 @@ public class EDoeController {
 
 		String item = this.itens.get(idItem).atualizaItem(qtd, tags);
 		String descritor = this.itens.get(idItem).getNome();
-		
+
 		if (qtd > 0)
 			this.adicionaQtdDescritor(descritor, qtd);
 
 		return item;
 	}
-	
+
 	/**
 	 * Imprime os descritores com os seus respectivos nomes e quantidades.
 	 * 
@@ -470,102 +478,110 @@ public class EDoeController {
 	}
 
 	/**
-	 * Metodo que lista os itens de forma ordenada a partir de sua quantidade, e quando ocorrer empate, a partir do seu nome.
+	 * Metodo que lista os itens de forma ordenada a partir de sua quantidade, e
+	 * quando ocorrer empate, a partir do seu nome.
 	 * 
 	 * @return
 	 */
-	
-	public String listaItensParaDoacao() { 
+
+	public String listaItensParaDoacao() {
 		List<Item> listaQtd = new ArrayList<>();
-		
-		for(Item i : itens.values()) {
-			if(i instanceof ItemDoavel) {
+
+		for (Item i : itens.values()) {
+			if (i instanceof ItemDoavel) {
 				listaQtd.add(i);
 			}
 		}
-		Collections.sort(listaQtd); 
+		Collections.sort(listaQtd);
 		String listaFinal = "";
-		
-		for (Item item: listaQtd) { 
-			listaFinal += item.toString() + ", doador: " + usuarios.get(item.getUsuarioVinculado()).getNome() + "/" + usuarios.get(item.getUsuarioVinculado()).getId() +  " | "; 
-			} 
+
+		for (Item item : listaQtd) {
+			listaFinal += item.toString() + ", doador: " + usuarios.get(item.getUsuarioVinculado()).getNome() + "/"
+					+ usuarios.get(item.getUsuarioVinculado()).getId() + " | ";
+		}
 		return listaFinal.substring(0, listaFinal.length() - 3);
-		
+
 	}
+
 	/**
-	 * Metodo que lista todos os itens necessarios do nosso mapa de itens e os ordena pelo id.
+	 * Metodo que lista todos os itens necessarios do nosso mapa de itens e os
+	 * ordena pelo id.
+	 * 
 	 * @return listagem de itens necessarios separados por " | "
 	 */
-	public String listaItensNecessarios() { 
+	public String listaItensNecessarios() {
 		List<Item> listaQtd = new ArrayList<>();
-		for(Item i : itens.values()) {
-			if(i instanceof ItemNecessario) {
+		for (Item i : itens.values()) {
+			if (i instanceof ItemNecessario) {
 				listaQtd.add(i);
 			}
 		}
-		Collections.sort(listaQtd, new ComparadorId()); 
+		Collections.sort(listaQtd, new ComparadorId());
 		String listaFinal = "";
-		
-		for (Item item: listaQtd) { 
-			listaFinal += item.toString() + ", Receptor: " + usuarios.get(item.getUsuarioVinculado()).getNome() + "/" + usuarios.get(item.getUsuarioVinculado()).getId() +  " | "; 
-			} 
+
+		for (Item item : listaQtd) {
+			listaFinal += item.toString() + ", Receptor: " + usuarios.get(item.getUsuarioVinculado()).getNome() + "/"
+					+ usuarios.get(item.getUsuarioVinculado()).getId() + " | ";
+		}
 		return listaFinal.substring(0, listaFinal.length() - 3);
-		
+
 	}
+
 	/**
-	 * Metodo que exibe uma lista de itens a partir de uma string de pesquisa, ordenada pelo seu nome.
+	 * Metodo que exibe uma lista de itens a partir de uma string de pesquisa,
+	 * ordenada pelo seu nome.
 	 * 
 	 * @param desc
 	 * @return
 	 */
-	public String pesquisaItemParaDoacaoPorDescricao(String desc){ 
-		this.validador.validaPesquisa(desc); 
-		List<Item> listaQtd = new ArrayList<>(); 
+	public String pesquisaItemParaDoacaoPorDescricao(String desc) {
+		this.validador.validaPesquisa(desc);
+		List<Item> listaQtd = new ArrayList<>();
 		listaQtd.addAll(this.itens.values());
 		listaQtd.sort(new ComparadorNome());
 		String listaFinal = "";
-		for (Item item: listaQtd) {
-			if(item.getNome().trim().toLowerCase().contains(desc.toLowerCase().trim())) {
-				listaFinal += item.toString() + " | "; 
+		for (Item item : listaQtd) {
+			if (item.getNome().trim().toLowerCase().contains(desc.toLowerCase().trim())) {
+				listaFinal += item.toString() + " | ";
 			}
-		} 
-		return listaFinal.substring(0, listaFinal.length() - 3);
-		
 		}
-	
+		return listaFinal.substring(0, listaFinal.length() - 3);
+
+	}
+
 	/**
 	 * Tira todos os espacos e deixa tudo minusculo.
 	 * 
 	 * @param string
 	 * @return
 	 */
-	
+
 	private String formataString(String string) {
 		return string.replace(" ", "").toLowerCase();
 	}
-	
+
 	public String match(String idReceptor, Integer idItem) {
 		String listagem = "";
 		ArrayList<Item> listaItens = new ArrayList<>();
-		
+
 		if (this.itens.get(idItem) instanceof ItemNecessario) {
-			for(Item i : itens.values()) {
-				if(i instanceof ItemDoavel) {
-					if(i.getNome().toLowerCase().equals(this.itens.get(idItem).getNome().toLowerCase()))
+			for (Item i : itens.values()) {
+				if (i instanceof ItemDoavel) {
+					if (i.getNome().toLowerCase().equals(this.itens.get(idItem).getNome().toLowerCase()))
 						listaItens.add(i);
 				}
-		}
+			}
 		}
 		if (this.itens.get(idItem) instanceof ItemNecessario) {
-			for(Item i : itens.values()) {
-				if(i instanceof ItemDoavel) {
+			for (Item i : itens.values()) {
+				if (i instanceof ItemDoavel) {
 					for (int j = 0; j < ((ItemDoavel) i).getTags().length; j++) {
 						for (int k = 0; k < (this.itens.get(idItem).getTags().length); k++) {
-							if(((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k]) && j == k) {
+							if (((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k]) && j == k) {
 								((ItemDoavel) i).setPontuacao(10);
 								break;
 							}
-							if(((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k])) {
+							if (((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k])) {
 								((ItemDoavel) i).setPontuacao(5);
 								break;
 							}
@@ -574,15 +590,15 @@ public class EDoeController {
 				}
 			}
 		}
-					
-		for(Item p: listaItens) {
-			listagem += p.toString() + ", doador: " + usuarios.get(p.getUsuarioVinculado()).getNome() + "/" + usuarios.get(p.getUsuarioVinculado()).getId() + " | ";
+
+		for (Item p : listaItens) {
+			listagem += p.toString() + ", doador: " + usuarios.get(p.getUsuarioVinculado()).getNome() + "/"
+					+ usuarios.get(p.getUsuarioVinculado()).getId() + " | ";
 		}
-		
-		
-		if(listagem.length() == 0)
+
+		if (listagem.length() == 0)
 			return listagem;
-		
+
 		return listagem.substring(0, listagem.length() - 3);
 	}
 
