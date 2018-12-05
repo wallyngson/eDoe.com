@@ -41,7 +41,7 @@ public class EDoeController {
 	/**
 	 * 
 	 * @return getter que retorna o mapa que contem os descritores apenas para uso
-	 *         na classe de testes de unidade
+	 *         na classe de testes de unidade 
 	 */
 	public Map<String, Descritor> getDescritores() {
 		return this.descritores;
