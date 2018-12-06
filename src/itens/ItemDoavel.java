@@ -57,14 +57,17 @@ public class ItemDoavel implements Item{
 	public String[] getTags() {
 		return this.tags;
 	}
-	
+
+
 	/**
 	 * Metodo que retorna a pontuacao
 	 * @return um inteiro representando a pontuacao
 	 */
+	@Override
 	public int getPontuacao() {
-		return pontuacao;
+		return this.pontuacao;
 	}
+
 	
 	/**
 	 * Metodo que insere a pontuacao e soma a pontuacao atual do item

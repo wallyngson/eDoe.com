@@ -2,13 +2,7 @@ package sistema;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import itens.Item;
 import itens.ItemDoavel;
@@ -564,14 +558,7 @@ public class EDoeController {
 		String listagem = "";
 		ArrayList<Item> listaItens = new ArrayList<>();
 
-		if (this.itens.get(idItem) instanceof ItemNecessario) {
-			for (Item i : itens.values()) {
-				if (i instanceof ItemDoavel) {
-					if (i.getNome().toLowerCase().equals(this.itens.get(idItem).getNome().toLowerCase()))
-						listaItens.add(i);
-				}
-			}
-		}
+
 		if (this.itens.get(idItem) instanceof ItemNecessario) {
 			for (Item i : itens.values()) {
 				if (i instanceof ItemDoavel) {
@@ -587,14 +574,30 @@ public class EDoeController {
 							}
 						}
 					}
+                    if (i.getNome().toLowerCase().equals(this.itens.get(idItem).getNome().toLowerCase())){
+                        listaItens.add(i);
+                    }
 				}
 			}
 		}
 
+
+
+		Collections.sort(listaItens, new Comparator<Item>() {
+            @Override
+            public int compare(Item item2, Item item1) {
+                return new Integer(item1.getPontuacao()).compareTo(new Integer(item2.getPontuacao()));
+            }
+        });
+
+
+
 		for (Item p : listaItens) {
 			listagem += p.toString() + ", doador: " + usuarios.get(p.getUsuarioVinculado()).getNome() + "/"
 					+ usuarios.get(p.getUsuarioVinculado()).getId() + " | ";
+
 		}
+
 
 		if (listagem.length() == 0)
 			return listagem;

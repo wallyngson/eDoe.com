@@ -15,6 +15,7 @@ public class ItemNecessario implements Item {
 	private Integer idItem;
 	private int qtdItem;
 	private String representacaoUsuario;
+	private int potuacao;
 	
 	private Validador validador = new Validador();
 	
@@ -56,7 +57,12 @@ public class ItemNecessario implements Item {
 	public String[] getTags() {
 		return this.tags;
 	}
-	
+
+	@Override
+	public int getPontuacao() {
+		return this.potuacao;
+	}
+
 	/**
 	 * Retorna a descricao completa do item
 	 */

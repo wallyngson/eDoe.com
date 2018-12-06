@@ -13,6 +13,10 @@ public interface Item extends Comparable<Item>{
 	public int getQtdItem();
 	public String[] getTags();
 
+	public int getPontuacao();
+
+
+
 	public void setQtdItem(int qtdItem);
 
 	@Override
@@ -24,5 +28,6 @@ public interface Item extends Comparable<Item>{
 	public int compareToNome(Item i);
 	
 	public String getUsuarioVinculado();
+
 
 }
