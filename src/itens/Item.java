@@ -28,6 +28,10 @@ public interface Item extends Comparable<Item>{
 	public int compareToNome(Item i);
 	
 	public String getUsuarioVinculado();
+	
+	public String toStringParaRealizarDoacao();
+	
+	
 
 
 }

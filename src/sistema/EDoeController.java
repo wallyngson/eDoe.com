@@ -35,7 +35,7 @@ public class EDoeController {
 	/**
 	 * 
 	 * @return getter que retorna o mapa que contem os descritores apenas para uso
-	 *         na classe de testes de unidade 
+	 *         na classe de testes de unidade
 	 */
 	public Map<String, Descritor> getDescritores() {
 		return this.descritores;
@@ -554,79 +554,117 @@ public class EDoeController {
 		return string.replace(" ", "").toLowerCase();
 	}
 
+	
+	
+	/**
+	 *   falta documentacao
+	 *   
+	 * @param idReceptor
+	 * @param idItem
+	 * @return
+	 */
 	public String match(String idReceptor, Integer idItem) {
 
+		if (idItem < 0) {
+			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
+		}
 
-	    if(idItem < 0){
-	        throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
-        }
+		if (idReceptor == null || idReceptor.trim().equals("")) {
+			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
+		}
 
-        if(idReceptor == null || idReceptor.trim().equals("")){
-            throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
-        }
+		if (this.usuarios.get(idReceptor) instanceof Doador) {
+			throw new IllegalArgumentException("O Usuario deve ser um receptor: " + idReceptor + ".");
+		}
 
-        if(this.usuarios.get(idReceptor) instanceof Doador){
-            throw new IllegalArgumentException("O Usuario deve ser um receptor: " + idReceptor + ".");
-        }
+		if (!this.usuarios.containsKey(idReceptor)) {
+			throw new IllegalArgumentException("Usuario nao encontrado: " + idReceptor + ".");
+		}
 
-        if(!this.usuarios.containsKey(idReceptor)){
-            throw new IllegalArgumentException("Usuario nao encontrado: " + idReceptor + ".");
-        }
-
-        if(!this.itens.containsKey(idItem)){
-            throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
-        }
+		if (!this.itens.containsKey(idItem)) {
+			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
+		}
 
 		String listagem = "";
 		ArrayList<Item> listaItens = new ArrayList<>();
 
+		if (this.itens.get(idItem) instanceof ItemNecessario) {
+			for (Item i : itens.values()) {
+				if (i instanceof ItemDoavel) {
+					if (i.getNome().toLowerCase().equals(this.itens.get(idItem).getNome().toLowerCase()))
+						listaItens.add(i);
+				}
+			}
+		}
 
+		if (this.itens.get(idItem) instanceof ItemNecessario) {
+			for (Item i : listaItens) {
+				if (i instanceof ItemDoavel) {
+					for (int j = 0; j < ((ItemDoavel) i).getTags().length; j++) {
+						for (int k = 0; k < (this.itens.get(idItem).getTags().length); k++) {
+							if (((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k]) && j == k) {
+								((ItemDoavel) i).setPontuacao(10);
+							} else if (((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k])) {
+								((ItemDoavel) i).setPontuacao(5);
+							}
 
-        if (this.itens.get(idItem) instanceof ItemNecessario) {
-            for (Item i : itens.values()) {
-                if (i instanceof ItemDoavel) {
-                    if (i.getNome().toLowerCase().equals(this.itens.get(idItem).getNome().toLowerCase()))
-                        listaItens.add(i);
-                }
-            }
-        }
+						}
+					}
 
-        if (this.itens.get(idItem) instanceof ItemNecessario) {
-            for (Item i : listaItens) {
-                if (i instanceof ItemDoavel) {
-                    for (int j = 0; j < ((ItemDoavel) i).getTags().length; j++) {
-                        for (int k = 0; k < (this.itens.get(idItem).getTags().length); k++) {
-                            if (((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k]) && j == k) {
-                                ((ItemDoavel) i).setPontuacao(10);
-                            } else if (((ItemDoavel) i).getTags()[j].equals(this.itens.get(idItem).getTags()[k])) {
-                                ((ItemDoavel) i).setPontuacao(5);
-                            }
+				}
+			}
+		}
 
-                        }
-                    }
-
-                }
-            }
-        }
-
-        Collections.sort(listaItens, new Comparator<Item>() {
-            @Override
-            public int compare(Item item2, Item item1) {
-                return new Integer(item1.getPontuacao()).compareTo(new Integer(item2.getPontuacao()));
-            }
-        });
-
+		Collections.sort(listaItens, new Comparator<Item>() {
+			@Override
+			public int compare(Item item2, Item item1) {
+				return new Integer(item1.getPontuacao()).compareTo(new Integer(item2.getPontuacao()));
+			}
+		});
 
 		for (Item p : listaItens) {
 			listagem += p.toString() + ", doador: " + usuarios.get(p.getUsuarioVinculado()).getNome() + "/"
 					+ usuarios.get(p.getUsuarioVinculado()).getId() + " | ";
 		}
 
-
 		if (listagem.length() == 0)
 			return listagem;
 
 		return listagem.substring(0, listagem.length() - 3);
+	}
+	
+	// CASE 6
+	// nao ta atualizando a quantidade dos itens, por isso nao passa em alguns dos testes(pelo menos 4).
+	
+	public String realizaDoacao (String idItemNec, String idItemDoado, String data) {
+		
+		String doacao = "";
+		
+		if(data == null || data.trim().equals("")) {
+			throw new IllegalArgumentException("Entrada invalida: data nao pode ser vazia ou nula.");
+		}
+		
+		if(Integer.parseInt(idItemDoado) < 0|| Integer.parseInt(idItemNec) < 0) {
+			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo."); 
+		}
+		if(!this.itens.containsKey(Integer.parseInt(idItemNec))) {
+			throw new IllegalArgumentException("Item nao encontrado: " + idItemNec + "."); 
+		}
+		
+		if(!this.itens.containsKey(Integer.parseInt(idItemDoado))) {
+			throw new IllegalArgumentException("Item nao encontrado: " + idItemDoado + "."); 
+		}
+		if(!this.itens.get(Integer.parseInt(idItemNec)).getNome().equals(this.itens.get(Integer.parseInt(idItemDoado)).getNome())) {
+			throw new IllegalArgumentException("Os itens nao tem descricoes iguais.");
+		}
+		
+		Usuario receptor = this.usuarios.get(this.itens.get(Integer.parseInt(idItemNec)).getUsuarioVinculado());
+		Usuario doador = this.usuarios.get(this.itens.get(Integer.parseInt(idItemDoado)).getUsuarioVinculado());
+		doacao = data + " - doador: " + doador.getNome()+ "/" + doador.getId()+ ", item: " + this.itens.get(Integer.parseInt(idItemDoado)).toStringParaRealizarDoacao()+ ", receptor: " + receptor.getNome() + "/" +receptor.getId();
+		
+		return doacao;		
+		
+		
 	}
 
 }

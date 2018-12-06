@@ -17,6 +17,8 @@ class testController {
 		controle = new EDoeController();
 	}
 
+	// CASE 1
+	
 	@Test
 	void testAdicionaUsuarioDoador() {
 		assertEquals("12345678910",
@@ -132,8 +134,10 @@ class testController {
 		assertThrows(IllegalArgumentException.class, () -> controle.removeUsuario(null));
 
 	}
-	
-	@Test 
+
+	// CASE 2
+
+	@Test
 	void testAdicionaDescritor() {
 		assertTrue(controle.getDescritores().isEmpty());
 		controle.adicionaDescritor("cadeira de rodas");
