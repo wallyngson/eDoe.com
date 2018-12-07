@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import comparadores.ComparaItemPorPontuacao;
 import itens.Item;
 import itens.ItemDoavel;
 import itens.ItemNecessario;
@@ -135,8 +136,7 @@ public class EDoeController {
 	 * usuarios. caso o mapa contrenha a chave, o metodo retorna o toString do
 	 * usuario correspondente.
 	 * 
-	 * @param id
-	 *            String que reprensenta o numero de documento do usuario
+	 * @param id String que reprensenta o numero de documento do usuario
 	 * @return retorna o toString do usuario, e so deve retornar um usuario, ja que
 	 *         nao pode existir dois usuarios com o mesmo id.
 	 */
@@ -332,8 +332,7 @@ public class EDoeController {
 	 * @return
 	 */
 	private Integer itemDoavelCadastrado(String descritor, String tag) {
-		List<Item> listaItens = new ArrayList<>();
-		listaItens.addAll(this.itens.values());
+		List<Item> listaItens = this.listaItens();
 
 		for (Item item : listaItens) {
 			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)) && (item instanceof ItemDoavel))
@@ -351,8 +350,7 @@ public class EDoeController {
 	 * @return retorna o id se o item existir, se n�o, retorna null
 	 */
 	private Integer itemNecessarioCadastrado(String descritor, String tag) {
-		List<Item> listaItens = new ArrayList<>();
-		listaItens.addAll(this.itens.values());
+		List<Item> listaItens = this.listaItens();
 
 		for (Item item : listaItens) {
 			if (item.descricaoCompleta().equals(this.formataItem(descritor, tag)) && (item instanceof ItemNecessario))
@@ -360,6 +358,17 @@ public class EDoeController {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Adiciona todos os itens em uma lista.
+	 * 
+	 * @return
+	 */
+	private List<Item> listaItens() {
+		List<Item> listaItens = new ArrayList<>();
+		listaItens.addAll(this.itens.values());
+		return listaItens;
 	}
 
 	/**
@@ -459,10 +468,31 @@ public class EDoeController {
 	 * @return
 	 */
 	public String listaDescritorDeItensParaDoacao() {
+		List<Descritor> listaDescritores = this.listaDescritores();
+
+		Collections.sort(listaDescritores);
+		return this.criaListaDescritoresDeItens(listaDescritores);
+	}
+
+	/**
+	 * Adiciona todos os descritores em uma lista.
+	 * 
+	 * @return
+	 */
+	private List<Descritor> listaDescritores() {
 		List<Descritor> listaDescritores = new ArrayList<>();
 		listaDescritores.addAll(this.descritores.values());
 
-		Collections.sort(listaDescritores);
+		return listaDescritores;
+	}
+
+	/**
+	 * Cria uma lista de descritores de itens para doacao.
+	 * 
+	 * @param listaDescritores
+	 * @return
+	 */
+	private String criaListaDescritoresDeItens(List<Descritor> listaDescritores) {
 		String lista = "";
 		for (Descritor descritor : listaDescritores) {
 			lista += descritor.toString() + " | ";
@@ -482,11 +512,22 @@ public class EDoeController {
 		List<Item> listaQtd = new ArrayList<>();
 
 		for (Item i : itens.values()) {
-			if (i instanceof ItemDoavel) {
+			if (i instanceof ItemDoavel)
 				listaQtd.add(i);
-			}
 		}
+
 		Collections.sort(listaQtd);
+		return this.criaListaParaDoacao(listaQtd);
+
+	}
+
+	/**
+	 * Cria uma lista de itens para doacao.
+	 * 
+	 * @param listaQtd
+	 * @return
+	 */
+	private String criaListaParaDoacao(List<Item> listaQtd) {
 		String listaFinal = "";
 
 		for (Item item : listaQtd) {
@@ -494,7 +535,6 @@ public class EDoeController {
 					+ usuarios.get(item.getUsuarioVinculado()).getId() + " | ";
 		}
 		return listaFinal.substring(0, listaFinal.length() - 3);
-
 	}
 
 	/**
@@ -510,15 +550,27 @@ public class EDoeController {
 				listaQtd.add(i);
 			}
 		}
+
 		Collections.sort(listaQtd, new ComparadorId());
+		return this.criaListaItensNecessarios(listaQtd);
+
+	}
+
+	/**
+	 * Cria uma lista com todos os itens necessarios.
+	 * 
+	 * @param listaQtd
+	 * @return
+	 */
+	private String criaListaItensNecessarios(List<Item> listaQtd) {
 		String listaFinal = "";
 
 		for (Item item : listaQtd) {
 			listaFinal += item.toString() + ", Receptor: " + usuarios.get(item.getUsuarioVinculado()).getNome() + "/"
 					+ usuarios.get(item.getUsuarioVinculado()).getId() + " | ";
 		}
+		
 		return listaFinal.substring(0, listaFinal.length() - 3);
-
 	}
 
 	/**
@@ -530,9 +582,23 @@ public class EDoeController {
 	 */
 	public String pesquisaItemParaDoacaoPorDescricao(String desc) {
 		this.validador.validaPesquisa(desc);
+
 		List<Item> listaQtd = new ArrayList<>();
 		listaQtd.addAll(this.itens.values());
 		listaQtd.sort(new ComparadorNome());
+
+		return this.listaItensPorPesquisa(desc, listaQtd);
+
+	}
+
+	/**
+	 * Pesquisa uma lista procurando pela descricao e adiciona a uma String.
+	 * 
+	 * @param desc
+	 * @param listaQtd
+	 * @return
+	 */
+	private String listaItensPorPesquisa(String desc, List<Item> listaQtd) {
 		String listaFinal = "";
 		for (Item item : listaQtd) {
 			if (item.getNome().trim().toLowerCase().contains(desc.toLowerCase().trim())) {
@@ -540,7 +606,6 @@ public class EDoeController {
 			}
 		}
 		return listaFinal.substring(0, listaFinal.length() - 3);
-
 	}
 
 	/**
@@ -554,38 +619,51 @@ public class EDoeController {
 		return string.replace(" ", "").toLowerCase();
 	}
 
-	
-	
 	/**
-	 *   falta documentacao
-	 *   
+	 * falta documentacao
+	 * 
 	 * @param idReceptor
 	 * @param idItem
 	 * @return
 	 */
 	public String match(String idReceptor, Integer idItem) {
+		this.matchInvalido(idReceptor, idItem);
 
-		if (idItem < 0) {
-			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
-		}
+		ArrayList<Item> listaItens = this.possiveisItensDoaveis(idItem);
+		this.adicionaPontuacaoItens(idItem, listaItens);
+		Collections.sort(listaItens, new ComparaItemPorPontuacao());
 
-		if (idReceptor == null || idReceptor.trim().equals("")) {
-			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
-		}
+		return this.listaProdutosPorMatch(listaItens);
+	}
 
-		if (this.usuarios.get(idReceptor) instanceof Doador) {
-			throw new IllegalArgumentException("O Usuario deve ser um receptor: " + idReceptor + ".");
-		}
-
-		if (!this.usuarios.containsKey(idReceptor)) {
-			throw new IllegalArgumentException("Usuario nao encontrado: " + idReceptor + ".");
-		}
-
-		if (!this.itens.containsKey(idItem)) {
-			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
-		}
-
+	/**
+	 * Cria uma string com a representacao de todos os produtos que possuem maior
+	 * probabilidade de serem doados, ordenados por pontuacao de acorodo com suas
+	 * tags.
+	 * 
+	 * @param listaItens
+	 * @return
+	 */
+	private String listaProdutosPorMatch(ArrayList<Item> listaItens) {
 		String listagem = "";
+		for (Item p : listaItens) {
+			listagem += p.toString() + ", doador: " + usuarios.get(p.getUsuarioVinculado()).getNome() + "/"
+					+ usuarios.get(p.getUsuarioVinculado()).getId() + " | ";
+		}
+
+		if (listagem.length() == 0)
+			return listagem;
+
+		return listagem.substring(0, listagem.length() - 3);
+	}
+
+	/**
+	 * Verifica os possiveis itens a serem doados e adiciona a uma lista.
+	 * 
+	 * @param idItem
+	 * @return
+	 */
+	private ArrayList<Item> possiveisItensDoaveis(Integer idItem) {
 		ArrayList<Item> listaItens = new ArrayList<>();
 
 		if (this.itens.get(idItem) instanceof ItemNecessario) {
@@ -596,7 +674,17 @@ public class EDoeController {
 				}
 			}
 		}
+		return listaItens;
+	}
 
+	/**
+	 * Verifica em que posicao estao as tags e dependendo delas adiciona uma
+	 * pontuacao.
+	 * 
+	 * @param idItem
+	 * @param listaItens
+	 */
+	private void adicionaPontuacaoItens(Integer idItem, ArrayList<Item> listaItens) {
 		if (this.itens.get(idItem) instanceof ItemNecessario) {
 			for (Item i : listaItens) {
 				if (i instanceof ItemDoavel) {
@@ -614,57 +702,73 @@ public class EDoeController {
 				}
 			}
 		}
-
-		Collections.sort(listaItens, new Comparator<Item>() {
-			@Override
-			public int compare(Item item2, Item item1) {
-				return new Integer(item1.getPontuacao()).compareTo(new Integer(item2.getPontuacao()));
-			}
-		});
-
-		for (Item p : listaItens) {
-			listagem += p.toString() + ", doador: " + usuarios.get(p.getUsuarioVinculado()).getNome() + "/"
-					+ usuarios.get(p.getUsuarioVinculado()).getId() + " | ";
-		}
-
-		if (listagem.length() == 0)
-			return listagem;
-
-		return listagem.substring(0, listagem.length() - 3);
 	}
 	
+	/**
+	 * Verifica se os parametros passados no match.
+	 * 
+	 * @param idReceptor
+	 * @param idItem
+	 */
+	private void matchInvalido(String idReceptor, Integer idItem) {
+		if (idItem < 0)
+			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
+
+		if (idReceptor == null || idReceptor.trim().equals(""))
+			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
+
+		if (this.usuarios.get(idReceptor) instanceof Doador)
+			throw new IllegalArgumentException("O Usuario deve ser um receptor: " + idReceptor + ".");
+
+		if (!this.usuarios.containsKey(idReceptor))
+			throw new IllegalArgumentException("Usuario nao encontrado: " + idReceptor + ".");
+
+		if (!this.itens.containsKey(idItem))
+			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
+	}
+
 	// CASE 6
-	// nao ta atualizando a quantidade dos itens, por isso nao passa em alguns dos testes(pelo menos 4).
-	
-	public String realizaDoacao (String idItemNec, String idItemDoado, String data) {
-		
+	// nao ta atualizando a quantidade dos itens, por isso nao passa em alguns dos
+	// testes(pelo menos 4).
+
+	public String realizaDoacao(String idItemNec, String idItemDoado, String data) {
+		this.parametrosDoacaoInvalida(idItemNec, idItemDoado, data);
+
 		String doacao = "";
-		
-		if(data == null || data.trim().equals("")) {
-			throw new IllegalArgumentException("Entrada invalida: data nao pode ser vazia ou nula.");
-		}
-		
-		if(Integer.parseInt(idItemDoado) < 0|| Integer.parseInt(idItemNec) < 0) {
-			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo."); 
-		}
-		if(!this.itens.containsKey(Integer.parseInt(idItemNec))) {
-			throw new IllegalArgumentException("Item nao encontrado: " + idItemNec + "."); 
-		}
-		
-		if(!this.itens.containsKey(Integer.parseInt(idItemDoado))) {
-			throw new IllegalArgumentException("Item nao encontrado: " + idItemDoado + "."); 
-		}
-		if(!this.itens.get(Integer.parseInt(idItemNec)).getNome().equals(this.itens.get(Integer.parseInt(idItemDoado)).getNome())) {
-			throw new IllegalArgumentException("Os itens nao tem descricoes iguais.");
-		}
-		
+
 		Usuario receptor = this.usuarios.get(this.itens.get(Integer.parseInt(idItemNec)).getUsuarioVinculado());
 		Usuario doador = this.usuarios.get(this.itens.get(Integer.parseInt(idItemDoado)).getUsuarioVinculado());
-		doacao = data + " - doador: " + doador.getNome()+ "/" + doador.getId()+ ", item: " + this.itens.get(Integer.parseInt(idItemDoado)).toStringParaRealizarDoacao()+ ", receptor: " + receptor.getNome() + "/" +receptor.getId();
+		doacao = data + " - doador: " + doador.getNome() + "/" + doador.getId() + ", item: "
+				+ this.itens.get(Integer.parseInt(idItemDoado)).toStringParaRealizarDoacao() + ", receptor: "
+				+ receptor.getNome() + "/" + receptor.getId();
+
+		return doacao;
+
+	}
+
+	/**
+	 * Verifica se os parametros sao invalidos.
+	 * 
+	 * @param idItemNec
+	 * @param idItemDoado
+	 * @param data
+	 */
+	private void parametrosDoacaoInvalida(String idItemNec, String idItemDoado, String data) {
+		if (data == null || data.trim().equals(""))
+			throw new IllegalArgumentException("Entrada invalida: data nao pode ser vazia ou nula.");
+
+		if (Integer.parseInt(idItemDoado) < 0 || Integer.parseInt(idItemNec) < 0) 
+			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
 		
-		return doacao;		
+		if (!this.itens.containsKey(Integer.parseInt(idItemNec))) 
+			throw new IllegalArgumentException("Item nao encontrado: " + idItemNec + ".");
+
+		if (!this.itens.containsKey(Integer.parseInt(idItemDoado)))
+			throw new IllegalArgumentException("Item nao encontrado: " + idItemDoado + ".");
 		
-		
+		if (!this.itens.get(Integer.parseInt(idItemNec)).getNome()
+				.equals(this.itens.get(Integer.parseInt(idItemDoado)).getNome()))
+			throw new IllegalArgumentException("Os itens nao tem descricoes iguais.");
 	}
 
 }

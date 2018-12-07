@@ -9,7 +9,7 @@ import util.Validador;
  * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
-public class ItemDoavel implements Item{
+public class ItemDoavel implements Item {
 	private String nome;
 	private String[] tags;
 	private Integer idItem;

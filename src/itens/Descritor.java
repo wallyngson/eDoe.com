@@ -11,6 +11,11 @@ public class Descritor implements Comparable<Descritor> {
 		this.descritor = descritor;
 	}
 	
+	/**
+	 * Verifica se o descritor eh invalido.
+	 * 
+	 * @param descritor
+	 */
 	private void parametroInvalido(String descritor) {
 		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
