@@ -127,9 +127,8 @@ public class ItemNecessario implements Item {
 	public int compareToNome(Item i) {
 		return this.getNome().compareTo(i.getNome());
 	}
-
-//	@Override
+	
 	public String toStringParaRealizarDoacao() {
-		return null;
+		return this.nome.toLowerCase() + ", quantidade: " + this.qtdItem;
 	}
 }

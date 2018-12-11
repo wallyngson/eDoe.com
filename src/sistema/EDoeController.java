@@ -8,6 +8,7 @@ import comparadores.ComparaItemPorPontuacao;
 import itens.Item;
 import itens.ItemDoavel;
 import itens.ItemNecessario;
+import persistencia.serializeSistema;
 import itens.Descritor;
 import usuarios.Doador;
 import usuarios.Receptor;
@@ -417,6 +418,7 @@ public class EDoeController {
 	 */
 	public String exibeItem(Integer idItem, String id) {
 		this.validador.usuarioInexistente(id, usuarios);
+		//this.validador.validaItem(idItem, itens);
 
 		return this.usuarios.get(id).exibeItem(idItem);
 	}
@@ -733,14 +735,53 @@ public class EDoeController {
 
 	public String realizaDoacao(String idItemNec, String idItemDoado, String data) {
 		this.parametrosDoacaoInvalida(idItemNec, idItemDoado, data);
-
+		int qtdItensNecessarios = 0;
+		int qtdItensDoaveis = 0;
 		String doacao = "";
-
-		Usuario receptor = this.usuarios.get(this.itens.get(Integer.parseInt(idItemNec)).getUsuarioVinculado());
-		Usuario doador = this.usuarios.get(this.itens.get(Integer.parseInt(idItemDoado)).getUsuarioVinculado());
-		doacao = data + " - doador: " + doador.getNome() + "/" + doador.getId() + ", item: "
-				+ this.itens.get(Integer.parseInt(idItemDoado)).toStringParaRealizarDoacao() + ", receptor: "
-				+ receptor.getNome() + "/" + receptor.getId();
+		String receptor = "";
+		for (Usuario u : usuarios.values()) {
+			if(u instanceof Receptor) {
+				if(((Receptor) u).getItens().containsKey(Integer.parseInt(idItemNec))) {
+					qtdItensNecessarios = ((Receptor) u).getItens().get(Integer.parseInt(idItemNec)).getQtdItem();
+					receptor = ", receptor: " + u.getNome() + "/" + u.getId();
+					break;
+				}		
+			}
+		}
+		for (Usuario u : usuarios.values()) {
+			
+			if(u instanceof Doador) {
+				if(((Doador) u).getItens().containsKey(Integer.parseInt(idItemDoado))) {
+					qtdItensDoaveis = ((Doador) u).getItens().get(Integer.parseInt(idItemDoado)).getQtdItem();
+					if(qtdItensNecessarios < qtdItensDoaveis) {
+						int qtdResultante = qtdItensDoaveis - qtdItensNecessarios;
+						((Doador) u).getItens().get(Integer.parseInt(idItemDoado)).setQtdItem(qtdResultante);
+						doacao = data + " - doador: " +  u.getNome() + "/" + u.getId() + ", item: "
+								+ this.itens.get(Integer.parseInt(idItemNec)).toStringParaRealizarDoacao() + receptor; 
+						removeItem(Integer.parseInt(idItemNec), u.getId());
+					}
+					if(qtdItensNecessarios == qtdItensDoaveis) {
+						doacao = data + " - doador: " +  u.getNome() + "/" + u.getId() + ", item: "
+								+ this.itens.get(Integer.parseInt(idItemNec)).toStringParaRealizarDoacao() + receptor;
+						removeItem(Integer.parseInt(idItemDoado), u.getId());
+						removeItem(Integer.parseInt(idItemNec), u.getId());
+						
+					}
+					if(qtdItensNecessarios > qtdItensDoaveis) {
+						int qtdResultante = qtdItensNecessarios - qtdItensDoaveis;
+						((Doador) u).getItens().get(Integer.parseInt(idItemNec)).setQtdItem(qtdResultante);
+						doacao = data + " - doador: " +  u.getNome() + "/" + u.getId() + ", item: "
+								+ this.itens.get(Integer.parseInt(idItemNec)).toStringParaRealizarDoacao() + receptor;
+						removeItem(Integer.parseInt(idItemDoado), u.getId());
+					}
+		
+				}
+			}
+		}
+ // fim do for
+		
+		
+		
 
 		return doacao;
 
@@ -767,8 +808,34 @@ public class EDoeController {
 			throw new IllegalArgumentException("Item nao encontrado: " + idItemDoado + ".");
 		
 		if (!this.itens.get(Integer.parseInt(idItemNec)).getNome()
-				.equals(this.itens.get(Integer.parseInt(idItemDoado)).getNome()))
+				.toLowerCase().equals(this.itens.get(Integer.parseInt(idItemDoado)).getNome().toLowerCase()))
 			throw new IllegalArgumentException("Os itens nao tem descricoes iguais.");
+	}
+	
+	public void iniciaSistema() {
+		setDescritores(serializeSistema.carregaDescritores());
+		setItens(serializeSistema.carregaItens());
+		setUsuarios(serializeSistema.carregaUsuarios());
+	}
+	
+	public void setItens(Map<Integer, Item> itens) {
+		this.itens = itens;
+		
+	}
+
+	public void setDescritores(Map<String, Descritor> descritores) {
+		this.descritores = descritores;
+		
+	}
+	
+	public void setUsuarios(Map<String, Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public void finalizaSistema() {
+		serializeSistema.salvarDescritores(descritores);
+		serializeSistema.salvarItens(itens);
+		serializeSistema.salvarUsuarios(usuarios);
 	}
 
 }

@@ -15,7 +15,7 @@ public class Facade {
 
 	public static void main(String[] args) {
 		args = new String[] { "sistema.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
-				"acceptance_test/use_case_3.txt", "acceptance_test/use_case_4.txt", "acceptance_test/use_case_5.txt", "acceptance_test/use_case_6.txt" };
+				"acceptance_test/use_case_3.txt", "acceptance_test/use_case_4.txt", "acceptance_test/use_case_5.txt", "acceptance_test/use_case_6.txt", "acceptance_test/use_case_7.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -104,9 +104,19 @@ public class Facade {
 		return this.controller.match(idReceptor, idItem);
 	}
 	
-	// CAASE 6
+	// CASE 6
 	
 	public String realizaDoacao(String idItemNec, String idItemDoado, String data) {
 		return controller.realizaDoacao(idItemNec, idItemDoado, data);
+	}
+	
+	// CASE 7
+	
+	public void iniciaSistema() {
+		controller.iniciaSistema();
+	}
+	
+	public void finalizaSistema() {
+		controller.finalizaSistema();
 	}
 }

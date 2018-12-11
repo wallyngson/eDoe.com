@@ -61,7 +61,9 @@ public class Receptor extends Usuario {
 		this.validador.validaItem(idItem, itens);
 	}
 	
-
+	public Map<Integer, Item> getItens(){
+		return this.itens;
+	}
 	/**
 	 * Remove um item passado por parametro do usuario doador.
 	 * 

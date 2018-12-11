@@ -113,8 +113,10 @@ public class ItemDoavel implements Item {
 	public void setQtdItem(int qtdItem) {
 		this.qtdItem = qtdItem;
 	}
+
+//	@Override
 	public String toStringParaRealizarDoacao() {
-		return this.nome + ", quantidade: " + this.qtdItem;
+		return null;
 	}
 
 	@Override

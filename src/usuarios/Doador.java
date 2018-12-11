@@ -35,6 +35,10 @@ public class Doador extends Usuario {
 		
 		this.itens = new HashMap<>();
 	}
+	
+	public Map<Integer, Item> getItens(){
+		return this.itens;
+	}
 
 	/**
 	 * Sobscreve o metodo que esta em usuario, adicionando um item passado por parametro ao doador.
