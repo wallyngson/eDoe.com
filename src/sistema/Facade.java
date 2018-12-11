@@ -110,6 +110,9 @@ public class Facade {
 		return controller.realizaDoacao(idItemNec, idItemDoado, data);
 	}
 	
+	public String listaDoacoes() {
+		return controller.listaDoacoes();
+	}
 	// CASE 7
 	
 	public void iniciaSistema() {

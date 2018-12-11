@@ -837,5 +837,9 @@ public class EDoeController {
 		serializeSistema.salvarItens(itens);
 		serializeSistema.salvarUsuarios(usuarios);
 	}
+	
+	public String listaDoacoes() {
+		return "";
+	}
 
 }
