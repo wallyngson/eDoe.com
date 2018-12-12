@@ -1,5 +1,6 @@
 package usuarios;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import util.Validador;
  * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
-public abstract class Usuario implements Comparable<Usuario> {
+public abstract class Usuario implements Comparable<Usuario>, Serializable {
 
 	private String[] classes = { "PESSOA_FISICA", "IGREJA", "ORGAO_PUBLICO_MUNICIPAL", "ORGAO_PUBLICO_ESTADUAL",
 			"ORGAO_PUBLICO_FEDERAL", "ONG", "ASSOCIACAO", "SOCIEDADE" };

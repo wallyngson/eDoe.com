@@ -1,6 +1,6 @@
 package itens;
-
-public class Descritor implements Comparable<Descritor> {
+import java.io.Serializable;
+public class Descritor implements Comparable<Descritor>, Serializable {
 	
 	private int qtdItens = 0;
 	private String descritor;

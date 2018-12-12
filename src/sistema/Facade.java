@@ -106,20 +106,21 @@ public class Facade {
 	
 	// CASE 6
 	
-	public String realizaDoacao(String idItemNec, String idItemDoado, String data) {
+	public String realizaDoacao(Integer idItemNec, Integer idItemDoado, String data) {
 		return controller.realizaDoacao(idItemNec, idItemDoado, data);
 	}
 	
 	public String listaDoacoes() {
 		return controller.listaDoacoes();
 	}
+	
 	// CASE 7
 	
 	public void iniciaSistema() {
-		controller.iniciaSistema();
+		this.controller.iniciaSistema();
 	}
 	
 	public void finalizaSistema() {
-		controller.finalizaSistema();
+		this.controller.finalizaSistema();
 	}
 }

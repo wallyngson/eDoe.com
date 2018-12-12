@@ -1,5 +1,6 @@
 package itens;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import util.Validador;
@@ -9,7 +10,7 @@ import util.Validador;
  * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
-public class ItemDoavel implements Item {
+public class ItemDoavel implements Item, Serializable {
 	private String nome;
 	private String[] tags;
 	private Integer idItem;
@@ -116,7 +117,7 @@ public class ItemDoavel implements Item {
 	}
 
 //	@Override
-	public String toStringParaRealizarDoacao() {
+	public String toStringParaRealizarDoacao(int qtdDoados) {
 		return null;
 	}
 

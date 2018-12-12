@@ -1,6 +1,5 @@
 package testes;
 
-//import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,14 +18,13 @@ class testController {
 
 	// CASE 1
 	
-//	@SuppressWarnings("deprecation")
-//	@Test
-//	void testAdicionaUsuarioDoador() {
-//		assertEquals("12345678910",
-//				controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA"));
-//		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
-//				controle.pesquisaUsuarioPorId("12345678910"));
-//	}
+	@Test
+	void testAdicionaUsuarioDoador() {
+		assertEquals("12345678910",
+				controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA"));
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
+				controle.pesquisaUsuarioPorId("12345678910"));
+	}
 
 	@Test
 	void testAdicionaUsuarioIdNuloOuVazio() {

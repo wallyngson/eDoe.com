@@ -17,8 +17,9 @@ import itens.Descritor;
 
 public class serializeSistema implements Serializable{
 
-		public static void salvarItens(Map<Integer, Item> itens) {
+	private static final long serialVersionUID = 1L;
 
+		public static void salvarItens(Map<Integer, Item> itens) {
 			try {
 
 				FileOutputStream fos = new FileOutputStream("data/itens.dat");
@@ -36,7 +37,6 @@ public class serializeSistema implements Serializable{
 
 		
 		public static Map<Integer, Item> carregaItens() {
-
 			try {
 
 				File arquivo = new File("data/itens.dat");
@@ -63,7 +63,6 @@ public class serializeSistema implements Serializable{
 		}
 		
 		public static void salvarUsuarios(Map<String, Usuario> usuarios) {
-
 			try {
 
 				FileOutputStream fos = new FileOutputStream("data/usuarios.dat");
@@ -81,7 +80,6 @@ public class serializeSistema implements Serializable{
 
 		
 		public static Map<String, Usuario> carregaUsuarios() {
-
 			try {
 
 				File arquivo = new File("data/usuarios.dat");
@@ -108,7 +106,6 @@ public class serializeSistema implements Serializable{
 		}
 		
 		public static void salvarDescritores(Map<String, Descritor> descritores) {
-
 			try {
 
 				FileOutputStream fos = new FileOutputStream("data/descritores.dat");
@@ -125,7 +122,6 @@ public class serializeSistema implements Serializable{
 		}
 		
 		public static Map<String, Descritor> carregaDescritores() {
-
 			try {
 
 				File arquivo = new File("data/descritores.dat");

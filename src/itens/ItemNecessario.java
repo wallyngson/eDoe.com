@@ -1,5 +1,6 @@
 package itens;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import util.Validador;
@@ -9,7 +10,7 @@ import util.Validador;
  * @author  Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
-public class ItemNecessario implements Item {
+public class ItemNecessario implements Item, Serializable {
 	private String nome;
 	private String[] tags;
 	private Integer idItem;
@@ -129,7 +130,7 @@ public class ItemNecessario implements Item {
 		return this.getNome().compareTo(i.getNome());
 	}
 	
-	public String toStringParaRealizarDoacao() {
-		return this.nome.toLowerCase() + ", quantidade: " + this.qtdItem;
+	public String toStringParaRealizarDoacao(int qtdDoados) {
+		return this.nome.toLowerCase() + ", quantidade: " + qtdDoados;
 	}
 }

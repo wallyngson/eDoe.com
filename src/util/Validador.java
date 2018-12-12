@@ -1,5 +1,6 @@
 package util;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import itens.Descritor;
@@ -11,12 +12,17 @@ import usuarios.Usuario;
  * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
-public class Validador {
+public class Validador implements Serializable{
 	
 	
 	// USUARIOS
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Verifica se o Id passador por parametro eh invalido.
 	 * 

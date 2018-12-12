@@ -27,6 +27,6 @@ public interface Item extends Comparable<Item>{
 	
 	public String getUsuarioVinculado();
 	
-	public String toStringParaRealizarDoacao();
+	public String toStringParaRealizarDoacao(int qtdDoados);
 	
 }
