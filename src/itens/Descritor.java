@@ -4,6 +4,7 @@ public class Descritor implements Comparable<Descritor> {
 	
 	private int qtdItens = 0;
 	private String descritor;
+	private static final long serialVersionUID = 3L;
 	
 	public Descritor(String descritor) {
 		this.parametroInvalido(descritor);

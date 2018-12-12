@@ -18,6 +18,7 @@ public class Doador extends Usuario {
 	
 	private Map<Integer, Item> itens;
 	private Validador validador = new Validador();
+	private static final long serialVersionUID = 6L;
 
 	/**
 	 * Construtor do Doador.

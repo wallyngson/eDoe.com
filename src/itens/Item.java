@@ -1,7 +1,6 @@
 package itens;
 
 public interface Item extends Comparable<Item>{
-
 	public int getIdItem();
 	
 	public String descricaoCompleta();

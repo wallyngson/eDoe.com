@@ -16,6 +16,7 @@ public class ItemNecessario implements Item {
 	private int qtdItem;
 	private String representacaoUsuario;
 	private int potuacao;
+	private static final long serialVersionUID = 2L;
 	
 	private Validador validador = new Validador();
 	

@@ -433,7 +433,7 @@ public class EDoeController {
 		this.validador.idInvalido(id);
 		this.validador.usuarioInexistente(id, usuarios);
 
-		this.itens.get(idItem);
+		System.out.println(this.itens.get(idItem));
 		this.usuarios.get(id).removeItem(idItem);
 		adicionaQtdDescritor(itens.get(idItem).getNome(), 0);
 		this.itens.remove(idItem);
@@ -737,6 +737,7 @@ public class EDoeController {
 		this.parametrosDoacaoInvalida(idItemNec, idItemDoado, data);
 		int qtdItensNecessarios = 0;
 		int qtdItensDoaveis = 0;
+		String idRec = null;
 		String doacao = "";
 		String receptor = "";
 		for (Usuario u : usuarios.values()) {
@@ -744,32 +745,38 @@ public class EDoeController {
 				if(((Receptor) u).getItens().containsKey(Integer.parseInt(idItemNec))) {
 					qtdItensNecessarios = ((Receptor) u).getItens().get(Integer.parseInt(idItemNec)).getQtdItem();
 					receptor = ", receptor: " + u.getNome() + "/" + u.getId();
+					idRec = u.getId();
 					break;
 				}		
 			}
 		}
 		for (Usuario u : usuarios.values()) {
-			
+			Receptor rec = (Receptor)usuarios.get(idRec);
 			if(u instanceof Doador) {
 				if(((Doador) u).getItens().containsKey(Integer.parseInt(idItemDoado))) {
 					qtdItensDoaveis = ((Doador) u).getItens().get(Integer.parseInt(idItemDoado)).getQtdItem();
+					
 					if(qtdItensNecessarios < qtdItensDoaveis) {
 						int qtdResultante = qtdItensDoaveis - qtdItensNecessarios;
 						((Doador) u).getItens().get(Integer.parseInt(idItemDoado)).setQtdItem(qtdResultante);
 						doacao = data + " - doador: " +  u.getNome() + "/" + u.getId() + ", item: "
 								+ this.itens.get(Integer.parseInt(idItemNec)).toStringParaRealizarDoacao() + receptor; 
-						removeItem(Integer.parseInt(idItemNec), u.getId());
+						removeItem(Integer.parseInt(idItemNec), idRec);
+						//u.removeItem(idItem);
+						
 					}
+					
 					if(qtdItensNecessarios == qtdItensDoaveis) {
 						doacao = data + " - doador: " +  u.getNome() + "/" + u.getId() + ", item: "
 								+ this.itens.get(Integer.parseInt(idItemNec)).toStringParaRealizarDoacao() + receptor;
 						removeItem(Integer.parseInt(idItemDoado), u.getId());
-						removeItem(Integer.parseInt(idItemNec), u.getId());
+						removeItem(Integer.parseInt(idItemNec), idRec);
 						
 					}
+					
 					if(qtdItensNecessarios > qtdItensDoaveis) {
 						int qtdResultante = qtdItensNecessarios - qtdItensDoaveis;
-						((Doador) u).getItens().get(Integer.parseInt(idItemNec)).setQtdItem(qtdResultante);
+						rec.getItens().get(Integer.parseInt(idRec)).setQtdItem(qtdResultante);
 						doacao = data + " - doador: " +  u.getNome() + "/" + u.getId() + ", item: "
 								+ this.itens.get(Integer.parseInt(idItemNec)).toStringParaRealizarDoacao() + receptor;
 						removeItem(Integer.parseInt(idItemDoado), u.getId());

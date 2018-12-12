@@ -19,6 +19,7 @@ public class Receptor extends Usuario {
 	
 	private Map<Integer, Item> itens;
 	private Validador validador = new Validador();
+	private static final long serialVersionUID = 4L;
 	
 	/**
 	 * Construtor do Receptor.

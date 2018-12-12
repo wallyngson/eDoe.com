@@ -16,6 +16,7 @@ public class ItemDoavel implements Item {
 	private int qtdItem;
 	private String representacaoUsuario;
 	private int pontuacao;
+	private static final long serialVersionUID = 1L;
 	
 	private Validador validador = new Validador();
 	
