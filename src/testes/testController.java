@@ -17,7 +17,7 @@ class testController {
 	}
 
 	// CASE 1
-	
+
 	@Test
 	void testAdicionaUsuarioDoador() {
 		assertEquals("12345678910",
@@ -58,12 +58,12 @@ class testController {
 				() -> controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", null, "PESSOA_FISICA"));
 	}
 
-//	@Test
-//	void testPesquisaUsuariosPorId() {
-//		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-//		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
-//				controle.pesquisaUsuarioPorId("12345678910"));
-//	}
+	@Test
+	void testPesquisaUsuariosPorId() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
+				controle.pesquisaUsuarioPorId("12345678910"));
+	}
 
 	@Test
 	void testPesquisaUsuarioPorIdNuloOuVazio() {
@@ -76,12 +76,12 @@ class testController {
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("12312378910"));
 	}
 
-//	@Test
-//	void testPesquisaUsuariosPorNome() {
-//		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-//		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
-//				controle.pesquisaUsuarioPorNome("Victor Braga"));
-//	}
+	@Test
+	void testPesquisaUsuariosPorNome() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
+				controle.pesquisaUsuarioPorNome("Victor Braga"));
+	}
 
 	@Test
 	void testPesquisaUsuarioPorNomeNuloOuVazio() {
@@ -94,14 +94,14 @@ class testController {
 		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("Paulo Coelho"));
 	}
 
-//	@Test
-//	void testAtualizaUsuario() {
-//		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-//		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
-//				controle.pesquisaUsuarioPorId("12345678910"));
-//		assertEquals("Victor Paz/12345678910, victor@ccc.ufcg.com, 9999-1231, status: doador",
-//				controle.atualizaUsuario("12345678910", "Victor Paz", "victor@ccc.ufcg.com", "9999-1231"));
-//	}
+	@Test
+	void testAtualizaUsuario() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
+				controle.pesquisaUsuarioPorId("12345678910"));
+		assertEquals("Victor Paz/12345678910, victor@ccc.ufcg.com, 9999-1231, status: doador",
+				controle.atualizaUsuario("12345678910", "Victor Paz", "victor@ccc.ufcg.com", "9999-1231"));
+	}
 
 	@Test
 	void testAtualizaUsuarioIdNuloOuVazio() {
@@ -111,15 +111,15 @@ class testController {
 				() -> controle.atualizaUsuario(null, "victor braga", "victor@ccc.com", "9999-1231"));
 	}
 
-//	@Test
-//	void testRemoveUsuario() {
-//		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-//		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
-//				controle.pesquisaUsuarioPorId("12345678910"));
-//		assertTrue(controle.removeUsuario("12345678910"));
-//		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("12345678910"));
-//
-//	}
+	@Test
+	void testRemoveUsuario() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertEquals("Victor Braga/12345678910, victor@ccc.com, 9999-1231, status: doador",
+				controle.pesquisaUsuarioPorId("12345678910"));
+		assertTrue(controle.removeUsuario("12345678910"));
+		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaUsuarioPorId("12345678910"));
+
+	}
 
 	@Test
 	void testRemoveUsuarioUsuarioNaoEncontrado() {
@@ -143,65 +143,154 @@ class testController {
 		assertFalse(controle.getDescritores().isEmpty());
 		assertTrue(controle.getDescritores().containsKey("cadeiraderodas"));
 	}
-	
+
 	@Test
 	void testAdicionaDescritorNulo() {
-		assertThrows(IllegalArgumentException.class, ()-> controle.adicionaDescritor(null));
+		assertThrows(IllegalArgumentException.class, () -> controle.adicionaDescritor(null));
 	}
-	
+
 	@Test
 	void testAdicionaDescritorVazio() {
-		assertThrows(IllegalArgumentException.class, ()-> controle.adicionaDescritor("  "));
+		assertThrows(IllegalArgumentException.class, () -> controle.adicionaDescritor("  "));
 	}
-	
 
 	@Test
 	void testAdicionaItemParaDoacao() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
 		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
-		// pq nao consigo receber o id desse metodo? 
-		// quero fazer isso de baixo e nao consigo. pq?
-		// assertEquals(1, controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada"));
-		
+		int i = controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		assertEquals(1, i);
+
 	}
-	
+
 	@Test
 	void testAdicionaItemNecessario() {
-		
+
 	}
-	
+
 	@Test
 	void testExibeItem() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
 		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
-		assertEquals("1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3", controle.exibeItem(1, "12345678910"));
+		assertEquals("1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3",
+				controle.exibeItem(1, "12345678910"));
 	}
-	
+
 	@Test
 	void testExibeItemIdItemNulo() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
 		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
-		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(null, "12345678910"));
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(null, "12345678910"));
 	}
-	
+
 	@Test
 	void testExibeItemIdUsuarioNulo() {
-		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(1, null));
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(1, null));
 	}
-	
+
 	@Test
 	void testExibeItemIdUsuarioVazio() {
-		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(1, "  "));
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(1, "  "));
+	}
+
+	@Test
+	void testRemoveItem() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		assertEquals("1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3",
+				controle.exibeItem(1, "12345678910"));
+		controle.removeItem(1, "12345678910");
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(1, "12345678910"));
+	}
+
+	@Test
+	void testRemoveItemIdItemNulo() {
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(null, "12345678910"));
+	}
+
+	void testRemoveItemIdUsuarioNulo() {
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(1, null));
+	}
+
+	@Test
+	void testRemoveItemUsuarioInesistente() {
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(1, "12345678910"));
+	}
+
+	@Test
+	void testRemoveItemInesistente() {
+		assertThrows(IllegalArgumentException.class, () -> controle.exibeItem(1, "12345678910"));
+	}
+
+	@Test
+	void testAtualizaItem() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		assertEquals("1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3",
+				controle.exibeItem(1, "12345678910"));
+		controle.atualizaItem(1, "12345678910", 10, "automatica, verde");
+		assertEquals("1 - cadeira de rodas, tags: [automatica,  verde], quantidade: 10",
+				controle.exibeItem(1, "12345678910"));
 	}
 	
 	@Test
-	void removeItem() {
-		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
-		assertEquals("1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3", controle.exibeItem(1, "12345678910"));
-		controle.removeItem(1, "12345678910");
-		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(1, "12345678910"));
+	void testAtualizaItemTagNula() {
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, "12345678910", 20, null));
 	}
 	
+	@Test
+	void testAtualizaItemUsuarioInexistente() {
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, "12345678910", 10, "verde"));
+	}
+	
+	@Test
+	void testAtualizaItemUsuarioItemInexistente() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, "12345678910", 10, "verde"));
+	}
+	
+	@Test
+	void testAtualizaItemUsuaioNulo() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, null, 10, "verde"));
+	}
+	
+	@Test
+	void testAtualizaItemUsuaioVazio() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, "    ", 10, "verde"));
+	}
+	
+	@Test
+	void testAtualizaItemNulo() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(null, "12345678910", 10, "verde"));
+	}
+	
+	@Test
+	void testAtualizaItemQtdInvalida() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, "12345678910", -200, "verde"));
+	}
+
+	// Case 3
+	@Test
+	void testListaDescritor() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaDoador("12345678912", "dacBez Bez", "dacio@ccc.com", "9999-2231", "PESSOA_FISICA");
+		controle.adicionaDescritor("cadeira de rodas");
+		controle.adicionaDescritor("colchao");
+		controle.adicionaDescritor("cobertor");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		controle.adicionaItemParaDoacao("12345678910", "colchao", 5, "colchao kingsize,conforto,dormir");
+		controle.adicionaItemParaDoacao("12345678912", "cobertor", 10, "lencol,conforto");		
+		
+		
+		
+	}
+	// Case 4
+
+//	@Test
+//	void
 
 }
