@@ -141,7 +141,6 @@ class testController {
 		assertTrue(controle.getDescritores().isEmpty());
 		controle.adicionaDescritor("cadeira de rodas");
 		assertFalse(controle.getDescritores().isEmpty());
-		// no metodo o descritor eh passado todo para lowerCase e perde espacos
 		assertTrue(controle.getDescritores().containsKey("cadeiraderodas"));
 	}
 
