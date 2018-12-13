@@ -700,7 +700,7 @@ public class EDoeController {
 	 * @param idItem
 	 */
 	private void matchInvalido(String idReceptor, Integer idItem) {
-		if (idItem < 0)
+		if (idItem == null || idItem < 0)
 			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
 
 		if (idReceptor == null || idReceptor.trim().equals(""))
