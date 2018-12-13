@@ -11,7 +11,9 @@ import util.Validador;
 /**
  * Classe que representa um doador.
  * 
- * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
+ * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
 public class Doador extends Usuario {
@@ -78,6 +80,9 @@ public class Doador extends Usuario {
 		this.itens.remove(idItem);
 	}
 	
+	/**
+	 * Retorna a lista de itens do Usuario.
+	 */
 	@Override
 	public List<Item> retornaItens() {
 		List<Item> itensDoUsuario = new ArrayList<>();
@@ -86,6 +91,9 @@ public class Doador extends Usuario {
 		return itensDoUsuario;
 	}
 	
+	/**
+	 * Retorna o nome do item a partir do seu id.
+	 */
 	@Override
 	public String nomeItem(Integer id) {
 		return this.itens.get(id).getNome();

@@ -8,6 +8,8 @@ import sistema.EDoeController;
  * Classe de fachada que apenas recebe os metotos e chama os do controller.
  * Padrao de Projeto Facade.
  * 
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
  * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */

@@ -6,8 +6,11 @@ import java.util.Arrays;
 import util.Validador;
 
 /**
- * Classe que representa um item necessario, apto a fazer parte da lista de itens necessarios aos receptores
- * @author  Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ * Classe que representa um item necessario, apto a fazer parte da lista de itens necessarios aos receptores.
+ * 
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
+ * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
 public class ItemNecessario implements Item, Serializable {
@@ -16,13 +19,13 @@ public class ItemNecessario implements Item, Serializable {
 	private Integer idItem;
 	private int qtdItem;
 	private String representacaoUsuario;
-	private int potuacao;
+	private int pontuacao;
 	private static final long serialVersionUID = 2L;
 	
 	private Validador validador = new Validador();
 	
 	/**
-	 * Construtor da classe ItemNecessario
+	 * Construtor da classe ItemNecessario.
 	 * @param nome
 	 * @param qtd
 	 * @param tags
@@ -30,8 +33,7 @@ public class ItemNecessario implements Item, Serializable {
 	 * @param representacaoUsuario
 	 */
 	public ItemNecessario(String nome, int qtd, String tags, Integer idItem, String representacaoUsuario) {
-		this.validador.quatidadeInvalida(qtd);
-
+		this.validador.quantidadeInvalida(qtd);
 		this.nome = nome;
 		this.tags = tags.split(",");
 		this.qtdItem = qtd;
@@ -40,33 +42,39 @@ public class ItemNecessario implements Item, Serializable {
 	}
 	
 	/**
-	 * Metodo que retorna a representacao do usuario que possui esse item
+	 * Metodo que retorna a representacao do usuario que possui esse item.
 	 */
 	public String getUsuarioVinculado() {
 		return representacaoUsuario;
 	}
-	
-	/**
-	 * Retorna o id do item atual
-	 */
+
 	public int getIdItem() {
 		return this.idItem;
 	}
-	
-	/**
-	 * Metodo que retorna um array de Strings com as tags
-	 */
+
 	public String[] getTags() {
 		return this.tags;
 	}
 
 	@Override
 	public int getPontuacao() {
-		return this.potuacao;
+		return this.pontuacao;
+	}
+	
+	public String getNome() {
+		return this.nome;
+	}
+	
+	public int getQtdItem() {
+		return qtdItem;
+	}
+	
+	public void setQtdItem(int qtdItem) {
+		this.qtdItem = qtdItem;
 	}
 
 	/**
-	 * Retorna a descricao completa do item
+	 * Retorna a descricao completa do item.
 	 */
 	public String descricaoCompleta() {
 		return this.nome + " - " + Arrays.toString(tags);
@@ -87,33 +95,18 @@ public class ItemNecessario implements Item, Serializable {
 		
 		return this.toString();
 	}
-
-	/**
-	 * Metodo que retorna  o nome do item
-	 */
-	public String getNome() {
-		return this.nome;
-	}
 	
 	/**
-	 * Metodo que retorna a quantidade do item
+	 * toString da classe ItemNecessario.
 	 */
-	public int getQtdItem() {
-		return qtdItem;
-	}
-	
-	/**
-	 * Metodo que insere a quantidade desse item
-	 */
-	public void setQtdItem(int qtdItem) {
-		this.qtdItem = qtdItem;
-	}
-
 	@Override
 	public String toString() {
 		return this.idItem + " - " + this.nome.toLowerCase() + ", tags: " + Arrays.toString(tags) + ", quantidade: " + this.qtdItem;
 	}
 	
+	/**
+	 * Comparador da classe ItemNecessario a partir da sua quantidade.
+	 */
 	@Override
 	public int compareTo(Item other) {
 		if (this.qtdItem < other.getQtdItem())
@@ -124,12 +117,18 @@ public class ItemNecessario implements Item, Serializable {
 		
 		return compareToNome(other);
 	}
-
+	
+	/**
+	 * Comparador da classe ItemNecessario a partir do seu nome.
+	 */
 	@Override
 	public int compareToNome(Item i) {
 		return this.getNome().compareTo(i.getNome());
 	}
 	
+	/**
+	 * Método toString utilizado para quando se vai realizar doações.
+	 */
 	public String toStringParaRealizarDoacao(int qtdDoados) {
 		return this.nome.toLowerCase() + ", quantidade: " + qtdDoados;
 	}

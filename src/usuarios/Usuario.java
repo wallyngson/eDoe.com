@@ -1,20 +1,25 @@
 package usuarios;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 import itens.Item;
 import util.Validador;
 
 /**
- * Classe abstrata que representa um Usuario do sistema de doacoes, podendo ser
- * Receptor ou Doador.
+ * Classe abstrata que representa um Usuario do sistema de doacoes, podendo ser Receptor ou Doador.
  * 
- * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
+ * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
 public abstract class Usuario implements Comparable<Usuario>, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String[] classes = { "PESSOA_FISICA", "IGREJA", "ORGAO_PUBLICO_MUNICIPAL", "ORGAO_PUBLICO_ESTADUAL",
 			"ORGAO_PUBLICO_FEDERAL", "ONG", "ASSOCIACAO", "SOCIEDADE" };
@@ -75,10 +80,8 @@ public abstract class Usuario implements Comparable<Usuario>, Serializable {
 		return this.id;
 	}
 
-
 	/**
-	 * Esse metodo deve ser sobscrito nos doadores, pois ira cadastrar todos os
-	 * itens de cada doador.
+	 * Esse metodo deve ser sobscrito nos doadores, pois ira cadastrar todos os itens de cada doador.
 	 * 
 	 * @param descritor
 	 * @param qtd
@@ -87,8 +90,7 @@ public abstract class Usuario implements Comparable<Usuario>, Serializable {
 	public void adicionaItem(Integer idItem, Item item) {}
 
 	/**
-	 * Esse metodo deve ser sobscrevido pelo metodo de doador que exibe um item
-	 * cadastrado.
+	 * Esse metodo deve ser sobscrito pelo metodo de doador que exibe um item cadastrado.
 	 * 
 	 * @param descritor
 	 * @return
@@ -98,36 +100,69 @@ public abstract class Usuario implements Comparable<Usuario>, Serializable {
 	}
 	
 	/**
-	 * Metodo que remove itens de um doador, deve ser subscrito por um metodo em
-	 * doador.
+	 * Metodo que remove itens de um doador, deve ser subscrito por um metodo em doador.
 	 * 
 	 * @param descritor
 	 */
 	public void removeItem(Integer idItem) {}
 	
+	/**
+	 * Método que valida os itens de um usuario.
+	 * @param idItem
+	 */
 	public void validaItem(Integer idItem) {}
 	
+	/**
+	 * Método auxiliar para retornar a lista de itens.
+	 * @return
+	 */
 	public List<Item> retornaItens() {
 		return null;
 	}
 	
+	/**
+	 * Método toString da classe Usuario.
+	 */
+	@Override
+	public String toString() {
+		return this.nome + "/" + this.id + ", " + this.email + ", " + this.celular + ", " + "status: " + this.status;
+	}
+	
+	/**
+	 * hashCode da classe Usuario.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((celular == null) ? 0 : celular.hashCode());
 		result = prime * result + ((classe == null) ? 0 : classe.hashCode());
-		result = prime * result + Arrays.hashCode(classes);
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
-
+	
+	/**
+	 * equals da classe Usuario.
+	 */
 	@Override
-	public String toString() {
-		return this.nome + "/" + this.id + ", " + this.email + ", " + this.celular + ", " + "status: " + this.status;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (classe == null) {
+			if (other.classe != null)
+				return false;
+		} else if (!classe.equals(other.classe))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 	/**

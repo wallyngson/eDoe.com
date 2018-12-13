@@ -1,9 +1,25 @@
 package itens;
 
+/**
+ * Classe que armazena os itens doados.
+ * 
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
+ * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ *
+ */
 public class Doacao {
 	
 	private String data, nomeDoador, itemDoado, nomeReceptor, idDoador;
 	
+	/**
+	 * Método construtor da classe Doacao.
+	 * @param data
+	 * @param nomeDoador
+	 * @param itemDoado
+	 * @param nomeReceptor
+	 * @param idDoador
+	 */
 	public Doacao(String data, String nomeDoador, String itemDoado, String nomeReceptor, String idDoador) {
 		this.data = data;
 		this.nomeDoador = nomeDoador;

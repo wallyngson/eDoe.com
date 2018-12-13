@@ -11,7 +11,9 @@ import util.Validador;
 /**
  * Classe que representa um Receptor de Doacoes.
  * 
- * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
+ * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
 public class Receptor extends Usuario {
@@ -31,7 +33,6 @@ public class Receptor extends Usuario {
 	 * @param classe
 	 * 
 	 */
-
 	public Receptor(String id, String nome, String email, String celular, String classe) {
 		super(id, nome, email, celular, classe);
 		super.setStatus("receptor");
@@ -45,6 +46,7 @@ public class Receptor extends Usuario {
 	public void adicionaItem(Integer idItem, Item item) {
 		this.itens.put(idItem, item);
 	}
+	
 	/**
 	 * Exibe um item cadastrado no receptor.
 	 */
@@ -55,16 +57,22 @@ public class Receptor extends Usuario {
 		return this.itens.get(idItem).toString();
 	}
 	/**
-	 * Valida um item do receptor
+	 * Valida um item do receptor.
 	 */
+	
 	@Override
 	public void validaItem(Integer idItem) {
 		this.validador.validaItem(idItem, itens);
 	}
 	
+	/**
+	 * Método auxiliar que retorna a lista de itens.
+	 * @return
+	 */
 	public Map<Integer, Item> getItens(){
 		return this.itens;
 	}
+	
 	/**
 	 * Remove um item passado por parametro do usuario doador.
 	 * 
@@ -79,7 +87,7 @@ public class Receptor extends Usuario {
 	}
 	
 	/**
-	 * Retorna os itens do receptor
+	 * Retorna os itens do receptor.
 	 */
 	@Override
 	public List<Item> retornaItens() {
@@ -90,7 +98,7 @@ public class Receptor extends Usuario {
 	}
 	
 	/**
-	 * Retorna o nome de algum item vinculado
+	 * Retorna o nome de algum item vinculado.
 	 */
 	@Override
 	public String nomeItem(Integer id) {

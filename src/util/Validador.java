@@ -8,20 +8,18 @@ import itens.Item;
 import usuarios.Usuario;
 
 /**
- * Classe validadora de estados e parametros
- * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ * Classe validadora de estados e parametros.
+ * 
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
+ * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
 public class Validador implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	
 	// USUARIOS
-	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Verifica se o Id passador por parametro eh invalido.
@@ -33,7 +31,6 @@ public class Validador implements Serializable{
 			throw new IllegalArgumentException("Entrada invalida: id do usuario nao pode ser vazio ou nulo.");
 	}
 
-
 	/**
 	 * Verifica se o usuario existe no sistema.
 	 * 
@@ -44,7 +41,6 @@ public class Validador implements Serializable{
 			throw new IllegalArgumentException("Usuario ja existente: " + id + ".");
 	}
 	
-
 	/**
 	 * Verifica se o usuario nao existe no sistema.
 	 * 
@@ -65,15 +61,16 @@ public class Validador implements Serializable{
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 	}
 
-
+	/**
+	 * Verifica se a descrição está vazia ou nula.
+	 * @param descritor
+	 */
 	public void descritorInvalido(String descritor) {
 		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
 	}
 	
-	
 	// DESCRITORES
-	
 	
 	/**
 	 * Verifica se o descritor ja esta cadastrado.
@@ -95,7 +92,6 @@ public class Validador implements Serializable{
 		return string.replace(" ", "").toLowerCase();
 	}
 	
-	
 	// ITENS
 	
 	/**
@@ -110,7 +106,11 @@ public class Validador implements Serializable{
 			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
 	}
 	
-	public void quatidadeInvalida(int qtd) {
+	/**
+	 * Verifica se a quantidade é maior que zero.
+	 * @param qtd
+	 */
+	public void quantidadeInvalida(int qtd) {
 		if (qtd <= 0)
 			throw new IllegalArgumentException("Entrada invalida: quantidade deve ser maior que zero.");
 	}
@@ -125,7 +125,6 @@ public class Validador implements Serializable{
 	}
 	
 	// USUARIOS
-	
 	
 	/**
 	 * Metodo que verifica se todos os parametros sao validos.
@@ -148,7 +147,7 @@ public class Validador implements Serializable{
 	}
 	
 	/**
-	 * Valida se a classe do usuario eh valida.
+	 * Valida se a classe do usuario é valida.
 	 * 
 	 * @param classe
 	 * @return
@@ -166,7 +165,7 @@ public class Validador implements Serializable{
 	}
 	
 	/**
-	 * Verifica se a string pesquisa está nula ou vazia,  lançando exceção em caso afirmativo.
+	 * Verifica se a string pesquisa está nula ou vazia, lançando exceção em caso afirmativo.
 	 * @param descritor
 	 */
 	public void validaPesquisa(String descritor) { 

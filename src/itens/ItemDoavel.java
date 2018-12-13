@@ -6,8 +6,11 @@ import java.util.Arrays;
 import util.Validador;
 
 /**
- * Classe que representa um item que pode ser doado e adicionado na lista de itens doaveis do doador
- * @author Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
+ * Classe que representa um item que pode ser doado e adicionado na lista de itens doaveis do doador.
+ * 
+ * Laboratório de Programação 2 - Projeto Final.
+ * 
+ * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
 public class ItemDoavel implements Item, Serializable {
@@ -22,7 +25,7 @@ public class ItemDoavel implements Item, Serializable {
 	private Validador validador = new Validador();
 	
 	/**
-	 * Construtor da classe ItemDoavel
+	 * Construtor da classe ItemDoavel.
 	 * @param nome
 	 * @param qtd
 	 * @param tags
@@ -30,7 +33,7 @@ public class ItemDoavel implements Item, Serializable {
 	 * @param representacaoUsuario
 	 */
 	public ItemDoavel(String nome, int qtd, String tags, Integer idItem, String representacaoUsuario) {
-		this.validador.quatidadeInvalida(qtd);
+		this.validador.quantidadeInvalida(qtd);
 
 		this.nome = nome;
 		this.tags = tags.split(",");
@@ -38,49 +41,49 @@ public class ItemDoavel implements Item, Serializable {
 		this.idItem = idItem;
 		this.representacaoUsuario = representacaoUsuario;
 	}
-	
-	/**
-	 * Retorna o id do item atual
-	 */
+
 	public int getIdItem() {
 		return this.idItem;
 	}
 	
-	/**
-	 * Retorna a descricao completa do item
-	 */
-	public String descricaoCompleta() {
-		return this.nome + " - " + Arrays.toString(tags);
+	public String getUsuarioVinculado() {
+		return this.representacaoUsuario;
 	}
 	
-	/**
-	 * Metodo que retorna um array de Strings com as tags
-	 */
 	public String[] getTags() {
 		return this.tags;
 	}
 
-
-	/**
-	 * Metodo que retorna a pontuacao
-	 * @return um inteiro representando a pontuacao
-	 */
 	@Override
 	public int getPontuacao() {
 		return this.pontuacao;
 	}
 
-	
-	/**
-	 * Metodo que insere a pontuacao e soma a pontuacao atual do item
-	 * @param pontuacao
-	 */
 	public void setPontuacao(int pontuacao) {
 		this.pontuacao += pontuacao;
 	}
+	
+	public String getNome() {
+		return this.nome;
+	}
+	
+	public int getQtdItem() {
+		return qtdItem;
+	}
+	
+	public void setQtdItem(int qtdItem) {
+		this.qtdItem = qtdItem;
+	}
+	
+	/**
+	 * Retorna a descricao completa do item.
+	 */
+	public String descricaoCompleta() {
+		return this.nome + " - " + Arrays.toString(tags);
+	}
 
 	/**
-	 * Metodo responsavel por atualizar os valores do item a ser mudado,
+	 * Metodo responsavel por atualizar os valores do item a ser mudado.
 	 * 
 	 * @param qtd
 	 * @param tags
@@ -94,38 +97,25 @@ public class ItemDoavel implements Item, Serializable {
 		
 		return this.toString();
 	}
-
-	/**
-	 * Metodo que retorna  o nome do item
-	 */
-	public String getNome() {
-		return this.nome;
-	}
 	
 	/**
-	 * Metodo que retorna a quantidade do item
+	 * toString auxiliar para quando se vai realizar uma doação.
 	 */
-	public int getQtdItem() {
-		return qtdItem;
-	}
-	
-	/**
-	 * Metodo que insere a quantidade desse item
-	 */
-	public void setQtdItem(int qtdItem) {
-		this.qtdItem = qtdItem;
-	}
-
-//	@Override
 	public String toStringParaRealizarDoacao(int qtdDoados) {
 		return null;
 	}
-
+	
+	/**
+	 * Método toString da classe ItemDoavel.
+	 */
 	@Override
 	public String toString() {
 		return this.idItem + " - " + this.nome + ", tags: " + Arrays.toString(tags) + ", quantidade: " + this.qtdItem;
 	}
 	
+	/**
+	 * Método comparador da classe ItemDoavel a partir de sua quantidade.
+	 */
 	@Override
 	public int compareTo(Item other) {
 		if (this.qtdItem < other.getQtdItem())
@@ -136,16 +126,47 @@ public class ItemDoavel implements Item, Serializable {
 		
 		return compareToNome(other);
 	}
-
+	
+	/**
+	 * Método comparador da classe ItemDoavel a partir do seu nome.
+	 */
 	@Override
 	public int compareToNome(Item i) {
 		return this.getNome().compareTo(i.getNome());
 	}
 	
+	
+	
 	/**
-	 * Metodo que retorna a representacao do usuario que possui esse item
+	 * hashCode da classe ItemDoavel.
 	 */
-	public String getUsuarioVinculado() {
-		return this.representacaoUsuario;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idItem == null) ? 0 : idItem.hashCode());
+		return result;
 	}
+	
+	/**
+	 * equals da classe ItemDoavel.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemDoavel other = (ItemDoavel) obj;
+		if (idItem == null) {
+			if (other.idItem != null)
+				return false;
+		} else if (!idItem.equals(other.idItem))
+			return false;
+		return true;
+	}
+	
+	
 }
