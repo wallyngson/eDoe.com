@@ -368,4 +368,6 @@ class testController {
 		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, null));
 		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, "31862316040"));
 	}
+	
+	//CASE 5
 }
