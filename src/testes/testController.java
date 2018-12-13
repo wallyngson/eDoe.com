@@ -2,6 +2,8 @@ package testes;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +16,18 @@ class testController {
 	@BeforeEach
 	void iniciaTeste() {
 		controle = new EDoeController();
+		try {
+			controle.lerReceptores("arquivos_sistema/novosReceptores.csv");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			controle.lerReceptores("arquivos_sistema/atualizaReceptores.csv");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// CASE 1
@@ -275,22 +289,40 @@ class testController {
 
 	// Case 3
 	@Test
-	void testListaDescritor() {
+	void testListaDescritorItem() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
 		controle.adicionaDoador("12345678912", "dacBez Bez", "dacio@ccc.com", "9999-2231", "PESSOA_FISICA");
-		controle.adicionaDescritor("cadeira de rodas");
-		controle.adicionaDescritor("colchao");
-		controle.adicionaDescritor("cobertor");
 		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
 		controle.adicionaItemParaDoacao("12345678910", "colchao", 5, "colchao kingsize,conforto,dormir");
 		controle.adicionaItemParaDoacao("12345678912", "cobertor", 10, "lencol,conforto");		
 		
+		assertEquals("3 - cadeira de rodas | 10 - cobertor | 5 - colchao",controle.listaDescritorDeItensParaDoacao());
+		assertEquals("3 - cobertor, tags: [lencol, conforto], quantidade: 10, doador: dacBez Bez/12345678912 | 2 - colchao, tags: [colchao kingsize, conforto, dormir], quantidade: 5, doador: Victor Braga/12345678910 | 1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3, doador: Victor Braga/12345678910", controle.listaItensParaDoacao());
 		
+	}
+	@Test
+	void pesquisaPorDescricaoSuccess() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaDoador("12345678912", "dacBez Bez", "dacio@ccc.com", "9999-2231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de praia", 5, "dobravel");
+		controle.adicionaItemParaDoacao("12345678912", "cadeira reclinavel", 10, "couro");
 		
+		assertEquals("2 - cadeira de praia, tags: [dobravel], quantidade: 5 | 1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3 | 3 - cadeira reclinavel, tags: [couro], quantidade: 10", controle.pesquisaItemParaDoacaoPorDescricao("Cadeira"));
+	}
+	@Test
+	void pesquisaPorDescricaoFail() {
+		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaItemParaDoacaoPorDescricao(""));
+		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaItemParaDoacaoPorDescricao(null));
 	}
 	// Case 4
 
-//	@Test
-//	void
+	@Test
+	void pesquisaPorId() {
+		int i = controle.adicionaItemNecessario("84473712044", "Livro", 1, "Infantil,Matematica,Didatico");
+		assertEquals(1, i);
+		i = controle.adicionaItemNecessario("31862316040", "Toalha de Banho", 3, "Adulto,TAM G,Azul");
+		assertEquals(2, i);
+	}
 
 }
