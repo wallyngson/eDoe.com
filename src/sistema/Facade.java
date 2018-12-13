@@ -82,7 +82,7 @@ public class Facade {
 	}
 		
 	public String pesquisaItemParaDoacaoPorDescricao(String desc) {
-		return this.controller.pesquisaItemParaDoacaoPorDescricao(desc);
+		return this.controller.pesquisaItemPorDescricao(desc);
 	}
 		
 	// CASE4

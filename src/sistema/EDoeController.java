@@ -574,7 +574,7 @@ public class EDoeController {
 	 * @param desc
 	 * @return
 	 */
-	public String pesquisaItemParaDoacaoPorDescricao(String desc) {
+	public String pesquisaItemPorDescricao(String desc) {
 		this.validador.validaPesquisa(desc);
 
 		List<Item> listaQtd = new ArrayList<>();

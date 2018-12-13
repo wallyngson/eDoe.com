@@ -308,21 +308,64 @@ class testController {
 		controle.adicionaItemParaDoacao("12345678910", "cadeira de praia", 5, "dobravel");
 		controle.adicionaItemParaDoacao("12345678912", "cadeira reclinavel", 10, "couro");
 		
-		assertEquals("2 - cadeira de praia, tags: [dobravel], quantidade: 5 | 1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3 | 3 - cadeira reclinavel, tags: [couro], quantidade: 10", controle.pesquisaItemParaDoacaoPorDescricao("Cadeira"));
+		assertEquals("2 - cadeira de praia, tags: [dobravel], quantidade: 5 | 1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3 | 3 - cadeira reclinavel, tags: [couro], quantidade: 10", controle.pesquisaItemPorDescricao("Cadeira"));
 	}
 	@Test
 	void pesquisaPorDescricaoFail() {
-		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaItemParaDoacaoPorDescricao(""));
-		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaItemParaDoacaoPorDescricao(null));
+		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaItemPorDescricao(""));
+		assertThrows(IllegalArgumentException.class, () -> controle.pesquisaItemPorDescricao(null));
 	}
+	
 	// Case 4
 
 	@Test
-	void pesquisaPorId() {
+	void pesquisaNecessarioSuccess() {
 		int i = controle.adicionaItemNecessario("84473712044", "Livro", 1, "Infantil,Matematica,Didatico");
 		assertEquals(1, i);
 		i = controle.adicionaItemNecessario("31862316040", "Toalha de Banho", 3, "Adulto,TAM G,Azul");
 		assertEquals(2, i);
 	}
-
+	@Test
+	void pesquisaNecessarioFail() {
+		assertThrows(IllegalArgumentException.class, () -> controle.adicionaItemNecessario("", "Livro", 1, "Infantil,Matematica,Didatico"));
+		assertThrows(IllegalArgumentException.class, () -> controle.adicionaItemNecessario("84473712044", "Livro", -1, "Infantil,Matematica,Didatico"));
+		assertThrows(IllegalArgumentException.class, () -> controle.adicionaItemNecessario("84473712044", null, 1, "Infantil,Matematica,Didatico"));
+		
+	}
+	@Test
+	void listaItemNecessario() {
+		controle.adicionaItemNecessario("84473712044", "Livro", 1, "Infantil,Matematica,Didatico");
+		controle.adicionaItemNecessario("31862316040", "Toalha de Banho", 3, "Adulto,TAM G,Azul");
+		controle.adicionaItemNecessario("24875800037", "Toalha de Banho", 1, "Adulto,TAM G,Branca");
+		
+		assertEquals("1 - livro, tags: [Infantil, Matematica, Didatico], quantidade: 1, Receptor: Murilo Luiz Brito/84473712044 | 2 - toalha de banho, tags: [Adulto, TAM G, Azul], quantidade: 3, Receptor: Sonia Daniela/31862316040 | 3 - toalha de banho, tags: [Adulto, TAM G, Branca], quantidade: 1, Receptor: Sara Jennifer Vieira/24875800037",controle.listaItensNecessarios());
+	}
+	@Test
+	void atualizaNecessarioSuccess() {
+		controle.adicionaItemNecessario("84473712044", "Livro", 1, "Infantil,Matematica,Didatico");
+		controle.atualizaItem(1, "84473712044", 8, "Infantil,Historia,Didatico");
+		assertEquals("1 - livro, tags: [Infantil, Historia, Didatico], quantidade: 8", controle.pesquisaItemPorDescricao("Livro"));
+	}
+	@Test
+	void atualizaNecessarioFail() {
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, "3813873892", 7, "Infantil,Historia,Didatico"));
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(-3, "84473712044", 7, "Infantil,Historia,Didatico"));
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(1, "", 7, "Infantil,Historia,Didatico"));
+		assertThrows(IllegalArgumentException.class, () -> controle.atualizaItem(33, "84473712044", 7, "Infantil,Historia,Didatico"));
+	}
+	@Test
+	void removeItemNecessarioSuccess() {
+		controle.adicionaItemNecessario("84473712044", "Livro", 1, "Infantil,Matematica,Didatico");
+		controle.removeItem(1, "84473712044");
+		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, "84473712044"));
+	}
+	@Test
+	void removeItemNecessarioFail() {
+		controle.adicionaItemNecessario("84473712044", "Livro", 1, "Infantil,Matematica,Didatico");
+		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, "3728378237283"));
+		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(-1, "84473712044"));
+		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, "    "));
+		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, null));
+		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, "31862316040"));
+	}
 }
