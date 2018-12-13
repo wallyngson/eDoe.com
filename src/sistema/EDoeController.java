@@ -408,11 +408,13 @@ public class EDoeController {
 	 * @param id
 	 * @return
 	 */
-	public String exibeItem(Integer idItem, String id) {
-		this.validador.usuarioInexistente(id, usuarios);
-		//this.validador.validaItem(idItem, itens);
+	public String exibeItem(Integer idItem, String idUsuario) {
+		this.validador.idItemInvalido(idItem);
+		this.validador.idInvalido(idUsuario);
+		this.validador.usuarioInexistente(idUsuario, usuarios);
+		this.validador.validaItem(idItem, itens);
 
-		return this.usuarios.get(id).exibeItem(idItem);
+		return this.usuarios.get(idUsuario).exibeItem(idItem);
 	}
 
 	/**
@@ -421,12 +423,13 @@ public class EDoeController {
 	 * @param descritor
 	 * @param id
 	 */
-	public void removeItem(Integer idItem, String id) {
-		this.validador.idInvalido(id);
-		this.validador.usuarioInexistente(id, usuarios);
+	public void removeItem(Integer idItem, String idUsuario) {
+		this.validador.idItemInvalido(idItem);
+		this.validador.idInvalido(idUsuario);
+		this.validador.usuarioInexistente(idUsuario, usuarios);
 
 		//System.out.println(this.itens.get(idItem));
-		this.usuarios.get(id).removeItem(idItem);
+		this.usuarios.get(idUsuario).removeItem(idItem);
 		adicionaQtdDescritor(itens.get(idItem).getNome(), 0);
 		this.itens.remove(idItem);
 
@@ -441,10 +444,11 @@ public class EDoeController {
 	 * @param tags
 	 * @return
 	 */
-	public String atualizaItem(Integer idItem, String id, int qtd, String tags) {
-		this.validador.idInvalido(id);
-		this.validador.usuarioInexistente(id, usuarios);
-		this.usuarios.get(id).validaItem(idItem);
+	public String atualizaItem(Integer idItem, String idUsuario, int qtd, String tags) {
+		this.validador.idItemInvalido(idItem);
+		this.validador.idInvalido(idUsuario);
+		this.validador.usuarioInexistente(idUsuario, usuarios);
+		this.usuarios.get(idUsuario).validaItem(idItem);
 
 		String item = this.itens.get(idItem).atualizaItem(qtd, tags);
 		String descritor = this.itens.get(idItem).getNome();

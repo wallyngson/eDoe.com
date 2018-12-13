@@ -21,6 +21,12 @@ public class Validador implements Serializable{
 	
 	// USUARIOS
 
+	public void idItemInvalido(Integer idUsuario) {
+		if(idUsuario == null) {
+			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser nulo.");
+		}
+	}
+	
 	/**
 	 * Verifica se o Id passador por parametro eh invalido.
 	 * 
