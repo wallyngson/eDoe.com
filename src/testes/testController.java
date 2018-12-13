@@ -391,7 +391,6 @@ class testController {
 		assertThrows(IllegalArgumentException.class, () -> controle.removeItem(1, "31862316040"));
 	}
 
-	
 	// CASE 5
 
 	@Test
@@ -403,41 +402,78 @@ class testController {
 		assertEquals("2 - Livro, tags: [Infantil,  Historia], quantidade: 3, doador: Victor Braga/12345678910",
 				controle.match("84473712044", 1));
 	}
-	
+
 	@Test
 	void testMatchIdRecptorNulo() {
-		assertThrows(IllegalArgumentException.class, ()->controle.match(null, 1));
+		assertThrows(IllegalArgumentException.class, () -> controle.match(null, 1));
 	}
-	
+
 	@Test
 	void testMatchIdItemNulo() {
-		assertThrows(IllegalArgumentException.class, ()->controle.match("12345678910", null));
+		assertThrows(IllegalArgumentException.class, () -> controle.match("12345678910", null));
 	}
-	
+
 	@Test
 	void testMatchIdReceptorVazio() {
-		assertThrows(IllegalArgumentException.class, ()->controle.match("   ", 1));
+		assertThrows(IllegalArgumentException.class, () -> controle.match("   ", 1));
 	}
-	
+
 	@Test
 	void testMatchItemInexistente() {
+		controle.adicionaItemNecessario("84473712044", "Livro", 1, "Infantil,Matematica,Didatico");
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
-		assertThrows(IllegalArgumentException.class, ()->controle.match("12345678910", 1));
+		assertThrows(IllegalArgumentException.class, () -> controle.match("12345678910", 2));
 	}
-	
+
+	@Test
+	void testMatchUsuarioInesistente() {
+		assertThrows(IllegalArgumentException.class, () -> controle.match("12345678910", 1));
+	}
+
 	// CASE 6
-	
+
 	@Test
 	void testRealizaDoacao() {
 		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
 		controle.adicionaItemParaDoacao("12345678910", "Livro", 4, "Infantil, Historia");
 		controle.adicionaItemNecessario("84473712044", "Livro", 2, "Infantil,Matematica,Didatico");
-		assertEquals("", controle.realizaDoacao(1, 1, "123123"));
-	
+		assertEquals(
+				"12/12/2018 - doador: Victor Braga/12345678910, item: livro, quantidade: 2, receptor: Murilo Luiz Brito/84473712044",
+				controle.realizaDoacao(2, 1, "12/12/2018"));
+ 
 	}
-	
-	
-	
-	
+
+	@Test
+	void testRealizaDoacaoDataInvalida() {
+		assertThrows(IllegalArgumentException.class, () -> controle.realizaDoacao(2, 1, "  "));
+		assertThrows(IllegalArgumentException.class, () -> controle.realizaDoacao(2, 1, null));
+	}
+
+	@Test
+	void testRealizaDoacaoIdItemDoavelInvalido() {
+		assertThrows(IllegalArgumentException.class, () -> controle.realizaDoacao(2, null, "22/12/2018"));
+		assertThrows(IllegalArgumentException.class, () -> controle.realizaDoacao(2, -2, "22/12/2018"));
+	}
+
+	@Test
+	void testRealizaDoacaoIdItemNecessarioInvalido() {
+		assertThrows(IllegalArgumentException.class, () -> controle.realizaDoacao(null, 1, "22/12/2018"));
+		assertThrows(IllegalArgumentException.class, () -> controle.realizaDoacao(-2, 1, "22/12/2018"));
+	}
+
+	@Test
+	void testListaDoacoes() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "Livro", 4, "Infantil, Historia");
+		controle.adicionaItemNecessario("84473712044", "Livro", 2, "Infantil,Matematica,Didatico");
+		controle.adicionaItemParaDoacao("12345678910", "Bola", 10, "Couro, Campo");
+		controle.adicionaItemNecessario("84473712044", "Bola", 3, "Couro, Branca");
+		controle.realizaDoacao(2, 1, "12/12/2018");
+		controle.realizaDoacao(4, 3, "12/12/2018");
+		assertEquals(
+				"12/12/2018 - doador: Victor Braga/12345678910, item: bola, quantidade: 3, receptor: Murilo Luiz Brito/84473712044 "
+				+ "| 12/12/2018 - doador: Victor Braga/12345678910, item: livro, quantidade: 2, receptor: Murilo Luiz Brito/84473712044",
+				controle.listaDoacoes());
+	}
 
 }

@@ -20,7 +20,8 @@ import util.ComparadorNome;
 import util.Validador;
 
 /**
- * Classe que reprensenta um sistema de doacao, onde existem doadores e receptores, sendo possiveis cadastrar usuarios e doar itens.
+ * Classe que reprensenta um sistema de doacao, onde existem doadores e
+ * receptores, sendo possiveis cadastrar usuarios e doar itens.
  * 
  * Laboratório de Programação 2 - Projeto Final.
  * 
@@ -34,13 +35,15 @@ public class EDoeController {
 	private Map<Integer, Item> itens;
 	private Scanner sc;
 	private Integer idItem = 1;
-	private ArrayList<Doacao> listaDeDoacoes = new ArrayList<>(); 
+	private ArrayList<Doacao> listaDeDoacoes = new ArrayList<>();
 
 	private Validador validador = new Validador();
 
-	/** Método que retorna o mapa que contem os descritores apenas para uso na classe de testes de unidade.
+	/**
+	 * Método que retorna o mapa que contem os descritores apenas para uso na classe
+	 * de testes de unidade.
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public Map<String, Descritor> getDescritores() {
 		return this.descritores;
@@ -123,7 +126,7 @@ public class EDoeController {
 	 * @param celular
 	 * @param classe
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public String adicionaDoador(String id, String nome, String email, String celular, String classe) {
 		this.validador.idInvalido(id);
@@ -136,11 +139,12 @@ public class EDoeController {
 	}
 
 	/**
-	 * Metodo que procura o usuario atraves da String id, que eh a chave no mapa de usuarios. caso o mapa 
-	 * contrenha a chave, o metodo retorna o toString do usuario correspondente.
+	 * Metodo que procura o usuario atraves da String id, que eh a chave no mapa de
+	 * usuarios. caso o mapa contrenha a chave, o metodo retorna o toString do
+	 * usuario correspondente.
 	 * 
-	 * @param id 
-	 * @return 
+	 * @param id
+	 * @return
 	 */
 
 	public String pesquisaUsuarioPorId(String id) {
@@ -156,14 +160,16 @@ public class EDoeController {
 	}
 
 	/**
-	 * Metodo que procura o usuario atraves da String nome, os valores do mapa de usuarios sao copiados para um arrayList para
-	 * podermos iterar, assim comparamos o nome passado no metodo com o nome dos usurios caso encontre, ele retorna o toString
-	 * desse usuario. E caso exista mais de um usuario com este nome, ele separa os toString deles com " | " e ordena de forma
-	 * decrescente no que diz respeito ao id.
+	 * Metodo que procura o usuario atraves da String nome, os valores do mapa de
+	 * usuarios sao copiados para um arrayList para podermos iterar, assim
+	 * comparamos o nome passado no metodo com o nome dos usurios caso encontre, ele
+	 * retorna o toString desse usuario. E caso exista mais de um usuario com este
+	 * nome, ele separa os toString deles com " | " e ordena de forma decrescente no
+	 * que diz respeito ao id.
 	 * 
 	 * @param nome
 	 * 
-	 * @return 
+	 * @return
 	 */
 
 	public String pesquisaUsuarioPorNome(String nome) {
@@ -192,8 +198,9 @@ public class EDoeController {
 	}
 
 	/**
-	 * Metodo que recebe uma String id e atraves dela tenta achar o usuario correspondente no mapa, uma vez encontrado
-	 * é passado para o metodo um nome, email e/ou celular. que atualizará o atributo correspondente ao usuario com
+	 * Metodo que recebe uma String id e atraves dela tenta achar o usuario
+	 * correspondente no mapa, uma vez encontrado é passado para o metodo um nome,
+	 * email e/ou celular. que atualizará o atributo correspondente ao usuario com
 	 * id passado no metodo.
 	 * 
 	 * @param id
@@ -201,7 +208,7 @@ public class EDoeController {
 	 * @param email
 	 * @param celular
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public String atualizaUsuario(String id, String nome, String email, String celular) {
 		this.validador.idInvalido(id);
@@ -218,12 +225,13 @@ public class EDoeController {
 	}
 
 	/**
-	 * Atraves da String id passada procura-se o usuario nas chaves do mapa de usuarios, caso exista, ele é removido do 
-	 * mapa caso nao exista, uma erro é lancado e caso a String id seja nula ou vazia um erro tambem é lançado.
+	 * Atraves da String id passada procura-se o usuario nas chaves do mapa de
+	 * usuarios, caso exista, ele é removido do mapa caso nao exista, uma erro é
+	 * lancado e caso a String id seja nula ou vazia um erro tambem é lançado.
 	 * 
 	 * @param id
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public boolean removeUsuario(String id) {
 		this.validador.idInvalido(id);
@@ -251,7 +259,8 @@ public class EDoeController {
 	// ITEM DOACAO
 
 	/**
-	 * Verifica se o item a ser cadastro existe nos descritores e apos cadastrar esse item a um doador.
+	 * Verifica se o item a ser cadastro existe nos descritores e apos cadastrar
+	 * esse item a um doador.
 	 *
 	 * @param id
 	 * @param descricaoItem
@@ -272,7 +281,8 @@ public class EDoeController {
 	}
 
 	/**
-	 * Verifica se o item a ser cadastrado existe nos descritores e apos isso cadastra esse item a um receptor.
+	 * Verifica se o item a ser cadastrado existe nos descritores e apos isso
+	 * cadastra esse item a um receptor.
 	 * 
 	 * @param id
 	 * @param descritor
@@ -341,7 +351,7 @@ public class EDoeController {
 	 * 
 	 * @param descritor
 	 * @param tag
-	 * @return 
+	 * @return
 	 */
 	private Integer itemNecessarioCadastrado(String descritor, String tag) {
 		List<Item> listaItens = this.listaItens();
@@ -390,7 +400,8 @@ public class EDoeController {
 	}
 
 	/**
-	 * Verifica se o descritor existe, se nao existir adiciona o descritor ao mapa de descritores.
+	 * Verifica se o descritor existe, se nao existir adiciona o descritor ao mapa
+	 * de descritores.
 	 * 
 	 * @param descritor
 	 */
@@ -428,7 +439,7 @@ public class EDoeController {
 		this.validador.idInvalido(idUsuario);
 		this.validador.usuarioInexistente(idUsuario, usuarios);
 
-		//System.out.println(this.itens.get(idItem));
+		// System.out.println(this.itens.get(idItem));
 		this.usuarios.get(idUsuario).removeItem(idItem);
 		adicionaQtdDescritor(itens.get(idItem).getNome(), 0);
 		this.itens.remove(idItem);
@@ -436,7 +447,8 @@ public class EDoeController {
 	}
 
 	/**
-	 * Atualiza a quantidade de itens e as suas tags de um determinado item, e atualiza o quantidade de itens gerais no seu descritor.
+	 * Atualiza a quantidade de itens e as suas tags de um determinado item, e
+	 * atualiza o quantidade de itens gerais no seu descritor.
 	 * 
 	 * @param idItem
 	 * @param id
@@ -499,7 +511,8 @@ public class EDoeController {
 	}
 
 	/**
-	 * Metodo que lista os itens de forma ordenada a partir de sua quantidade, e quando ocorrer empate, a partir do seu nome.
+	 * Metodo que lista os itens de forma ordenada a partir de sua quantidade, e
+	 * quando ocorrer empate, a partir do seu nome.
 	 * 
 	 * @return
 	 */
@@ -534,7 +547,8 @@ public class EDoeController {
 	}
 
 	/**
-	 * Metodo que lista todos os itens necessarios do nosso mapa de itens e os ordena pelo id.
+	 * Metodo que lista todos os itens necessarios do nosso mapa de itens e os
+	 * ordena pelo id.
 	 * 
 	 * @return listagem de itens necessarios separados por " | "
 	 */
@@ -564,12 +578,13 @@ public class EDoeController {
 			listaFinal += item.toString() + ", Receptor: " + usuarios.get(item.getUsuarioVinculado()).getNome() + "/"
 					+ usuarios.get(item.getUsuarioVinculado()).getId() + " | ";
 		}
-		
+
 		return listaFinal.substring(0, listaFinal.length() - 3);
 	}
 
 	/**
-	 * Metodo que exibe uma lista de itens a partir de uma string de pesquisa, ordenada pelo seu nome.
+	 * Metodo que exibe uma lista de itens a partir de uma string de pesquisa,
+	 * ordenada pelo seu nome.
 	 * 
 	 * @param desc
 	 * @return
@@ -631,7 +646,8 @@ public class EDoeController {
 
 	/**
 	 * Cria uma string com a representacao de todos os produtos que possuem maior
-	 * probabilidade de serem doados, ordenados por pontuacao de acorodo com suas tags.
+	 * probabilidade de serem doados, ordenados por pontuacao de acorodo com suas
+	 * tags.
 	 * 
 	 * @param listaItens
 	 * @return
@@ -670,7 +686,8 @@ public class EDoeController {
 	}
 
 	/**
-	 * Verifica em que posicao estao as tags e dependendo delas adiciona uma pontuacao.
+	 * Verifica em que posicao estao as tags e dependendo delas adiciona uma
+	 * pontuacao.
 	 * 
 	 * @param idItem
 	 * @param listaItens
@@ -692,7 +709,7 @@ public class EDoeController {
 			}
 		}
 	}
-	
+
 	/**
 	 * Verifica se os parametros passados no match.
 	 * 
@@ -719,7 +736,8 @@ public class EDoeController {
 	// CASE 6
 
 	/**
-	 * Método responsável por realizar doações a partir do ID do item necessário pelo receptor e do ID do item doado pelo doador.
+	 * Método responsável por realizar doações a partir do ID do item necessário
+	 * pelo receptor e do ID do item doado pelo doador.
 	 * 
 	 * @param idItemNec
 	 * @param idItemDoado
@@ -734,79 +752,81 @@ public class EDoeController {
 		Doacao doacao = null;
 		String receptor = "";
 		for (Usuario u : usuarios.values()) {
-			if(u instanceof Receptor) {
-				if(((Receptor) u).getItens().containsKey(idItemNec)) {
+			if (u instanceof Receptor) {
+				if (((Receptor) u).getItens().containsKey(idItemNec)) {
 					qtdItensNecessarios = ((Receptor) u).getItens().get(idItemNec).getQtdItem();
 					receptor = ", receptor: " + u.getNome() + "/" + u.getId();
 					idRec = u.getId();
 					break;
-				}		
+				}
 			}
 		}
-		
+
 		for (Usuario u : usuarios.values()) {
-			Receptor rec = (Receptor)usuarios.get(idRec);
-			if(u instanceof Doador) {
-				if(((Doador) u).getItens().containsKey(idItemDoado)) {
+			Receptor rec = (Receptor) usuarios.get(idRec);
+			if (u instanceof Doador) {
+				if (((Doador) u).getItens().containsKey(idItemDoado)) {
 					qtdItensDoaveis = ((Doador) u).getItens().get(idItemDoado).getQtdItem();
-					
-					if(qtdItensNecessarios < qtdItensDoaveis) {
+
+					if (qtdItensNecessarios < qtdItensDoaveis) {
 						int qtdResultante = qtdItensDoaveis - qtdItensNecessarios;
 						int qtdDoados = qtdItensNecessarios;
 						String itemDoado = this.itens.get(idItemNec).toStringParaRealizarDoacao(qtdDoados);
 						((Doador) u).getItens().get(idItemDoado).setQtdItem(qtdResultante);
-						
+
 						doacao = new Doacao(data, u.getNome(), itemDoado, receptor, u.getId());
 						this.listaDeDoacoes.add(doacao);
 						removeItem(idItemNec, idRec);
-						
+
 					}
-					
-					if(qtdItensNecessarios == qtdItensDoaveis) {
+
+					if (qtdItensNecessarios == qtdItensDoaveis) {
 						int qtdDoados = qtdItensDoaveis;
 						String itemDoado = this.itens.get(idItemNec).toStringParaRealizarDoacao(qtdDoados);
 						doacao = new Doacao(data, u.getNome(), itemDoado, receptor, u.getId());
-						
+
 						this.listaDeDoacoes.add(doacao);
 						removeItem(idItemDoado, u.getId());
 						removeItem(idItemNec, idRec);
-						
+
 					}
-					
-					if(qtdItensNecessarios > qtdItensDoaveis) {
+
+					if (qtdItensNecessarios > qtdItensDoaveis) {
 						int qtdResultante = qtdItensNecessarios - qtdItensDoaveis;
 						int qtdDoados = qtdItensDoaveis;
 						rec.getItens().get(idItemNec).setQtdItem(qtdResultante);
-						
+
 						String itemDoado = this.itens.get(idItemNec).toStringParaRealizarDoacao(qtdDoados);
 						doacao = new Doacao(data, u.getNome(), itemDoado, receptor, u.getId());
 						this.listaDeDoacoes.add(doacao);
 						removeItem(idItemDoado, u.getId());
-					
+
 					}
-		
+
 				}
 			}
 		}
 
 		return doacao.toString();
 
-	}
-	
+	} 
+
 	/**
-	 * Método responsável por listar o histórico de doações, ordenado pela data e em caso de igualdade, pelo descritor do item.
+	 * Método responsável por listar o histórico de doações, ordenado pela data e em
+	 * caso de igualdade, pelo descritor do item.
+	 * 
 	 * @return
 	 */
 	public String listaDoacoes() {
 		Collections.sort(listaDeDoacoes, new ComparaPorData());
 		String listaDoacoes = "";
-		
+
 		for (Doacao doacao : listaDeDoacoes) {
 			listaDoacoes += doacao.toString() + " | ";
-		}
-		
+		} 
+
 		return listaDoacoes.substring(0, listaDoacoes.length() - 3);
-	
+
 	}
 
 	/**
@@ -820,63 +840,70 @@ public class EDoeController {
 		if (data == null || data.trim().equals(""))
 			throw new IllegalArgumentException("Entrada invalida: data nao pode ser vazia ou nula.");
 
-		if (idItemDoado < 0 || idItemNec < 0) 
+		if (idItemDoado == null || idItemNec == null)
 			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
-		
-		if (!this.itens.containsKey(idItemNec)) 
+
+		if (idItemDoado < 0 || idItemNec < 0)
+			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser negativo.");
+
+		if (!this.itens.containsKey(idItemNec))
 			throw new IllegalArgumentException("Item nao encontrado: " + idItemNec + ".");
 
 		if (!this.itens.containsKey(idItemDoado))
 			throw new IllegalArgumentException("Item nao encontrado: " + idItemDoado + ".");
-		
-		if (!this.itens.get(idItemNec).getNome()
-				.toLowerCase().equals(this.itens.get(idItemDoado).getNome().toLowerCase()))
+
+		if (!this.itens.get(idItemNec).getNome().toLowerCase()
+				.equals(this.itens.get(idItemDoado).getNome().toLowerCase()))
 			throw new IllegalArgumentException("Os itens nao tem descricoes iguais.");
 	}
-	
+
 	/**
-	 * 	Método responsável por iniciar o sistema quando aplicada a persistência de dados.
+	 * Método responsável por iniciar o sistema quando aplicada a persistência de
+	 * dados.
 	 */
 	public void iniciaSistema() {
 		setDescritores(serializeSistema.carregaDescritores());
 		setItens(serializeSistema.carregaItens());
 		setUsuarios(serializeSistema.carregaUsuarios());
 	}
-	
+
 	/**
 	 * Método auxiliar responsável por setar os valores do hashmap de itens.
+	 * 
 	 * @param itens
 	 */
 	public void setItens(Map<Integer, Item> itens) {
 		this.itens = itens;
-		
+
 	}
-	
+
 	/**
 	 * Método auxiliar responsável por setar os valores do hashmap de descritores.
+	 * 
 	 * @param descritores
 	 */
 	public void setDescritores(Map<String, Descritor> descritores) {
 		this.descritores = descritores;
-		
+
 	}
-	
+
 	/**
 	 * Método auxiliar responsável por setar os valores do hashmap de usuarios.
+	 * 
 	 * @param usuarios
 	 */
 	public void setUsuarios(Map<String, Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
+
 	/**
-	 * Método responsável por finalizar o sistema para aplicação da persistência de dados.
+	 * Método responsável por finalizar o sistema para aplicação da persistência de
+	 * dados.
 	 */
 	public void finalizaSistema() {
 		serializeSistema.salvarDescritores(descritores);
 		serializeSistema.salvarItens(itens);
 		serializeSistema.salvarUsuarios(usuarios);
 	}
-	
-	
+
 }
