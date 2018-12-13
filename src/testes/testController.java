@@ -143,5 +143,65 @@ class testController {
 		assertFalse(controle.getDescritores().isEmpty());
 		assertTrue(controle.getDescritores().containsKey("cadeiraderodas"));
 	}
+	
+	@Test
+	void testAdicionaDescritorNulo() {
+		assertThrows(IllegalArgumentException.class, ()-> controle.adicionaDescritor(null));
+	}
+	
+	@Test
+	void testAdicionaDescritorVazio() {
+		assertThrows(IllegalArgumentException.class, ()-> controle.adicionaDescritor("  "));
+	}
+	
+
+	@Test
+	void testAdicionaItemParaDoacao() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		// pq nao consigo receber o id desse metodo? 
+		// quero fazer isso de baixo e nao consigo. pq?
+		// assertEquals(1, controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada"));
+		
+	}
+	
+	@Test
+	void testAdicionaItemNecessario() {
+		
+	}
+	
+	@Test
+	void testExibeItem() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		assertEquals("1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3", controle.exibeItem(1, "12345678910"));
+	}
+	
+	@Test
+	void testExibeItemIdItemNulo() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(null, "12345678910"));
+	}
+	
+	@Test
+	void testExibeItemIdUsuarioNulo() {
+		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(1, null));
+	}
+	
+	@Test
+	void testExibeItemIdUsuarioVazio() {
+		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(1, "  "));
+	}
+	
+	@Test
+	void removeItem() {
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "cadeira de rodas", 3, "roda grande, motorizada");
+		assertEquals("1 - cadeira de rodas, tags: [roda grande,  motorizada], quantidade: 3", controle.exibeItem(1, "12345678910"));
+		controle.removeItem(1, "12345678910");
+		assertThrows(IllegalArgumentException.class, ()-> controle.exibeItem(1, "12345678910"));
+	}
+	
 
 }
