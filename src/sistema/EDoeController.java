@@ -824,8 +824,9 @@ public class EDoeController {
 		for (Doacao doacao : listaDeDoacoes) {
 			listaDoacoes += doacao.toString() + " | ";
 		} 
-
+		this.validador.listagemVazia(listaDoacoes);
 		return listaDoacoes.substring(0, listaDoacoes.length() - 3);
+		
 
 	}
 

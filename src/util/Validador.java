@@ -15,18 +15,33 @@ import usuarios.Usuario;
  * @authors Dacio Bezerra, Felipe Nunes, Victor Paz e Wallyngson Guedes.
  *
  */
-public class Validador implements Serializable{
-	
+public class Validador implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	// USUARIOS
 
+	/**
+	 * Verifica se a lista solicitada eh vazia.
+	 * 
+	 * @param listagem
+	 */
+	public void listagemVazia(String listagem) {
+		if (listagem.trim().equals(""))
+			throw new NullPointerException("Lista esta vazia.");
+	}
+
+	/**
+	 * Verifica se o Integer que representa o id do usuario eh nulo.
+	 * 
+	 * @param idUsuario
+	 */
 	public void idItemInvalido(Integer idUsuario) {
-		if(idUsuario == null) {
+		if (idUsuario == null) {
 			throw new IllegalArgumentException("Entrada invalida: id do item nao pode ser nulo.");
 		}
 	}
-	
+
 	/**
 	 * Verifica se o Id passador por parametro eh invalido.
 	 * 
@@ -46,7 +61,7 @@ public class Validador implements Serializable{
 		if (usuarios.containsKey(id))
 			throw new IllegalArgumentException("Usuario ja existente: " + id + ".");
 	}
-	
+
 	/**
 	 * Verifica se o usuario nao existe no sistema.
 	 * 
@@ -56,7 +71,7 @@ public class Validador implements Serializable{
 		if (!usuarios.containsKey(id))
 			throw new IllegalArgumentException("Usuario nao encontrado: " + id + ".");
 	}
-	
+
 	/**
 	 * Verifica se o nome eh invalido.
 	 * 
@@ -69,15 +84,16 @@ public class Validador implements Serializable{
 
 	/**
 	 * Verifica se a descrição está vazia ou nula.
+	 * 
 	 * @param descritor
 	 */
 	public void descritorInvalido(String descritor) {
 		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: descricao nao pode ser vazia ou nula.");
 	}
-	
+
 	// DESCRITORES
-	
+
 	/**
 	 * Verifica se o descritor ja esta cadastrado.
 	 * 
@@ -87,7 +103,7 @@ public class Validador implements Serializable{
 		if (descritores.containsKey(this.formataString(descritor)))
 			throw new IllegalArgumentException("Descritor de Item ja existente: " + descritor.toLowerCase() + ".");
 	}
-	
+
 	/**
 	 * Tira todos os espacos e deixa tudo minusculo.
 	 * 
@@ -97,9 +113,9 @@ public class Validador implements Serializable{
 	private String formataString(String string) {
 		return string.replace(" ", "").toLowerCase();
 	}
-	
+
 	// ITENS
-	
+
 	/**
 	 * Verifica se o item nao esta cadastrado no doador.
 	 * 
@@ -111,17 +127,17 @@ public class Validador implements Serializable{
 		if (itens.get(idItem) == null)
 			throw new IllegalArgumentException("Item nao encontrado: " + idItem + ".");
 	}
-	
+
 	/**
 	 * Verifica se a quantidade é maior que zero.
+	 * 
 	 * @param qtd
 	 */
 	public void quantidadeInvalida(int qtd) {
 		if (qtd <= 0)
 			throw new IllegalArgumentException("Entrada invalida: quantidade deve ser maior que zero.");
 	}
-	
-	
+
 	/**
 	 * Verifica se nao existe nenhum item cadastrado no doador.
 	 */
@@ -129,9 +145,9 @@ public class Validador implements Serializable{
 		if (itens.size() == 0)
 			throw new IllegalArgumentException("O Usuario nao possui itens cadastrados.");
 	}
-	
+
 	// USUARIOS
-	
+
 	/**
 	 * Metodo que verifica se todos os parametros sao validos.
 	 * 
@@ -141,7 +157,8 @@ public class Validador implements Serializable{
 	 * @param celular
 	 * @param classe
 	 */
-	public void parametrosUsuarioInvalidos(String id, String nome, String email, String celular, String classe, String[] classes) {
+	public void parametrosUsuarioInvalidos(String id, String nome, String email, String celular, String classe,
+			String[] classes) {
 		if (nome == null || nome.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: nome nao pode ser vazio ou nulo.");
 		if (email == null || email.trim().isEmpty())
@@ -151,7 +168,7 @@ public class Validador implements Serializable{
 		if (this.validaClasse(classe, classes) == false)
 			throw new IllegalArgumentException("Entrada invalida: opcao de classe invalida.");
 	}
-	
+
 	/**
 	 * Valida se a classe do usuario é valida.
 	 * 
@@ -167,15 +184,17 @@ public class Validador implements Serializable{
 				return true;
 		}
 		return false;
-		
+
 	}
-	
+
 	/**
-	 * Verifica se a string pesquisa está nula ou vazia, lançando exceção em caso afirmativo.
+	 * Verifica se a string pesquisa está nula ou vazia, lançando exceção em caso
+	 * afirmativo.
+	 * 
 	 * @param descritor
 	 */
-	public void validaPesquisa(String descritor) { 
-		if(descritor == null || descritor.trim().isEmpty()) 
+	public void validaPesquisa(String descritor) {
+		if (descritor == null || descritor.trim().isEmpty())
 			throw new IllegalArgumentException("Entrada invalida: texto da pesquisa nao pode ser vazio ou nulo.");
 	}
 

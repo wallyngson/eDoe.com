@@ -440,7 +440,7 @@ class testController {
 		assertEquals(
 				"12/12/2018 - doador: Victor Braga/12345678910, item: livro, quantidade: 2, receptor: Murilo Luiz Brito/84473712044",
 				controle.realizaDoacao(2, 1, "12/12/2018"));
- 
+
 	}
 
 	@Test
@@ -472,8 +472,19 @@ class testController {
 		controle.realizaDoacao(4, 3, "12/12/2018");
 		assertEquals(
 				"12/12/2018 - doador: Victor Braga/12345678910, item: bola, quantidade: 3, receptor: Murilo Luiz Brito/84473712044 "
-				+ "| 12/12/2018 - doador: Victor Braga/12345678910, item: livro, quantidade: 2, receptor: Murilo Luiz Brito/84473712044",
+						+ "| 12/12/2018 - doador: Victor Braga/12345678910, item: livro, quantidade: 2, receptor: Murilo Luiz Brito/84473712044",
 				controle.listaDoacoes());
+	}
+
+	@Test
+	void testListaDoacoesListaVazia() {
+		// nenhuma doacao foi feita
+		controle.adicionaDoador("12345678910", "Victor Braga", "victor@ccc.com", "9999-1231", "PESSOA_FISICA");
+		controle.adicionaItemParaDoacao("12345678910", "Livro", 4, "Infantil, Historia");
+		controle.adicionaItemNecessario("84473712044", "Livro", 2, "Infantil,Matematica,Didatico");
+		controle.adicionaItemParaDoacao("12345678910", "Bola", 10, "Couro, Campo");
+		controle.adicionaItemNecessario("84473712044", "Bola", 3, "Couro, Branca");
+		assertThrows(NullPointerException.class, () -> controle.listaDoacoes());
 	}
 
 }
