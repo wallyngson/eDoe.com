@@ -9,6 +9,6 @@
   
 **Used Language:** Java (https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html);
 
-**Unit Test:** JUnit 5 (https://junit.org/junit5/);
+**Unit Tests:** JUnit 5 (https://junit.org/junit5/);
 
-**Acceptance Test:** EasyAccept (http://easyaccept.sourceforge.net/);
+**Acceptance Tests:** EasyAccept (http://easyaccept.sourceforge.net/);
