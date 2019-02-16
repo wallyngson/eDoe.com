@@ -1,18 +1,14 @@
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/ng9mCvP/logo.png" alt="logo" border="0" /></a>
 
-# Projeto da Disciplina de LP2 | eDoe.com
-**Disciplina: Laboratório de Programação 2 (UFCG, 2018.2)**
-
-        Alunos: Dacio Silva Bezerra
-                Felipe Emanuel de Farias Nunes
-                Victor Paz de Farias Braga
-                Wallyngson Eliezer dos Santos Guedes
-        
-   * **Sistema de Doações on-line** _(eDoe.com)_, nesse sistema é possível cadastrar doadores, receptores, itens que os doadores desejam doar, itens que os receptores desejam receber e claro realizar as doações. eDoe.com é um sistema que requer dos estudantes por em prática todos os conhecimentos adquiridos na disciplina de Laboratório de Programação 2 e os conhecimentos sobre POO _(Programação Orientada a Objetos)_ adquiridos na disciplina, bem como o uso da Liguagem Java
+# Project of LP2 | eDoe.com
+**Discipline: Laboratório de Programação 2 (UFCG, 2018.2)**
   
+  ***Online Donation System** _(eDoe.com)_, donor registration system, recipients, items that make donors their clearances, items that are able to retrieve and perform tasks. eDoe.com is a system that requires students to practice all the knowledge acquired in the discipline of Laboratory of Programming 2 and the knowledge about the OOP (Object Oriented Programming) acquired in the discipline, as well as the use of the Java Language.
+
+**Project Specifications:** https://docs.google.com/document/d/e/2PACX-1vST2TI5lDbtMlv8rhFYJkYnrfgqzyWDv6DDvvAajz3_KK4tAs_UnAbYdI6oeMQA6jEHo5HwUAatHmd8/pub
   
-**Linguagem Usada:** Java (https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html);
+**Used Language:** Java (https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html);
 
-**Testes de Unidade:** JUnit 5 (https://junit.org/junit5/);
+**Unit Test:** JUnit 5 (https://junit.org/junit5/);
 
-**Testes de Aceitação:** EasyAccept (http://easyaccept.sourceforge.net/);
+**Acceptance Test:** EasyAccept (http://easyaccept.sourceforge.net/);
